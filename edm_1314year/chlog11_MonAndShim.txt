@@ -1,0 +1,19 @@
+CHANGELOG
+---------
+
+Old VI: C:\EDM\2013LabviewVIs\2013-02FieldMonitoringAndShimmingv_10
+New VI: C:\EDM\2013LabviewVIs\2013-02FieldMonitoringAndShimmingv_11
+
+* Synchronized 1Axis and 3Axis sampling rates automatically.
+* Put 1Axis and 3Axis loops in the same case structure.
+* Reduced Interval between samples (ms) to just an indicator - variable
+  value is not read afterwards.
+
+Potential todo:
+
+* Remove 1AxisB_mG DBL completely and retrive data for binary write from WDT
+  chart.
+* Deal with error out from 34401A sub VI.
+* Put 1Axis and 3Axis readings in same loop and same waveform chart? This
+  would eliminate the need for the "Clear All Charts" button.
+* Create clean stopping method to minimize memory issues.

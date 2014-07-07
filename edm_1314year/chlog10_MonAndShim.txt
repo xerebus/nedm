@@ -1,0 +1,36 @@
+CHANGELOG
+---------
+
+Old VI: C:\EDM\2013LabviewVIs\2013-02FieldMonitoringAndShimmingv_09
+New VI: C:\EDM\2013LabviewVIs\2013-02FieldMonitoringAndShimmingv_10
+
+* Created new 1Axis waveform graph (1AxisB_mG WDT) with WDT input to match 
+  3Axis graphs.
+* Set 1Axis chart history length at 10000 waveforms to match 3Axis graphs.
+* Hid old graph (1AxisB_mG DBL). The graph is still generated since output is
+  collected from it to write to the binary file. The DBL was added to the name.
+* Changed sub VI
+  (MODIFIED 34401A Average and Standard Deviation Reading2013-02.vi) to accept
+  new input (Loop interval (ms)) used as the wait time between iterations of 
+  the main reading loop.
+* Set 1Axis interval between samples (ms) to 250, calculated to match
+  sampling rate <4> for the 3Axis probes. Will match up in v11.
+* Added a timestamp wired to t0 for WDT graph.
+* Grouped 1Axis controls on Setup tab.
+* Moved entire 1Axis reading loop inside the sequence structure alongside the
+  3Axis readings, such that both start after the first dialog box. This way,
+  the start times are synchronized to within ~300 ms.
+* Added button to clear out all charts. Though this cannot happen exactly
+  simultaneously since the different charts are written in different loops,
+  after letting the button go, the charts should be synced to within 1 s.
+* Added a bunch of comments for ambiguous chunks of code in v9.
+
+Potential todo:
+
+* Remove 1AxisB_mG DBL completely and retrive data for binary write from WDT
+  chart.
+* Deal with error out from 34401A sub VI.
+* Synchronize 1Axis and 3Axis sampling rates automatically.
+* Put 1Axis and 3Axis readings in same loop and same waveform chart? This
+  would eliminate the need for the "Clear All Charts" button.
+* Create clean stopping method to minimize memory issues.
