@@ -48,11 +48,11 @@ if __name__ == '__main__':
     Bz_show = False
 
     for arg in sys.argv:
-        if arg == "-x"
+        if arg == "-x":
             x_show = True; no_flags = False
             horiz += 1
             first_arg +=1
-        elif arg == "-y"
+        elif arg == "-y":
             y_show = True; no_flags = False
             horiz += 1
             first_arg += 1
@@ -60,15 +60,15 @@ if __name__ == '__main__':
             z_show = True; no_flags = False
             horiz += 1
             first_arg += 1
-        elif arg == "-Bx"
+        elif arg == "-Bx":
             Bx_show = True; no_flags = False
             vert += 1
             first_arg += 1
-        elif arg == "-By"
+        elif arg == "-By":
             By_show = True; no_flags = False
             vert += 1
             first_arg += 1
-        elif arg == "-Bz"
+        elif arg == "-Bz":
             Bz_show = True; no_flags = False
             vert += 1
             first_arg += 1
@@ -108,14 +108,23 @@ if __name__ == '__main__':
 
     for i in range(first_arg, len(sys.argv)):
         (x, y, z, Bx, By, Bz) = parse_file(sys.argv[i])
-        Bx_v_x.plot(x, Bx)
-        Bx_v_y.plot(y, Bx)
-        Bx_v_z.plot(z, Bx)
-        By_v_x.plot(x, By)
-        By_v_y.plot(y, By)
-        By_v_z.plot(z, By)
-        Bz_v_x.plot(x, Bz)
-        Bz_v_y.plot(y, Bz)
-        Bz_v_z.plot(z, Bz)
+        if Bx_show == True and x_show == True:
+            Bx_v_x.plot(x, Bx)
+        if Bx_show == True and y_show == True:
+            Bx_v_y.plot(y, Bx)
+        if Bx_show == True and z_show == True:
+            Bx_v_z.plot(z, Bx)
+        if By_show == True and x_show == True:
+            By_v_x.plot(x, By)
+        if By_show == True and y_show == True:
+            By_v_y.plot(y, By)
+        if By_show == True and z_show == True:
+            By_v_z.plot(z, By)
+        if Bz_show == True and x_show == True:
+            Bz_v_x.plot(x, Bz)
+        if Bz_show == True and y_show == True:
+            Bz_v_y.plot(y, Bz)
+        if Bz_show == True and z_show == True:
+            Bz_v_z.plot(z, Bz)
 
     plt.show()
