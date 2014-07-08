@@ -32,19 +32,82 @@ def parse_file(filepath):
 
 if __name__ == '__main__':
 
+    # handle input flags
+
+    first_arg = 1
+    
+    no_flags = True
+    horiz = 0
+    vert = 0
+
+    x_show = False
+    y_show = False
+    z_show = False
+    Bx_show = False
+    By_show = False
+    Bz_show = False
+
+    for arg in sys.argv:
+        if arg == "-x"
+            x_show = True; no_flags = False
+            horiz += 1
+            first_arg +=1
+        elif arg == "-y"
+            y_show = True; no_flags = False
+            horiz += 1
+            first_arg += 1
+        elif arg == "-z":
+            z_show = True; no_flags = False
+            horiz += 1
+            first_arg += 1
+        elif arg == "-Bx"
+            Bx_show = True; no_flags = False
+            vert += 1
+            first_arg += 1
+        elif arg == "-By"
+            By_show = True; no_flags = False
+            vert += 1
+            first_arg += 1
+        elif arg == "-Bz"
+            Bz_show = True; no_flags = False
+            vert += 1
+            first_arg += 1
+
+    if no_flags:
+        x_show = True
+        y_show = True
+        z_show = True
+        Bx_show = True
+        By_show = True
+        Bz_show = True
+        horiz = 3
+        vert = 3
+
     fig = plt.figure()
 
-    for i in range(1, len(sys.argv)):
+    i = 1
+    
+    if Bx_show == True and x_show == True:
+        Bx_v_x = fig.add_subplot(horiz, vert, i); i += 1
+    if Bx_show == True and y_show == True:
+        Bx_v_y = fig.add_subplot(horiz, vert, i); i += 1
+    if Bx_show == True and z_show == True:
+        Bx_v_z = fig.add_subplot(horiz, vert, i); i += 1
+    if By_show == True and x_show == True:
+        By_v_x = fig.add_subplot(horiz, vert, i); i += 1
+    if By_show == True and y_show == True:
+        By_v_y = fig.add_subplot(horiz, vert, i); i += 1
+    if By_show == True and z_show == True:
+        By_v_z = fig.add_subplot(horiz, vert, i); i += 1
+    if Bz_show == True and x_show == True:
+        Bz_v_x = fig.add_subplot(horiz, vert, i); i += 1
+    if Bz_show == True and y_show == True:
+        Bz_v_y = fig.add_subplot(horiz, vert, i); i += 1
+    if Bz_show == True and z_show == True:
+        Bz_v_z = fig.add_subplot(horiz, vert, i)
+
+    for i in range(first_arg, len(sys.argv)):
         (x, y, z, Bx, By, Bz) = parse_file(sys.argv[i])
-        Bx_v_x = fig.add_subplot(3, 3, 1)
-        Bx_v_y = fig.add_subplot(3, 3, 2)
-        Bx_v_z = fig.add_subplot(3, 3, 3)
-        By_v_x = fig.add_subplot(3, 3, 4)
-        By_v_y = fig.add_subplot(3, 3, 5)
-        By_v_z = fig.add_subplot(3, 3, 6)
-        Bz_v_x = fig.add_subplot(3, 3, 7)
-        Bz_v_y = fig.add_subplot(3, 3, 8)
-        Bz_v_z = fig.add_subplot(3, 3, 9)
         Bx_v_x.plot(x, Bx)
         Bx_v_y.plot(y, Bx)
         Bx_v_z.plot(z, Bx)
