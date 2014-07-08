@@ -30,6 +30,12 @@ def parse_file(filepath):
 
     return (x, y, z, Bx, By, Bz)
 
+def usage():
+    '''Print usage message.'''
+    
+    print "%s [-x] [-y] [-z] [-Bx] [-By] [-Bz] folder1 [folder2] ...", sys.argv[0]
+    print "%s will look inside folder1, folder2, ... for files named 'Fieldmap.txt'.", sys.argv[0]
+
 if __name__ == '__main__':
 
     # handle input flags
@@ -72,6 +78,9 @@ if __name__ == '__main__':
             Bz_show = True
             vert += 1
             first_arg += 1
+        elif arg == "help"
+            usage()
+            exit()
 
     if x_show == False and y_show == False and z_show == False:
         x_show = True
