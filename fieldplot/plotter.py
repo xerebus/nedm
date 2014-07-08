@@ -6,9 +6,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
-def parse_file(filepath):
+def parse_file(folderpath):
     
-    f = open(filepath, 'r')
+    try:
+        f = open(folderpath + "/Fieldmap.txt", 'r')
+    except IOError:
+        raise ValueError("Specify the folder name that contains 'Fieldmap.txt'.")
 
     x = np.array([])
     y = np.array([])
@@ -33,8 +36,8 @@ def parse_file(filepath):
 def usage():
     '''Print usage message.'''
     
-    print "%s [-x] [-y] [-z] [-Bx] [-By] [-Bz] folder1 [folder2] ...", sys.argv[0]
-    print "%s will look inside folder1, folder2, ... for files named 'Fieldmap.txt'.", sys.argv[0]
+    print "%s [-x] [-y] [-z] [-Bx] [-By] [-Bz] folder1 [folder2] ..." % sys.argv[0]
+    print "%s will look inside folder1, folder2, ... for files named 'Fieldmap.txt'." % sys.argv[0]
 
 if __name__ == '__main__':
 
@@ -78,7 +81,7 @@ if __name__ == '__main__':
             Bz_show = True
             vert += 1
             first_arg += 1
-        elif arg == "help"
+        elif arg == "help":
             usage()
             exit()
 
@@ -95,8 +98,6 @@ if __name__ == '__main__':
         horiz = 3
     if vert == 0:
         vert = 3
-
-    print (horiz, vert)
 
     fig = plt.figure()
 
