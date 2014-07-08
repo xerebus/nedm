@@ -7,6 +7,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+import os.path
 
 def parse_file(folderpath):
     
@@ -126,23 +127,25 @@ if __name__ == '__main__':
 
     for i in range(first_arg, len(sys.argv)):
         (x, y, z, Bx, By, Bz) = parse_file(sys.argv[i])
+        plotlabel = os.path.basename(os.path.normpath(sys.argv[i]))
         if Bx_show == True and x_show == True:
-            Bx_v_x.plot(x, Bx)
+            Bx_v_x.plot(x, Bx, ".", label = plotlabel)
         if Bx_show == True and y_show == True:
-            Bx_v_y.plot(y, Bx) 
+            Bx_v_y.plot(y, Bx, ".", label = plotlabel) 
         if Bx_show == True and z_show == True:
-            Bx_v_z.plot(z, Bx)
+            Bx_v_z.plot(z, Bx, ".", label = plotlabel)
         if By_show == True and x_show == True:
-            By_v_x.plot(x, By)
+            By_v_x.plot(x, By, ".", label = plotlabel)
         if By_show == True and y_show == True:
-            By_v_y.plot(y, By)
+            By_v_y.plot(y, By, ".", label = plotlabel)
         if By_show == True and z_show == True:
-            By_v_z.plot(z, By)
+            By_v_z.plot(z, By, ".", label = plotlabel)
         if Bz_show == True and x_show == True:
-            Bz_v_x.plot(x, Bz)
+            Bz_v_x.plot(x, Bz, ".", label = plotlabel)
         if Bz_show == True and y_show == True:
-            Bz_v_y.plot(y, Bz)
+            Bz_v_y.plot(y, Bz, ".", label = plotlabel)
         if Bz_show == True and z_show == True:
-            Bz_v_z.plot(z, Bz)
+            Bz_v_z.plot(z, Bz, ".", label = plotlabel)
 
+    plt.legend(loc = 2)
     plt.show()
