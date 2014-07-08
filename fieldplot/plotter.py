@@ -80,8 +80,13 @@ if __name__ == '__main__':
         Bx_show = True
         By_show = True
         Bz_show = True
+
+    if horiz == 0:
         horiz = 3
+    if vert == 0:
         vert = 3
+
+    print (horiz, vert)
 
     fig = plt.figure()
 
