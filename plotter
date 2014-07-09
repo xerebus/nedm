@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 import sys
 import os.path
 
+from matplotlib.font_manager import FontProperties
+
 def parse_file(ipath):
     '''Decide whether the given path is a folder containing rotationshield
     output or a file containing FieldMapping VI output, and parse the file
@@ -21,11 +23,11 @@ def parse_file(ipath):
     except IOError:
         print "Did not find Fieldmap.txt in %s" % ipath
         is_rotshield = False
-        print "Assuming the path specified is a VI output text file."
+        print "Assuming it is a VI output text file."
         try:
             f = open(ipath, 'r')
         except IOError:
-            raise ValueError("%s does not contain rotationshield output,
+            raise ValueError("%s does not contain rotationshield output, \
             nor is it a text file. Cannot handle." % ipath)
 
     if is_rotshield:
@@ -53,12 +55,12 @@ def parse_sim_file(f):
         except ValueError:
             raise ValueError("Cannot unpack line:\n%s" % line)
 
-        x = np.append(x, this_x)
-        y = np.append(y, this_y)
-        z = np.append(z, this_z)
-        Bx = np.append(Bx, this_Bx)
-        By = np.append(By, this_By)
-        Bz = np.append(Bz, this_Bz)
+        x = np.append(x, np.float64(this_x))
+        y = np.append(y, np.float64(this_y))
+        z = np.append(z, np.float64(this_z))
+        Bx = np.append(Bx, np.float64(this_Bx))
+        By = np.append(By, np.float64(this_By))
+        Bz = np.append(Bz, np.float64(this_Bz))
     
     f.close()
 
@@ -88,17 +90,21 @@ def parse_meas_file(f):
         except ValueError:
             raise ValueError("Cannot unpack line:\n%s" % line)
         
-        x = np.append(x, this_x)
-        y = np.append(y, this_y)
-        z = np.append(z, this_z)
-        Bx = np.append(Bx, this_Bx)
-        By = np.append(By, this_By)
-        Bz = np.append(Bz, this_Bz)
+        x = np.append(x, np.float64(this_x))
+        y = np.append(y, np.float64(this_y))
+        z = np.append(z, np.float64(this_z))
+        Bx = np.append(Bx, np.float64(this_Bx))
+        By = np.append(By, np.float64(this_By))
+        Bz = np.append(Bz, np.float64(this_Bz))
     
     f.close()
 
-    return (x, y, z, Bx, By, Bz)
+    # FieldMapping VI outputs distances in mm, we want meters
+    x /= np.float64(1000)
+    y /= np.float64(1000)
+    z /= np.float64(1000)
 
+    return (x, y, z, Bx, By, Bz)
 
 def usage():
     '''Print usage message.'''
@@ -171,8 +177,8 @@ if __name__ == '__main__':
 
     fig = plt.figure()
 
-    i = 1
-    
+    i = 1 # subplot counter
+   
     if Bx_show == True and x_show == True:
         Bx_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "Bx")
         i += 1
@@ -200,27 +206,34 @@ if __name__ == '__main__':
     if Bz_show == True and z_show == True:
         Bz_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "Bz")
 
+    j = 0 # line counter
+    marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
+    
     for i in range(first_arg, len(sys.argv)):
         (x, y, z, Bx, By, Bz) = parse_file(sys.argv[i])
         plotlabel = os.path.basename(os.path.normpath(sys.argv[i]))
         if Bx_show == True and x_show == True:
-            Bx_v_x.plot(x, Bx, ".", label = plotlabel)
+            Bx_v_x.plot(x, Bx, marker[j], label = plotlabel)
         if Bx_show == True and y_show == True:
-            Bx_v_y.plot(y, Bx, ".", label = plotlabel) 
+            Bx_v_y.plot(y, Bx, marker[j], label = plotlabel) 
         if Bx_show == True and z_show == True:
-            Bx_v_z.plot(z, Bx, ".", label = plotlabel)
+            Bx_v_z.plot(z, Bx, marker[j], label = plotlabel)
         if By_show == True and x_show == True:
-            By_v_x.plot(x, By, ".", label = plotlabel)
+            By_v_x.plot(x, By, marker[j], label = plotlabel)
         if By_show == True and y_show == True:
-            By_v_y.plot(y, By, ".", label = plotlabel)
+            By_v_y.plot(y, By, marker[j], label = plotlabel)
         if By_show == True and z_show == True:
-            By_v_z.plot(z, By, ".", label = plotlabel)
+            By_v_z.plot(z, By, marker[j], label = plotlabel)
         if Bz_show == True and x_show == True:
-            Bz_v_x.plot(x, Bz, ".", label = plotlabel)
+            Bz_v_x.plot(x, Bz, marker[j], label = plotlabel)
         if Bz_show == True and y_show == True:
-            Bz_v_y.plot(y, Bz, ".", label = plotlabel)
+            Bz_v_y.plot(y, Bz, marker[j], label = plotlabel)
         if Bz_show == True and z_show == True:
-            Bz_v_z.plot(z, Bz, ".", label = plotlabel)
+            Bz_v_z.plot(z, Bz, marker[j], label = plotlabel)
+        j += 1
 
-    plt.legend(loc = 2)
+    fontp = FontProperties()
+    fontp.set_size("small")
+    
+    plt.legend(loc = 2, prop = fontp)
     plt.show()
