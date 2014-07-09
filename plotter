@@ -9,13 +9,36 @@ import matplotlib.pyplot as plt
 import sys
 import os.path
 
-def parse_file(folderpath):
-    
-    try:
-        f = open(folderpath + "/Fieldmap.txt", 'r')
-    except IOError:
-        raise ValueError("Specify the folder name that contains 'Fieldmap.txt'.")
+def parse_file(ipath):
+    '''Decide whether the given path is a folder containing rotationshield
+    output or a file containing FieldMapping VI output, and parse the file
+    accordingly.'''
 
+    is_rotshield = True
+
+    try:
+        f = open(ipath + "/Fieldmap.txt", 'r')
+    except IOError:
+        print "Did not find Fieldmap.txt in %s" % ipath
+        is_rotshield = False
+        print "Assuming the path specified is a VI output text file."
+        try:
+            f = open(ipath, 'r')
+        except IOError:
+            raise ValueError("%s does not contain rotationshield output,
+            nor is it a text file. Cannot handle." % ipath)
+
+    if is_rotshield:
+        return parse_sim_file(f)
+    else:
+        # must be a VI file, because if not, plotter will exit with ValueError
+        # above
+        return parse_meas_file(f)
+
+def parse_sim_file(f):
+    '''Parse a rotationshield file object. Return (x, y, z, Bx, By, Bz)
+    arrays.'''
+     
     x = np.array([])
     y = np.array([])
     z = np.array([])
@@ -24,7 +47,12 @@ def parse_file(folderpath):
     Bz = np.array([])
 
     for line in f:
-        (this_x, this_y, this_z, this_Bx, this_By, this_Bz) = line.split()
+        
+        try:
+            (this_x, this_y, this_z, this_Bx, this_By, this_Bz) = line.split()
+        except ValueError:
+            raise ValueError("Cannot unpack line:\n%s" % line)
+
         x = np.append(x, this_x)
         y = np.append(y, this_y)
         z = np.append(z, this_z)
@@ -36,11 +64,50 @@ def parse_file(folderpath):
 
     return (x, y, z, Bx, By, Bz)
 
+def parse_meas_file(f):
+    '''Parse a VI measurement file object. Return (x, y, z, Bx, By, Bz)
+    arrays.'''
+    
+    x = np.array([])
+    y = np.array([])
+    z = np.array([])
+    Bx = np.array([])
+    By = np.array([])
+    Bz = np.array([])
+
+    # FieldMapping VI output files have a header that needs to be skipped
+    header = f.readline()
+
+    for line in f:
+
+        try:
+            # all variables not starting with this_ are thrown away
+            (month, day, year, hour, minute, sec, timestamp, this_x, this_y, 
+            this_z, current, current_err, oneax, oneax_err, this_Bx, Bx_err,
+            this_By, By_err, this_Bz, Bz_err) = line.split()
+        except ValueError:
+            raise ValueError("Cannot unpack line:\n%s" % line)
+        
+        x = np.append(x, this_x)
+        y = np.append(y, this_y)
+        z = np.append(z, this_z)
+        Bx = np.append(Bx, this_Bx)
+        By = np.append(By, this_By)
+        Bz = np.append(Bz, this_Bz)
+    
+    f.close()
+
+    return (x, y, z, Bx, By, Bz)
+
+
 def usage():
     '''Print usage message.'''
     
-    print "%s [-x] [-y] [-z] [-Bx] [-By] [-Bz] folder1 [folder2] ..." % sys.argv[0]
-    print "%s will look inside folder1, folder2, ... for files named 'Fieldmap.txt'." % sys.argv[0]
+    print "%s [-x] [-y] [-z] [-Bx] [-By] [-Bz] path1 [path2] ..." % sys.argv[0]
+    print " * For rotationshield output, the path should be a folder name with"
+    print "   a trailing slash."
+    print " * For FieldMapping VI output, the path should be the text file."
+    print " * Option flags must precede the list of paths."
 
 if __name__ == '__main__':
 
@@ -107,21 +174,29 @@ if __name__ == '__main__':
     i = 1
     
     if Bx_show == True and x_show == True:
-        Bx_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "Bx"); i += 1
+        Bx_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "Bx")
+        i += 1
     if Bx_show == True and y_show == True:
-        Bx_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "Bx"); i += 1
+        Bx_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "Bx")
+        i += 1
     if Bx_show == True and z_show == True:
-        Bx_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "Bx"); i += 1
+        Bx_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "Bx")
+        i += 1
     if By_show == True and x_show == True:
-        By_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "By"); i += 1
+        By_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "By")
+        i += 1
     if By_show == True and y_show == True:
-        By_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "By"); i += 1
+        By_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "By")
+        i += 1
     if By_show == True and z_show == True:
-        By_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "By"); i += 1
+        By_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "By")
+        i += 1
     if Bz_show == True and x_show == True:
-        Bz_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "Bz"); i += 1
+        Bz_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "Bz")
+        i += 1
     if Bz_show == True and y_show == True:
-        Bz_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "Bz"); i += 1
+        Bz_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "Bz")
+        i += 1
     if Bz_show == True and z_show == True:
         Bz_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "Bz")
 
