@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+# meas_converter (Aritra Biswas)
+# Converts FieldMapping VI output to the same format as rotationshield
+# output so that plotter can be used.
