@@ -18,12 +18,14 @@ def parse_file(ipath):
 
     is_rotshield = True
 
+    print "[path] === Examining %s" % ipath
+
     try:
         f = open(ipath + "/Fieldmap.txt", 'r')
+        print "[path] Found Fieldmap.txt."
     except IOError:
-        print "Did not find Fieldmap.txt in %s" % ipath
+        print "[path] Did not find Fieldmap.txt. Trying as text file."
         is_rotshield = False
-        print "Assuming it is a VI output text file."
         try:
             f = open(ipath, 'r')
         except IOError:
@@ -40,6 +42,8 @@ def parse_file(ipath):
 def parse_sim_file(f):
     '''Parse a rotationshield file object. Return (x, y, z, Bx, By, Bz)
     arrays.'''
+
+    print "[file] Reading as rotationshield output..."
      
     x = np.array([])
     y = np.array([])
@@ -64,11 +68,15 @@ def parse_sim_file(f):
     
     f.close()
 
+    print "[file] Reading done."
+
     return (x, y, z, Bx, By, Bz)
 
 def parse_meas_file(f):
     '''Parse a VI measurement file object. Return (x, y, z, Bx, By, Bz)
     arrays.'''
+
+    print "[file] Reading as VI output..."
     
     x = np.array([])
     y = np.array([])
@@ -100,9 +108,12 @@ def parse_meas_file(f):
     f.close()
 
     # FieldMapping VI outputs distances in mm, we want meters
+    print "[file] Converting distances..."
     x /= np.float64(1000)
     y /= np.float64(1000)
     z /= np.float64(1000)
+
+    print "[file] Reading done."
 
     return (x, y, z, Bx, By, Bz)
 
@@ -206,10 +217,13 @@ if __name__ == '__main__':
     if Bz_show == True and z_show == True:
         Bz_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "Bz")
 
+    print "[plot] === %i plots requested." % i
+
     j = 0 # line counter
     marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
     
     for i in range(first_arg, len(sys.argv)):
+        print "[plot] Plotting curve %i..." % (j + 1)
         (x, y, z, Bx, By, Bz) = parse_file(sys.argv[i])
         plotlabel = os.path.basename(os.path.normpath(sys.argv[i]))
         if Bx_show == True and x_show == True:
@@ -236,4 +250,6 @@ if __name__ == '__main__':
     fontp.set_size("small")
     
     plt.legend(loc = 2, prop = fontp)
+
+    print "[plot] === Plotting done."
     plt.show()
