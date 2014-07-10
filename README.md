@@ -3,16 +3,6 @@ nedm
 
 Personal repository for scripts, etc. written for nEDM project at KRL
 
-RotationShield
---------------
-
-This repository contains copyrighted software. The original source and
-license for RotationShield can be found at <https://github.com/mpmendenhall/rotationshield>.
-
-In order for `plotter` to work properly, there must be a symlink called `rotationshield` in
-the root directory of this repository that leads to the RotationShield project source. This
-symlink, of course, is not handled by git since RotationShield is maintained on its own.
-
 `plotter` usage message
 -----------------------
 
