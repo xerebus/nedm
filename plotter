@@ -6,6 +6,8 @@
 
 # CONSTANTS
 NEWNORM = 540.0 # field in middle of experimental setup [mG]
+# TODO: determine this programatically by calculating average of measured
+# field input, see other TODO below
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -131,8 +133,7 @@ class Field:
         print "[file] Reading done."
 
     def calc_sim_avg_Bx(self):
-        '''Given a path to a folder containing rotationshield output (verified
-        by parse_file(ipath), find Fieldstats.txt and obtain the average B
+        '''Find Fieldstats.txt and obtain the average B
         field that will be used to calculate the normalization factor.'''
 
         assert self.is_simmap, "Use Field.calc_meas_avg_Bx() instead."
@@ -158,38 +159,59 @@ class Field:
         '''Given 'newnorm', the desired average field in the middle, scale a
         simulated field.'''
 
-        assert self.is_simmap, "Why are you normalizing a measured field?"
+        assert self.is_simmap, ("Why are you trying to normalize a measured " +
+        "field?")
 
-        try:
-            scale = newnorm / self.avg_Bx
-        except ZeroDivisionError:
-            raise ZeroDivisionError("Use Field.calc_sim_avg_Bx() first.")
+        self.calc_sim_avg_Bx()
+        scale = newnorm / self.avg_Bx
 
         self.Bx *= scale
         self.By *= scale
         self.Bz *= scale
 
+    def subtract_bg(self, bgfield):
+        '''Given another Field object representing a background field,
+        subtract that field from this one.'''
 
-def usage():
-    '''Print usage message.'''
-    
-    print "%s [-x] [-y] [-z] [-Bx] [-By] [-Bz] path1 [path2] ..." % sys.argv[0]
-    print " * For rotationshield output, the path should be a folder name with"
-    print "   a trailing slash."
-    print " * For FieldMapping VI output, the path should be the text file."
-    print " * Option flags must precede the list of paths."
+        assert not self.is_simmap, ("Why are you subtracting background " +
+        "data from a simulated field?")
+        
+        try:
+            self.Bx -= bgfield.Bx
+            self.By -= bgfield.By
+            self.Bz -= bgfield.Bz
+        except ValueError:
+            raise ValueError("Make sure your background field is taken " +
+            "with the same gridding as all of your foreground fields.")
+
 
 if __name__ == "__main__":
 
     # handle input flags
     parser = optparse.OptionParser()
-    parser.add_option("-x", action="store_true", dest="x_show", default=False)
-    parser.add_option("-y", action="store_true", dest="y_show", default=False)
-    parser.add_option("-z", action="store_true", dest="z_show", default=False)
-    parser.add_option("--Bx", action="store_true", dest="Bx_show", default=False)
-    parser.add_option("--By", action="store_true", dest="By_show", default=False)
-    parser.add_option("--Bz", action="store_true", dest="Bz_show", default=False)
-    
+    parser.add_option("-x", action = "store_true", dest = "x_show",
+    help = "Show x plots", default = False)
+    parser.add_option("-y", action = "store_true", dest = "y_show",
+    help = "Show y plots", default = False)
+    parser.add_option("-z", action = "store_true", dest = "z_show",
+    help = "Show z plots", default = False)
+    parser.add_option("--Bx", action = "store_true", dest = "Bx_show",
+    help = "Show Bx plots", default = False)
+    parser.add_option("--By", action = "store_true", dest = "By_show",
+    help = "Show By plots", default = False)
+    parser.add_option("--Bz", action = "store_true", dest = "Bz_show",
+    help = "Show Bz plots", default = False)
+
+    parser.add_option("-b", action = "store", dest = "bgpath",
+    help = ("Specify a path to a VI-output text file containing background " +
+    " data. This data will be subtracted from all other VI-output data."),
+    default = None)
+
+    parser.usage = ("%s [options] path1 [path2] ...\n" +
+    "The path should be either a text file containing Labview VI output\n" +
+    "or a folder containing a Fieldmap.txt created with rotationshield.\n" +
+    "The program will automatically determine which type is being read.\n")
+        
     (opts, args) = parser.parse_args()
 
     # if all plots are disabled, then show them all
@@ -252,10 +274,27 @@ if __name__ == "__main__":
     print "[plot] === %i plots will be made." % i
 
     # populate a list of Field objects
-
     fields = []
     for ipath in args:
         fields.append(Field(ipath))
+
+    # subtract background data from all measured maps
+    if opts.bgpath is not None:
+        print "[fgbg] Found background file. Subtracting..."
+        bgfield = Field(opts.bgpath)
+        for field in fields:
+            if not field.is_simmap:
+                field.subtract_bg(bgfield)
+        print "[fgbg] Background removed."
+
+    # normalize all simulation maps
+    if NEWNORM is not None:
+        print "[norm] Checking for simulated fields to normalize..."
+        for field in fields:
+            if field.is_simmap:
+                print "[norm] Normalizing %s" % field.label
+                field.normalize(NEWNORM)
+        print "[norm] All simulated fields normalized."
     
     # plot curve for each field
 
