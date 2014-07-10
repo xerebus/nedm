@@ -4,11 +4,6 @@
 # --------------------------
 # Generates {Bx, By, Bz} vs {x, y, z} plots from rotationshield output
 
-# CONSTANTS
-NEWNORM = 540.0 # field in middle of experimental setup [mG]
-# TODO: determine this programatically by calculating average of measured
-# field input, see other TODO below
-
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
@@ -17,12 +12,12 @@ import optparse
 
 from matplotlib.font_manager import FontProperties
 
-# ugly hack to import rotationshield script through a symlink without
-# actually copying the script into this repo
-sys.path.append("rotationshield/Scripts/")
-from StudyPlotter import *
-# TODO: calculate the average without rotationshield, directly from the
-# text file; calculate the average for measured maps to get NEWNORM
+def find_indices(array_condition):
+    '''Given a 1D numpy array, finds indices where the value in the array
+    meets the condition. Condition should be written in terms of array, not
+    array[i].'''
+
+    return list(np.nonzero(array_condition)[0])
 
 class Field:
     '''Store a vector field that can be generated from rotationshield or VI
@@ -132,28 +127,25 @@ class Field:
 
         print "[file] Reading done."
 
-    def calc_sim_avg_Bx(self):
-        '''Find Fieldstats.txt and obtain the average B
-        field that will be used to calculate the normalization factor.'''
+    def calc_avg_Bx(self):
+        '''Calculate the average Bx around the center from existing data.'''
 
-        assert self.is_simmap, "Use Field.calc_meas_avg_Bx() instead."
-        statpath = self.path + "/Fieldstats.txt"
+        center_box_size = 0.01
+        
+        print "[calc] Finding data points around center..."
 
-        print "[calc] Finding additional rotationshield output..."
+        x_small = find_indices(np.abs(self.x <= center_box_size))
+        y_small = find_indices(np.abs(self.y <= center_box_size))
+        z_small = find_indices(np.abs(self.z <= center_box_size))
+        close_to_center = np.intersect1d(x_small, y_small, z_small)
+        print "[calc] Taking samples from %i points." % len(close_to_center)
 
-        try:
-            f = open(statpath, 'r')
-            print "[calc] Found Fieldstats.txt."
-        except IOError:
-            raise ValueError("%s appears to be missing Fieldstats.txt" % ipath)
+        Bx_sample = np.array([])
+        for index in close_to_center:
+            Bx_sample = np.append(Bx_sample, self.Bx[index])
 
-        this_BC = BCell(statpath)
-        # scaling factors
-        this_BC.ll = (-0.01, -0.01, -0.01)
-        this_BC.ur = (0.01, 0.01, 0.01)
-
-        self.avg_Bx = this_BC.avgB()[0]
-        print "[calc] Calculated average field."
+        self.avg_Bx = np.average(Bx_sample)
+        print "[calc] Calculated average Bx as %f mG." % self.avg_Bx
 
     def normalize(self, newnorm):
         '''Given 'newnorm', the desired average field in the middle, scale a
@@ -162,7 +154,7 @@ class Field:
         assert self.is_simmap, ("Why are you trying to normalize a measured " +
         "field?")
 
-        self.calc_sim_avg_Bx()
+        self.calc_avg_Bx()
         scale = newnorm / self.avg_Bx
 
         self.Bx *= scale
@@ -206,6 +198,9 @@ if __name__ == "__main__":
     help = ("Specify a path to a VI-output text file containing background " +
     " data. This data will be subtracted from all other VI-output data."),
     default = None)
+    
+    parser.add_option("-n", action = "store", dest = "newnorm",
+    help = "Custom normalization level in mG.", default = None)
 
     parser.usage = ("%s [options] path1 [path2] ...\n" +
     "The path should be either a text file containing Labview VI output\n" +
@@ -288,13 +283,24 @@ if __name__ == "__main__":
         print "[fgbg] Background removed."
 
     # normalize all simulation maps
-    if NEWNORM is not None:
-        print "[norm] Checking for simulated fields to normalize..."
+    if opts.newnorm is not None:
+        newnorm = np.float64(opts.newnorm)
+        print "[norm] Using provided normalization level of %f mG." % newnorm
+    else:
+        print "[norm] Calculating normalization level..."
+        norms = np.array([])
         for field in fields:
-            if field.is_simmap:
-                print "[norm] Normalizing %s" % field.label
-                field.normalize(NEWNORM)
-        print "[norm] All simulated fields normalized."
+            if not field.is_simmap:
+                field.calc_avg_Bx()
+                norms = np.append(norms, np.float64(field.avg_Bx))
+        newnorm = np.average(norms)
+        print "[norm] Using calculated normalization level of %f mG." % newnorm
+    print "[norm] Checking for simulated fields to normalize..."
+    for field in fields:
+        if field.is_simmap:
+            print "[norm] Normalizing %s..." % field.label
+            field.normalize(newnorm)
+    print "[norm] All simulated fields normalized to %f mG." % newnorm
     
     # plot curve for each field
 
@@ -302,7 +308,7 @@ if __name__ == "__main__":
     marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
     
     for field in fields:
-        print "[plot] Plotting curve %i..." % (j + 1)
+        print "[plot] Plotting curve (%i) %s..." % ((j + 1), field.label)
         if opts.Bx_show and opts.x_show:
             Bx_v_x.plot(field.x, field.Bx, marker[j], label = field.label)
         if opts.Bx_show and opts.y_show:
