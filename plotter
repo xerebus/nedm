@@ -4,118 +4,173 @@
 # --------------------------
 # Generates {Bx, By, Bz} vs {x, y, z} plots from rotationshield output
 
+# CONSTANTS
+NEWNORM = 540.0 # field in middle of experimental setup [mG]
+
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import os.path
+import optparse
 
 from matplotlib.font_manager import FontProperties
 
-def parse_file(ipath):
-    '''Decide whether the given path is a folder containing rotationshield
-    output or a file containing FieldMapping VI output, and parse the file
-    accordingly.'''
+# ugly hack to import rotationshield script through a symlink without
+# actually copying the script into this repo
+sys.path.append("rotationshield/Scripts/")
+from StudyPlotter import *
+# TODO: calculate the 
 
-    is_rotshield = True
+class Field:
+    '''Store a vector field that can be generated from rotationshield or VI
+    output.'''
 
-    print "[path] === Examining %s" % ipath
+    def __init__(self, ipath):
+        '''Decide whether the given path is a folder containing rotationshield
+        output or a file containing FieldMapping VI output, and parse the file
+        accordingly.'''
+        
+        self.x = np.array([])
+        self.y = np.array([])
+        self.z = np.array([])
+        self.Bx = np.array([])
+        self.By = np.array([])
+        self.Bz = np.array([])
+        
+        self.is_simmap = True
 
-    try:
-        f = open(ipath + "/Fieldmap.txt", 'r')
-        print "[path] Found Fieldmap.txt."
-    except IOError:
-        print "[path] Did not find Fieldmap.txt. Trying as text file."
-        is_rotshield = False
+        self.avg_Bx = 0
+
+        self.path = ipath
+        self.label = os.path.basename(os.path.normpath(ipath))
+        
+        print "[path] === Examining %s" % ipath
+
         try:
-            f = open(ipath, 'r')
+            f = open(ipath + "/Fieldmap.txt", 'r')
+            print "[path] Found Fieldmap.txt."
         except IOError:
-            raise ValueError("%s does not contain rotationshield output, \
-            nor is it a text file. Cannot handle." % ipath)
+            print "[path] Did not find Fieldmap.txt. Trying as text file."
+            self.is_simmap = False
+            try:
+                f = open(ipath, 'r')
+            except IOError:
+                raise ValueError("%s does not contain rotationshield output, \
+                nor is it a text file. Cannot handle." % ipath)
 
-    if is_rotshield:
-        return parse_sim_file(f)
-    else:
-        # must be a VI file, because if not, plotter will exit with ValueError
-        # above
-        return parse_meas_file(f)
+        if self.is_simmap:
+            print "[path] Reading as rotationshield output..."
+            self.read_sim_file(f) # TODO
+        else:
+            # must be a VI file, because if not, plotter will exit with
+            # ValueError above
+            print "[path] Reading as VI output..."
+            self.read_meas_file(f)
 
-def parse_sim_file(f):
-    '''Parse a rotationshield file object. Return (x, y, z, Bx, By, Bz)
-    arrays.'''
 
-    print "[file] Reading as rotationshield output..."
-     
-    x = np.array([])
-    y = np.array([])
-    z = np.array([])
-    Bx = np.array([])
-    By = np.array([])
-    Bz = np.array([])
+    def read_sim_file(self, f):
+        '''Parse a rotationshield file object. Return (x, y, z, Bx, By, Bz)
+        arrays.'''
 
-    for line in f:
+        print "[file] Opened rotationshield output file."
+
+        for line in f:
+            
+            try:
+                (this_x, this_y, this_z, this_Bx, this_By,
+                this_Bz) = line.split()
+            except ValueError:
+                raise ValueError("Cannot unpack line:\n%s" % line)
+
+            self.x = np.append(self.x, np.float64(this_x))
+            self.y = np.append(self.y, np.float64(this_y))
+            self.z = np.append(self.z, np.float64(this_z))
+            self.Bx = np.append(self.Bx, np.float64(this_Bx))
+            self.By = np.append(self.By, np.float64(this_By))
+            self.Bz = np.append(self.Bz, np.float64(this_Bz))
+
+        f.close()
+
+        print "[file] Reading done."
+
+
+    def read_meas_file(self, f):
+        '''Parse a VI measurement file object. Return (x, y, z, Bx, By, Bz)
+        arrays.'''
+
+        print "[file] Opened VI output file."
         
-        try:
-            (this_x, this_y, this_z, this_Bx, this_By, this_Bz) = line.split()
-        except ValueError:
-            raise ValueError("Cannot unpack line:\n%s" % line)
+        # FieldMapping VI output files have a header that needs to be skipped
+        header = f.readline()
 
-        x = np.append(x, np.float64(this_x))
-        y = np.append(y, np.float64(this_y))
-        z = np.append(z, np.float64(this_z))
-        Bx = np.append(Bx, np.float64(this_Bx))
-        By = np.append(By, np.float64(this_By))
-        Bz = np.append(Bz, np.float64(this_Bz))
-    
-    f.close()
+        for line in f:
 
-    print "[file] Reading done."
-
-    return (x, y, z, Bx, By, Bz)
-
-def parse_meas_file(f):
-    '''Parse a VI measurement file object. Return (x, y, z, Bx, By, Bz)
-    arrays.'''
-
-    print "[file] Reading as VI output..."
-    
-    x = np.array([])
-    y = np.array([])
-    z = np.array([])
-    Bx = np.array([])
-    By = np.array([])
-    Bz = np.array([])
-
-    # FieldMapping VI output files have a header that needs to be skipped
-    header = f.readline()
-
-    for line in f:
-
-        try:
-            # all variables not starting with this_ are thrown away
-            (month, day, year, hour, minute, sec, timestamp, this_x, this_y, 
-            this_z, current, current_err, oneax, oneax_err, this_Bx, Bx_err,
-            this_By, By_err, this_Bz, Bz_err) = line.split()
-        except ValueError:
-            raise ValueError("Cannot unpack line:\n%s" % line)
+            try:
+                # all variables not starting with this_ are thrown away
+                (month, day, year, hour, minute, sec, timestamp, this_x,
+                this_y, this_z, current, current_err, oneax, oneax_err,
+                this_Bx, Bx_err, this_By, By_err, this_Bz,
+                Bz_err) = line.split()
+            except ValueError:
+                raise ValueError("Cannot unpack line:\n%s" % line)
+            
+            self.x = np.append(self.x, np.float64(this_x))
+            self.y = np.append(self.y, np.float64(this_y))
+            self.z = np.append(self.z, np.float64(this_z))
+            self.Bx = np.append(self.Bx, np.float64(this_Bx))
+            self.By = np.append(self.By, np.float64(this_By))
+            self.Bz = np.append(self.Bz, np.float64(this_Bz))
         
-        x = np.append(x, np.float64(this_x))
-        y = np.append(y, np.float64(this_y))
-        z = np.append(z, np.float64(this_z))
-        Bx = np.append(Bx, np.float64(this_Bx))
-        By = np.append(By, np.float64(this_By))
-        Bz = np.append(Bz, np.float64(this_Bz))
-    
-    f.close()
+        f.close()
 
-    # FieldMapping VI outputs distances in mm, we want meters
-    print "[file] Converting distances..."
-    x /= np.float64(1000)
-    y /= np.float64(1000)
-    z /= np.float64(1000)
+        # FieldMapping VI outputs distances in mm, we want meters
+        print "[file] Converting distances..."
+        self.x /= np.float64(1000)
+        self.y /= np.float64(1000)
+        self.z /= np.float64(1000)
 
-    print "[file] Reading done."
+        print "[file] Reading done."
 
-    return (x, y, z, Bx, By, Bz)
+
+    def calc_sim_avg_Bx(self):
+        '''Given a path to a folder containing rotationshield output (verified
+        by parse_file(ipath), find Fieldstats.txt and obtain the average B
+        field that will be used to calculate the normalization factor.'''
+
+        assert self.is_simmap, "Use Field.calc_meas_avg_Bx() instead."
+        statpath = self.path + "/Fieldstats.txt"
+
+        print "[calc] Finding additional rotationshield output..."
+
+        try:
+            f = open(statpath, 'r')
+            print "[calc] Found Fieldstats.txt."
+        except IOError:
+            raise ValueError("%s appears to be missing Fieldstats.txt" % ipath)
+
+        this_BC = BCell(statpath)
+        # scaling factors
+        this_BC.ll = (-0.01, -0.01, -0.01)
+        this_BC.ur = (0.01, 0.01, 0.01)
+
+        self.avg_Bx = this_BC.avgB()[0]
+        print "[calc] Calculated average field."
+
+    def normalize(self, newnorm):
+        '''Given 'newnorm', the desired average field in the middle, scale a
+        simulated field.'''
+
+        assert self.is_simmap, "Why are you normalizing a measured field?"
+
+        try:
+            scale = newnorm / self.avg_Bx
+        except ZeroDivisionError:
+            raise ZeroDivisionError("Use Field.calc_sim_avg_Bx() first.")
+
+        self.Bx *= scale
+        self.By *= scale
+        self.Bz *= scale
+
 
 def usage():
     '''Print usage message.'''
@@ -126,124 +181,109 @@ def usage():
     print " * For FieldMapping VI output, the path should be the text file."
     print " * Option flags must precede the list of paths."
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     # handle input flags
-
-    first_arg = 1
+    parser = optparse.OptionParser()
+    parser.add_option("-x", action="store_true", dest="x_show", default=False)
+    parser.add_option("-y", action="store_true", dest="y_show", default=False)
+    parser.add_option("-z", action="store_true", dest="z_show", default=False)
+    parser.add_option("--Bx", action="store_true", dest="Bx_show", default=False)
+    parser.add_option("--By", action="store_true", dest="By_show", default=False)
+    parser.add_option("--Bz", action="store_true", dest="Bz_show", default=False)
     
-    no_flags = True
+    (opts, args) = parser.parse_args()
+
+    # if all plots are disabled, then show them all
+    if not opts.x_show and not opts.y_show and not opts.z_show:
+        opts.x_show = True
+        opts.y_show = True
+        opts.z_show = True
+    if not opts.Bx_show and not opts.By_show and not opts.Bz_show:
+        opts.Bx_show = True
+        opts.By_show = True
+        opts.Bz_show = True
+
+
+    # count how many horizontal & vertical axes there will be
     horiz = 0
     vert = 0
-
-    x_show = False
-    y_show = False
-    z_show = False
-    Bx_show = False
-    By_show = False
-    Bz_show = False
-
-    for arg in sys.argv:
-        if arg == "-x":
-            x_show = True
+    for opt in [opts.x_show, opts.y_show, opts.z_show]:
+        if opt:
             horiz += 1
-            first_arg +=1
-        elif arg == "-y":
-            y_show = True
-            horiz += 1
-            first_arg += 1
-        elif arg == "-z":
-            z_show = True
-            horiz += 1
-            first_arg += 1
-        elif arg == "-Bx":
-            Bx_show = True
+    for opt in [opts.Bx_show, opts.By_show, opts.Bz_show]:
+        if opt:
             vert += 1
-            first_arg += 1
-        elif arg == "-By":
-            By_show = True
-            vert += 1
-            first_arg += 1
-        elif arg == "-Bz":
-            Bz_show = True
-            vert += 1
-            first_arg += 1
-        elif arg == "help":
-            usage()
-            exit()
-
-    if x_show == False and y_show == False and z_show == False:
-        x_show = True
-        y_show = True
-        z_show = True
-    if Bx_show == False and By_show == False and Bz_show == False:
-        Bx_show = True
-        By_show = True
-        Bz_show = True
-
     if horiz == 0:
         horiz = 3
     if vert == 0:
         vert = 3
 
+    # create the correct number of subplots
+    
     fig = plt.figure()
-
     i = 1 # subplot counter
-   
-    if Bx_show == True and x_show == True:
+
+    if opts.Bx_show == True and opts.x_show == True:
         Bx_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "Bx")
         i += 1
-    if Bx_show == True and y_show == True:
+    if opts.Bx_show == True and opts.y_show == True:
         Bx_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "Bx")
         i += 1
-    if Bx_show == True and z_show == True:
+    if opts.Bx_show == True and opts.z_show == True:
         Bx_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "Bx")
         i += 1
-    if By_show == True and x_show == True:
+    if opts.By_show == True and opts.x_show == True:
         By_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "By")
         i += 1
-    if By_show == True and y_show == True:
+    if opts.By_show == True and opts.y_show == True:
         By_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "By")
         i += 1
-    if By_show == True and z_show == True:
+    if opts.By_show == True and opts.z_show == True:
         By_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "By")
         i += 1
-    if Bz_show == True and x_show == True:
+    if opts.Bz_show == True and opts.x_show == True:
         Bz_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "Bz")
         i += 1
-    if Bz_show == True and y_show == True:
+    if opts.Bz_show == True and opts.y_show == True:
         Bz_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "Bz")
         i += 1
-    if Bz_show == True and z_show == True:
+    if opts.Bz_show == True and opts.z_show == True:
         Bz_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "Bz")
 
-    print "[plot] === %i plots requested." % i
+    print "[plot] === %i plots will be made." % i
 
-    j = 0 # line counter
+    # populate a list of Field objects
+
+    fields = []
+    for ipath in args:
+        fields.append(Field(ipath))
+    
+    # plot curve for each field
+
+    j = 0 # curve counter
     marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
     
-    for i in range(first_arg, len(sys.argv)):
+    for field in fields:
         print "[plot] Plotting curve %i..." % (j + 1)
-        (x, y, z, Bx, By, Bz) = parse_file(sys.argv[i])
-        plotlabel = os.path.basename(os.path.normpath(sys.argv[i]))
-        if Bx_show == True and x_show == True:
-            Bx_v_x.plot(x, Bx, marker[j], label = plotlabel)
-        if Bx_show == True and y_show == True:
-            Bx_v_y.plot(y, Bx, marker[j], label = plotlabel) 
-        if Bx_show == True and z_show == True:
-            Bx_v_z.plot(z, Bx, marker[j], label = plotlabel)
-        if By_show == True and x_show == True:
-            By_v_x.plot(x, By, marker[j], label = plotlabel)
-        if By_show == True and y_show == True:
-            By_v_y.plot(y, By, marker[j], label = plotlabel)
-        if By_show == True and z_show == True:
-            By_v_z.plot(z, By, marker[j], label = plotlabel)
-        if Bz_show == True and x_show == True:
-            Bz_v_x.plot(x, Bz, marker[j], label = plotlabel)
-        if Bz_show == True and y_show == True:
-            Bz_v_y.plot(y, Bz, marker[j], label = plotlabel)
-        if Bz_show == True and z_show == True:
-            Bz_v_z.plot(z, Bz, marker[j], label = plotlabel)
+        if opts.Bx_show and opts.x_show:
+            Bx_v_x.plot(field.x, field.Bx, marker[j], label = field.label)
+        if opts.Bx_show and opts.y_show:
+            Bx_v_y.plot(field.y, field.Bx, marker[j], label = field.label)
+        if opts.Bx_show and opts.z_show:
+            Bx_v_z.plot(field.z, field.Bx, marker[j], label = field.label)
+        if opts.By_show and opts.x_show:
+            By_v_x.plot(field.x, field.By, marker[j], label = field.label)
+        if opts.By_show and opts.y_show:
+            By_v_y.plot(field.y, field.By, marker[j], label = field.label)
+        if opts.By_show and opts.z_show:
+            By_v_z.plot(field.z, field.By, marker[j], label = field.label)
+        if opts.Bz_show and opts.x_show:
+            Bz_v_x.plot(field.x, field.Bz, marker[j], label = field.label)
+        if opts.Bz_show and opts.y_show:
+            Bz_v_y.plot(field.y, field.Bz, marker[j], label = field.label)
+        if opts.Bz_show and opts.z_show:
+            Bz_v_z.plot(field.z, field.Bz, marker[j], label = field.label)
         j += 1
 
     fontp = FontProperties()
