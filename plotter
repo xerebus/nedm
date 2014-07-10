@@ -19,7 +19,8 @@ from matplotlib.font_manager import FontProperties
 # actually copying the script into this repo
 sys.path.append("rotationshield/Scripts/")
 from StudyPlotter import *
-# TODO: calculate the 
+# TODO: calculate the average without rotationshield, directly from the
+# text file; calculate the average for measured maps to get NEWNORM
 
 class Field:
     '''Store a vector field that can be generated from rotationshield or VI
@@ -69,8 +70,7 @@ class Field:
 
 
     def read_sim_file(self, f):
-        '''Parse a rotationshield file object. Return (x, y, z, Bx, By, Bz)
-        arrays.'''
+        '''Parse a rotationshield file object.'''
 
         print "[file] Opened rotationshield output file."
 
@@ -95,8 +95,7 @@ class Field:
 
 
     def read_meas_file(self, f):
-        '''Parse a VI measurement file object. Return (x, y, z, Bx, By, Bz)
-        arrays.'''
+        '''Parse a VI measurement file object.'''
 
         print "[file] Opened VI output file."
         
@@ -130,7 +129,6 @@ class Field:
         self.z /= np.float64(1000)
 
         print "[file] Reading done."
-
 
     def calc_sim_avg_Bx(self):
         '''Given a path to a folder containing rotationshield output (verified
