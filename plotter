@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import sys
 import os.path
 import optparse
+import math
 
 from matplotlib.font_manager import FontProperties
 
@@ -58,7 +59,7 @@ class Field:
 
         if self.is_simmap:
             print "[path] Reading as rotationshield output..."
-            self.read_sim_file(f) # TODO
+            self.read_sim_file(f)
         else:
             # must be a VI file, because if not, plotter will exit with
             # ValueError above
@@ -134,9 +135,9 @@ class Field:
         
         print "[calc] Finding data points around center..."
 
-        x_small = find_indices(np.abs(self.x <= center_box_size))
-        y_small = find_indices(np.abs(self.y <= center_box_size))
-        z_small = find_indices(np.abs(self.z <= center_box_size))
+        x_small = find_indices(np.abs(self.x) <= center_box_size)
+        y_small = find_indices(np.abs(self.y) <= center_box_size)
+        z_small = find_indices(np.abs(self.z) <= center_box_size)
         close_to_center = np.intersect1d(x_small, y_small, z_small)
         print "[calc] Taking samples from %i points." % len(close_to_center)
 
@@ -176,6 +177,35 @@ class Field:
             raise ValueError("Make sure your background field is taken " +
             "with the same gridding as all of your foreground fields.")
 
+    def slice(self, x, y, z):
+        '''Given specific x, y, z values, restrict the field to points close
+        to those values.'''
+
+        tol = 0.015 # tolerance in m
+
+        if not math.isnan(x):
+            elim_x = find_indices(np.abs(self.x - x) > tol)
+        else:
+            elim_x = []
+        if not math.isnan(y):
+            elim_y = find_indices(np.abs(self.y - y) > tol)
+        else:
+            elim_y = []
+        if not math.isnan(z):
+            elim_z = find_indices(np.abs(self.z - z) > tol)
+        else:
+            elim_z = []
+        
+        elim_indices = elim_x + elim_y + elim_z
+        print "[slcf] Eliminating %i points outside slice." % len(elim_indices)
+
+        self.x = np.delete(self.x, elim_indices)
+        self.y = np.delete(self.y, elim_indices)
+        self.z = np.delete(self.z, elim_indices)
+        self.Bx = np.delete(self.Bx, elim_indices)
+        self.By = np.delete(self.By, elim_indices)
+        self.Bz = np.delete(self.Bz, elim_indices)
+
 
 if __name__ == "__main__":
 
@@ -202,6 +232,13 @@ if __name__ == "__main__":
     parser.add_option("-n", action = "store", dest = "newnorm",
     help = "Custom normalization level in mG.", default = None)
 
+    parser.add_option("--sx", action = "store", dest = "sx",
+    help = "Restrict to points around x = SX.", default = None)
+    parser.add_option("--sy", action = "store", dest = "sy",
+    help = "Restrict to points around y = SY.", default = None)
+    parser.add_option("--sz", action = "store", dest = "sz",
+    help = "Restrict to points around z = SZ.", default = None)
+    
     parser.usage = ("%s [options] path1 [path2] ...\n" +
     "The path should be either a text file containing Labview VI output\n" +
     "or a folder containing a Fieldmap.txt created with rotationshield.\n" +
@@ -293,14 +330,24 @@ if __name__ == "__main__":
             if not field.is_simmap:
                 field.calc_avg_Bx()
                 norms = np.append(norms, np.float64(field.avg_Bx))
-        newnorm = np.average(norms)
-        print "[norm] Using calculated normalization level of %f mG." % newnorm
+        if norms.size == 0:
+            newnorm = 30
+            print "[norm] No measured maps found. Using %f mG." % newnorm
+        else:
+            newnorm = np.average(norms)
+            print "[norm] Using calculated normalization level of %f mG." % newnorm
     print "[norm] Checking for simulated fields to normalize..."
     for field in fields:
         if field.is_simmap:
             print "[norm] Normalizing %s..." % field.label
             field.normalize(newnorm)
     print "[norm] All simulated fields normalized to %f mG." % newnorm
+
+    # slice fields
+    print "[slcf] Checking for slicing needs..."
+    for field in fields:
+        field.slice(np.float64(opts.sx), np.float64(opts.sy), np.float64(opts.sz))
+    print "[slcf] Slicing done."
     
     # plot curve for each field
 
