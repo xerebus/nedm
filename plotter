@@ -211,33 +211,33 @@ if __name__ == "__main__":
 
     # handle input flags
     parser = optparse.OptionParser()
-    parser.add_option("-x", action = "store_true", dest = "x_show",
+    parser.add_option("-i", "--showx", action = "store_true", dest = "x_show",
     help = "Show x plots", default = False)
-    parser.add_option("-y", action = "store_true", dest = "y_show",
+    parser.add_option("-j", "--showy", action = "store_true", dest = "y_show",
     help = "Show y plots", default = False)
-    parser.add_option("-z", action = "store_true", dest = "z_show",
+    parser.add_option("-k", "--showz", action = "store_true", dest = "z_show",
     help = "Show z plots", default = False)
-    parser.add_option("--Bx", action = "store_true", dest = "Bx_show",
+    parser.add_option("-X", "--showBx", action = "store_true", dest = "Bx_show",
     help = "Show Bx plots", default = False)
-    parser.add_option("--By", action = "store_true", dest = "By_show",
+    parser.add_option("-Y", "--showBy", action = "store_true", dest = "By_show",
     help = "Show By plots", default = False)
-    parser.add_option("--Bz", action = "store_true", dest = "Bz_show",
+    parser.add_option("-Z", "--showBz", action = "store_true", dest = "Bz_show",
     help = "Show Bz plots", default = False)
 
-    parser.add_option("-b", action = "store", dest = "bgpath",
+    parser.add_option("-b", "--background", action = "store", dest = "bgpath",
     help = ("Specify a path to a VI-output text file containing background " +
     " data. This data will be subtracted from all other VI-output data."),
     default = None)
     
-    parser.add_option("-n", action = "store", dest = "newnorm",
+    parser.add_option("-n", "--normal", action = "store", dest = "newnorm",
     help = "Custom normalization level in mG.", default = None)
 
-    parser.add_option("--sx", action = "store", dest = "sx",
-    help = "Restrict to points around x = SX.", default = None)
-    parser.add_option("--sy", action = "store", dest = "sy",
-    help = "Restrict to points around y = SY.", default = None)
-    parser.add_option("--sz", action = "store", dest = "sz",
-    help = "Restrict to points around z = SZ.", default = None)
+    parser.add_option("-x", "--slicex", action = "store", dest = "sx",
+    help = "Restrict to points near x = SX.", default = None)
+    parser.add_option("-y", "--slicey", action = "store", dest = "sy",
+    help = "Restrict to points near y = SY.", default = None)
+    parser.add_option("-z", "--slicez", action = "store", dest = "sz",
+    help = "Restrict to points near z = SZ.", default = None)
     
     parser.usage = ("%s [options] path1 [path2] ...\n" +
     "The path should be either a text file containing Labview VI output\n" +
