@@ -13,14 +13,19 @@ Personal repository for scripts, etc. written for nEDM project at KRL
 
 
     Options:
-      -h, --help  show this help message and exit
-      -x          Show x plots
-      -y          Show y plots
-      -z          Show z plots
-      --Bx        Show Bx plots
-      --By        Show By plots
-      --Bz        Show Bz plots
-      -b BGPATH   Specify a path to a VI-output text file containing background
-                  data. This data will be subtracted from all other VI-output
-                  data.
-      -n NEWNORM  Custom normalization level in mG.
+      -h, --help            show this help message and exit
+      -i, --showx           Show x plots
+      -j, --showy           Show y plots
+      -k, --showz           Show z plots
+      -X, --showBx          Show Bx plots
+      -Y, --showBy          Show By plots
+      -Z, --showBz          Show Bz plots
+      -b BGPATH, --background=BGPATH
+                            Specify a path to a VI-output text file containing
+                            background  data. This data will be subtracted from
+                            all other VI-output data.
+      -n NEWNORM, --normal=NEWNORM
+                            Custom normalization level in mG.
+      -x SX, --slicex=SX    Restrict to points near x = SX.
+      -y SY, --slicey=SY    Restrict to points near y = SY.
+      -z SZ, --slicez=SZ    Restrict to points near z = SZ.
