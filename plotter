@@ -70,7 +70,7 @@ class Field:
     def read_sim_file(self, f):
         '''Parse a rotationshield file object.'''
 
-        print "[file] Opened rotationshield output file."
+        print "[file] Parsing rotationshield output file..."
 
         for line in f:
             
@@ -95,7 +95,7 @@ class Field:
     def read_meas_file(self, f):
         '''Parse a VI measurement file object.'''
 
-        print "[file] Opened VI output file."
+        print "[file] Parsing VI output file..."
         
         # FieldMapping VI output files have a header that needs to be skipped
         header = f.readline()
@@ -181,7 +181,7 @@ class Field:
         '''Given specific x, y, z values, restrict the field to points close
         to those values.'''
 
-        tol = 0.015 # tolerance in m
+        tol = 0.01 # tolerance in m
 
         if not math.isnan(x):
             elim_x = find_indices(np.abs(self.x - x) > tol)
