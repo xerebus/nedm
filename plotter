@@ -239,10 +239,11 @@ if __name__ == "__main__":
     parser.add_option("-z", "--slicez", action = "store", dest = "sz",
     help = "Restrict to points near z = SZ.", default = None)
     
-    parser.usage = ("%s [options] path1 [path2] ...\n" +
+    parser.usage = ("%s [options] path1 [path2] ...\n\n" %
+    os.path.basename(sys.argv[0]) +
     "The path should be either a text file containing Labview VI output\n" +
     "or a folder containing a Fieldmap.txt created with rotationshield.\n" +
-    "The program will automatically determine which type is being read.\n")
+    "The program will automatically determine which type is being read.")
         
     (opts, args) = parser.parse_args()
 

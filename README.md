@@ -6,7 +6,8 @@ Personal repository for scripts, etc. written for nEDM project at KRL
 `plotter` usage message
 -----------------------
 
-    Usage: %s [options] path1 [path2] ...
+    Usage: plotter [options] path1 [path2] ...
+
     The path should be either a text file containing Labview VI output
     or a folder containing a Fieldmap.txt created with rotationshield.
     The program will automatically determine which type is being read.
