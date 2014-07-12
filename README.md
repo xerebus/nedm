@@ -12,7 +12,6 @@ Personal repository for scripts, etc. written for nEDM project at KRL
     or a folder containing a Fieldmap.txt created with rotationshield.
     The program will automatically determine which type is being read.
 
-
     Options:
       -h, --help            show this help message and exit
       -i, --showx           Show x plots
