@@ -332,7 +332,7 @@ if __name__ == "__main__":
                 field.calc_avg_Bx()
                 norms = np.append(norms, np.float64(field.avg_Bx))
         if norms.size == 0:
-            newnorm = 30
+            newnorm = 30.0
             print "[norm] No measured maps found. Using %f mG." % newnorm
         else:
             newnorm = np.average(norms)
@@ -354,27 +354,37 @@ if __name__ == "__main__":
 
     j = 0 # curve counter
     marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
+    num_markers = len(marker)
     
     for field in fields:
         print "[plot] Plotting curve (%i) %s..." % ((j + 1), field.label)
         if opts.Bx_show and opts.x_show:
-            Bx_v_x.plot(field.x, field.Bx, marker[j], label = field.label)
+            Bx_v_x.plot(field.x, field.Bx, marker[j % num_markers], 
+            label = field.label)
         if opts.Bx_show and opts.y_show:
-            Bx_v_y.plot(field.y, field.Bx, marker[j], label = field.label)
+            Bx_v_y.plot(field.y, field.Bx, marker[j % num_markers], 
+            label = field.label)
         if opts.Bx_show and opts.z_show:
-            Bx_v_z.plot(field.z, field.Bx, marker[j], label = field.label)
+            Bx_v_z.plot(field.z, field.Bx, marker[j % num_markers], 
+            label = field.label)
         if opts.By_show and opts.x_show:
-            By_v_x.plot(field.x, field.By, marker[j], label = field.label)
+            By_v_x.plot(field.x, field.By, marker[j % num_markers], 
+            label = field.label)
         if opts.By_show and opts.y_show:
-            By_v_y.plot(field.y, field.By, marker[j], label = field.label)
+            By_v_y.plot(field.y, field.By, marker[j % num_markers], 
+            label = field.label)
         if opts.By_show and opts.z_show:
-            By_v_z.plot(field.z, field.By, marker[j], label = field.label)
+            By_v_z.plot(field.z, field.By, marker[j % num_markers], 
+            label = field.label)
         if opts.Bz_show and opts.x_show:
-            Bz_v_x.plot(field.x, field.Bz, marker[j], label = field.label)
+            Bz_v_x.plot(field.x, field.Bz, marker[j % num_markers], 
+            label = field.label)
         if opts.Bz_show and opts.y_show:
-            Bz_v_y.plot(field.y, field.Bz, marker[j], label = field.label)
+            Bz_v_y.plot(field.y, field.Bz, marker[j % num_markers], 
+            label = field.label)
         if opts.Bz_show and opts.z_show:
-            Bz_v_z.plot(field.z, field.Bz, marker[j], label = field.label)
+            Bz_v_z.plot(field.z, field.Bz, marker[j % num_markers], 
+            label = field.label)
         j += 1
 
     fontp = FontProperties()
