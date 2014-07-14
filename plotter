@@ -157,7 +157,7 @@ class Field:
         assert self.is_simmap, ("Why are you trying to normalize a measured " +
         "field?")
 
-        self.calc_sim_avg_Bx()
+        self.calc_avg_Bx()
         scale = newnorm / self.avg_Bx
 
         self.Bx *= scale
