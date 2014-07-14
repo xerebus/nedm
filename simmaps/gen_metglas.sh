@@ -1,10 +1,8 @@
 #!/bin/bash
 
-cd metglas1mm
+cd Metglas2cmLongerBoth/
 ./exec.sh
-cd ../metglas1cm
+cd ../Metglas2cmLongerTop/
 ./exec.sh
-cd ../metglas3cm
-./exec.sh
-cd ../metglas5cm
+cd ../Metglas2cmLongerBottom/
 ./exec.sh
