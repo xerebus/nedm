@@ -137,12 +137,14 @@ class Field:
         '''Calculate the average Bx around the center from existing data.'''
 
         center_box_size = 0.01
+
+        print "[TEST] cbox = %f; method = NEW" % center_box_size
         
-        print "[calc] (NEW) Finding data points around center..."
+        print "[calc] Finding data points around center..."
 
         x_small = find_indices(np.abs(self.x) <= center_box_size)
         y_small = find_indices(np.abs(self.y) <= center_box_size)
-        z_small = find_indices(np.abs(self.z) <= center_box_size)
+        z_small = find_indices(np.abs(self.z - 0.8) <= center_box_size)
         close_to_center = np.intersect1d(x_small, y_small, z_small)
         print "[calc] Taking samples from %i points." % len(close_to_center)
 
@@ -158,11 +160,13 @@ class Field:
         field that will be used to calculate the normalization factor.'''
 
         center_box_size = 0.01
+
+        print "[TEST] cbox = %f; method = OLD" % center_box_size
         
         assert self.is_simmap, "This only works for simulated maps."
         statpath = self.path + "/Fieldstats.txt"
 
-        print "[calc] (OLD) Finding additional rotationshield output..."
+        print "[calc] Finding additional rotationshield output..."
 
         try:
             f = open(statpath, 'r')
