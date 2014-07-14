@@ -1,0 +1,30 @@
+[TEST] cbox = 0.010000; method = NEW
+[calc] Finding data points around center...
+[calc] Taking samples from 675 points.
+[calc] Calculated average Bx as 2.017266 mG.
+
+[TEST] cbox = 0.020000; method = NEW
+[calc] Finding data points around center...
+[calc] Taking samples from 1875 points.
+[calc] Calculated average Bx as 2.017289 mG.
+
+[TEST] cbox = 0.030000; method = NEW
+[calc] Finding data points around center...
+[calc] Taking samples from 3675 points.
+[calc] Calculated average Bx as 2.017322 mG.
+
+
+[TEST] cbox = 0.010000; method = OLD
+[calc] Finding additional rotationshield output...
+[calc] Found Fieldstats.txt.
+[calc] Calculated average Bx as 2.708302 mG.
+
+[TEST] cbox = 0.020000; method = OLD
+[calc] Finding additional rotationshield output...
+[calc] Found Fieldstats.txt.
+[calc] Calculated average Bx as 2.708477 mG.
+
+[TEST] cbox = 0.030000; method = OLD
+[calc] Finding additional rotationshield output...
+[calc] Found Fieldstats.txt.
+[calc] Calculated average Bx as 2.708766 mG.
