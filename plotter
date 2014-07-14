@@ -13,6 +13,11 @@ import math
 
 from matplotlib.font_manager import FontProperties
 
+# FOR LEGACY NORMALIZATION SUPPORT - REMOVE AFTER TESTING
+sys.path.append("rotationshield/Scripts/")
+from StudyPlotter import *
+# END BLOCK
+
 def find_indices(array_condition):
     '''Given a 1D numpy array, finds indices where the value in the array
     meets the condition. Condition should be written in terms of array, not
@@ -133,7 +138,7 @@ class Field:
 
         center_box_size = 0.01
         
-        print "[calc] Finding data points around center..."
+        print "[calc] (NEW) Finding data points around center..."
 
         x_small = find_indices(np.abs(self.x) <= center_box_size)
         y_small = find_indices(np.abs(self.y) <= center_box_size)
@@ -146,6 +151,31 @@ class Field:
             Bx_sample = np.append(Bx_sample, self.Bx[index])
 
         self.avg_Bx = np.average(Bx_sample)
+        print "[calc] Calculated average Bx as %f mG." % self.avg_Bx
+
+    def calc_sim_avg_Bx(self):
+        '''Find Fieldstats.txt and obtain the average B
+        field that will be used to calculate the normalization factor.'''
+
+        center_box_size = 0.01
+        
+        assert self.is_simmap, "This only works for simulated maps."
+        statpath = self.path + "/Fieldstats.txt"
+
+        print "[calc] (OLD) Finding additional rotationshield output..."
+
+        try:
+            f = open(statpath, 'r')
+            print "[calc] Found Fieldstats.txt."
+        except IOError:
+            raise ValueError("%s appears to be missing Fieldstats.txt" % ipath)
+
+        this_BC = BCell(statpath)
+        # scaling factors
+        this_BC.ll = (-center_box_size, -center_box_size, -center_box_size)
+        this_BC.ur = (center_box_size, center_box_size, center_box_size)
+
+        self.avg_Bx = this_BC.avgB()[0]
         print "[calc] Calculated average Bx as %f mG." % self.avg_Bx
 
     def normalize(self, newnorm):
