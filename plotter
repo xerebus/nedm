@@ -133,8 +133,6 @@ class Field:
 
         center_box_size = 0.01
 
-        print "[TEST] cbox = %f; method = NEW" % center_box_size
-        
         print "[calc] Finding data points around center..."
 
         x_small = find_indices(np.abs(self.x) <= center_box_size)
