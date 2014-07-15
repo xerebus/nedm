@@ -197,7 +197,8 @@ class Field:
             elim_z = []
         
         elim_indices = elim_x + elim_y + elim_z
-        print "[slcf] Eliminating %i points outside slice." % len(elim_indices)
+        print "[slcf] Eliminating %i points from %s." % (len(elim_indices),
+        self.label)
 
         self.x = np.delete(self.x, elim_indices)
         self.y = np.delete(self.y, elim_indices)
@@ -390,6 +391,8 @@ if __name__ == "__main__":
     fontp = FontProperties()
     fontp.set_size("small")
     
+    title = "Field slice in [m]: x = %s, y = %s, z = %s" % (opts.sx, opts.sy, opts.sz)
+    plt.suptitle(title, fontsize = "large", fontweight = "bold")
     plt.legend(loc = 2, prop = fontp)
 
     print "[plot] === Plotting done."
