@@ -233,6 +233,9 @@ if __name__ == "__main__":
     parser.add_option("-n", "--normal", action = "store", dest = "newnorm",
     help = "Custom normalization level in mG.", default = None)
 
+    parser.add_option("-l", "--loc", action = "store", dest = "legloc",
+    help = "Override legend location (see matplotlib docs).", default = 2)
+    
     parser.add_option("-x", "--slicex", action = "store", dest = "sx",
     help = "Restrict to points near x = SX.", default = None)
     parser.add_option("-y", "--slicey", action = "store", dest = "sy",
@@ -393,7 +396,7 @@ if __name__ == "__main__":
     
     title = "Field slice in [m]: x = %s, y = %s, z = %s" % (opts.sx, opts.sy, opts.sz)
     plt.suptitle(title, fontsize = "large", fontweight = "bold")
-    plt.legend(loc = 2, prop = fontp)
+    plt.legend(loc = int(opts.legloc), prop = fontp)
 
     print "[plot] === Plotting done."
     plt.show()
