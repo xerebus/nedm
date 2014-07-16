@@ -279,34 +279,35 @@ if __name__ == "__main__":
     # create the correct number of subplots
     
     fig = plt.figure()
-    i = 1 # subplot counter
+    i = 0 # subplot counter
 
     if opts.Bx_show == True and opts.x_show == True:
-        Bx_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "Bx")
+        Bx_v_x = fig.add_subplot(vert, horiz, i + 1, xlabel = "x", ylabel = "Bx")
         i += 1
     if opts.Bx_show == True and opts.y_show == True:
-        Bx_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "Bx")
+        Bx_v_y = fig.add_subplot(vert, horiz, i + 1, xlabel = "y", ylabel = "Bx")
         i += 1
     if opts.Bx_show == True and opts.z_show == True:
-        Bx_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "Bx")
+        Bx_v_z = fig.add_subplot(vert, horiz, i + 1, xlabel = "z", ylabel = "Bx")
         i += 1
     if opts.By_show == True and opts.x_show == True:
-        By_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "By")
+        By_v_x = fig.add_subplot(vert, horiz, i + 1, xlabel = "x", ylabel = "By")
         i += 1
     if opts.By_show == True and opts.y_show == True:
-        By_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "By")
+        By_v_y = fig.add_subplot(vert, horiz, i + 1, xlabel = "y", ylabel = "By")
         i += 1
     if opts.By_show == True and opts.z_show == True:
-        By_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "By")
+        By_v_z = fig.add_subplot(vert, horiz, i + 1, xlabel = "z", ylabel = "By")
         i += 1
     if opts.Bz_show == True and opts.x_show == True:
-        Bz_v_x = fig.add_subplot(vert, horiz, i, xlabel = "x", ylabel = "Bz")
+        Bz_v_x = fig.add_subplot(vert, horiz, i + 1, xlabel = "x", ylabel = "Bz")
         i += 1
     if opts.Bz_show == True and opts.y_show == True:
-        Bz_v_y = fig.add_subplot(vert, horiz, i, xlabel = "y", ylabel = "Bz")
+        Bz_v_y = fig.add_subplot(vert, horiz, i + 1, xlabel = "y", ylabel = "Bz")
         i += 1
     if opts.Bz_show == True and opts.z_show == True:
-        Bz_v_z = fig.add_subplot(vert, horiz, i, xlabel = "z", ylabel = "Bz")
+        Bz_v_z = fig.add_subplot(vert, horiz, i + 1, xlabel = "z", ylabel = "Bz")
+        i += 1
 
     print "[plot] === %i plots will be made." % i
 
