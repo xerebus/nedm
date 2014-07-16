@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+# find_dups (Aritra Biswas)
+# Quick script to find duplicate points in EnviroFieldVI output
+
+import sys
+
+if len(sys.argv) > 2:
+    raise ValueError("Can only handle one file.")
+
+f = open(sys.argv[1])
+
+old_data = (0.0,) * 3 * 5
+dups = 0
+points = 0
+
+header = f.readline()
+
+for line in f:
+
+    new_data = (line.split())[6:]
+    assert len(old_data) == len(new_data)
+   
+    for i in xrange(len(old_data)):
+        if float(new_data[i]) != 0:
+            points += 1
+            if float(new_data[i]) == float(old_data[i]):
+                dups += 1
+
+    old_data = new_data
+
+f.close()
+
+pct = (float(dups)/float(points)) * 100
+
+print "%i duplications in %i points: %f percent bad data" % (dups, points, pct)
