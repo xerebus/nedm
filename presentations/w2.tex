@@ -1,7 +1,7 @@
 \documentclass{beamer}
 \usepackage{graphicx}
 
-\newcommand{\pyplot}{\includegraphics[width=\textwidth, trim=50px 50px 50px 50px]}
+\newcommand{\pyplot}{\includegraphics[width=\textwidth, trim=60px 60px 60px 40px]}
 
 
 \begin{document}
@@ -12,26 +12,119 @@
 \begin{frame}
 \frametitle{\texttt{plotter} script} \pause
 
-\begin{itemize}
-\item 324 sloc \pause
-\item reads \texttt{RotationShield} and FieldMapping VI input \pause
-\item uses new normalization method \pause
     \begin{itemize}
-    \item average of data points near $(0, 0, 0)$ vs. polynomial fit \pause
-    \item calculates desired normalization level - average $B_x$ of measured maps \pause
+    \item 324 sloc \pause
+    \item reads \texttt{RotationShield} and FieldMapping VI input \pause
+    \item uses new normalization method \pause
+        \begin{itemize}
+        \item average of data points near $(0, 0, 0)$ vs. polynomial fit \pause
+        \item calculates desired normalization level - average $B_x$ of measured maps \pause
+        \end{itemize}
+    \item handles custom field slices \pause
+    \item to-do: field gradients, interpolation, smooth plots
     \end{itemize}
-\item handles custom field slices \pause
-\item to-do: interpolation, smooth plots
-\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{10 cm offset between map \& simulation}
+
+    \begin{center}
+    \pyplot{../savedplots/original_Bz.eps}
+    \end{center}
 
 \end{frame}
 
 \begin{frame}
-\frametitle{offset between map \& simulation}
+\frametitle{10 cm offset between map \& simulation}
 
-\begin{center}
-\pyplot{../savedplots/original_offset.eps}
-\end{center}
+    \begin{center}
+    \pyplot{../savedplots/original_Bx.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{modifications to account for 10 cm offset}
+
+    \begin{itemize}
+    \item varied metglas thickness from 5 cm to 1 mm \\ (closest to actual) \pause
+    \item extended metglas slightly (2 cm) above $B_0$ coil \pause
+    \item extended metglas far (10 cm) above $B_0$ coil to highlight effects
+    \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{varying thickness: small change in $B$ magnitude, no shift}
+
+    \begin{center}
+    \pyplot{../savedplots/thickness_Bz.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{varying thickness: small change in $B$ magnitude, no shift}
+
+    \begin{center}
+    \pyplot{../savedplots/thickness_Bx.eps}
+    \end{center}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{2 cm longer on top: small magnitude change}
+
+    \begin{center}
+    \pyplot{../savedplots/longer2cm_Bz.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{2 cm longer on top: small magnitude change}
+
+    \begin{center}
+    \pyplot{../savedplots/longer2cm_Bx.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{10 cm longer on top: confirms magnitude change}
+
+    \begin{center}
+    \pyplot{../savedplots/longer10cm_Bz.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{10 cm longer on top: confirms magnitude change}
+
+    \begin{center}
+    \pyplot{../savedplots/longer10cm_Bx.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{other things to try} \pause
+
+    \begin{itemize}
+    \item metglas shearing - hard to model \pause
+        \begin{itemize}
+        \item \texttt{RotationShield} handles arbitrary fields (e.g. you can put \\ a line
+        current anywhere) \pause
+        \item but before applying the field it builds an interaction matrix - \\ requires
+        azimuthal symmetry \pause
+        \end{itemize}
+    \item rigorously check centering, dimensions of experimental setup \pause
+    \end{itemize}
 
 \end{frame}
 
