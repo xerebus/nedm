@@ -1,0 +1,38 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+
+\newcommand{\pyplot}{\includegraphics[width=\textwidth, trim=50px 50px 50px 50px]}
+
+
+\begin{document}
+
+\title{Week 2}
+\maketitle
+
+\begin{frame}
+\frametitle{\texttt{plotter} script} \pause
+
+\begin{itemize}
+\item 324 sloc \pause
+\item reads \texttt{RotationShield} and FieldMapping VI input \pause
+\item uses new normalization method \pause
+    \begin{itemize}
+    \item average of data points near $(0, 0, 0)$ vs. polynomial fit \pause
+    \item calculates desired normalization level - average $B_x$ of measured maps \pause
+    \end{itemize}
+\item handles custom field slices \pause
+\item to-do: interpolation, smooth plots
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{offset between map \& simulation}
+
+\begin{center}
+\pyplot{../savedplots/original_offset.eps}
+\end{center}
+
+\end{frame}
+
+\end{document}
