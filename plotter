@@ -232,6 +232,13 @@ if __name__ == "__main__":
     parser.add_option("-Z", "--showBz", action = "store_true", dest = "Bz_show",
     help = "Show Bz plots", default = False)
 
+    parser.add_option("-x", "--slicex", action = "store", dest = "sx",
+    help = "Restrict to points near x = SX.", default = None)
+    parser.add_option("-y", "--slicey", action = "store", dest = "sy",
+    help = "Restrict to points near y = SY.", default = None)
+    parser.add_option("-z", "--slicez", action = "store", dest = "sz",
+    help = "Restrict to points near z = SZ.", default = None)
+
     parser.add_option("-b", "--background", action = "store", dest = "bgpath",
     help = ("Specify a path to a VI-output text file containing background " +
     " data. This data will be subtracted from all other VI-output data."),
@@ -246,12 +253,6 @@ if __name__ == "__main__":
     parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
     help = "Flip all plots. Useful to demonstrate anti-symmetry.", default = False)
     
-    parser.add_option("-x", "--slicex", action = "store", dest = "sx",
-    help = "Restrict to points near x = SX.", default = None)
-    parser.add_option("-y", "--slicey", action = "store", dest = "sy",
-    help = "Restrict to points near y = SY.", default = None)
-    parser.add_option("-z", "--slicez", action = "store", dest = "sz",
-    help = "Restrict to points near z = SZ.", default = None)
     
     parser.usage = ("%s [options] path1 [path2] ...\n\n" %
     os.path.basename(sys.argv[0]) +
@@ -366,8 +367,8 @@ if __name__ == "__main__":
     print "[slcf] Slicing done."
 
     # flip if wanted
-    print "[flip] Flipping plots as requested."
     if opts.flip:
+        print "[flip] Flipping plots as requested."
         for field in fields:
             field.flip()
     

@@ -20,12 +20,15 @@ Personal repository for scripts, etc. written for nEDM project at KRL
       -X, --showBx          Show Bx plots
       -Y, --showBy          Show By plots
       -Z, --showBz          Show Bz plots
+      -x SX, --slicex=SX    Restrict to points near x = SX.
+      -y SY, --slicey=SY    Restrict to points near y = SY.
+      -z SZ, --slicez=SZ    Restrict to points near z = SZ.
       -b BGPATH, --background=BGPATH
                             Specify a path to a VI-output text file containing
                             background  data. This data will be subtracted from
                             all other VI-output data.
       -n NEWNORM, --normal=NEWNORM
                             Custom normalization level in mG.
-      -x SX, --slicex=SX    Restrict to points near x = SX.
-      -y SY, --slicey=SY    Restrict to points near y = SY.
-      -z SZ, --slicez=SZ    Restrict to points near z = SZ.
+      -l LEGLOC, --loc=LEGLOC
+                            Override legend location (see matplotlib docs).
+      -f, --flip            Flip all plots. Useful to demonstrate anti-symmetry.
