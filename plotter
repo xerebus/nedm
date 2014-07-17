@@ -207,6 +207,13 @@ class Field:
         self.By = np.delete(self.By, elim_indices)
         self.Bz = np.delete(self.Bz, elim_indices)
 
+    def flip(self):
+        '''Invert Bx, By, and Bz.'''
+
+        self.Bx *= -1
+        self.By *= -1
+        self.Bz *= -1
+
 
 if __name__ == "__main__":
 
@@ -235,6 +242,9 @@ if __name__ == "__main__":
 
     parser.add_option("-l", "--loc", action = "store", dest = "legloc",
     help = "Override legend location (see matplotlib docs).", default = 2)
+
+    parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
+    help = "Flip all plots. Useful to demonstrate anti-symmetry.", default = False)
     
     parser.add_option("-x", "--slicex", action = "store", dest = "sx",
     help = "Restrict to points near x = SX.", default = None)
@@ -354,6 +364,12 @@ if __name__ == "__main__":
     for field in fields:
         field.slice(np.float64(opts.sx), np.float64(opts.sy), np.float64(opts.sz))
     print "[slcf] Slicing done."
+
+    # flip if wanted
+    print "[flip] Flipping plots as requested."
+    if opts.flip:
+        for field in fields:
+            field.flip()
     
     # plot curve for each field
 
