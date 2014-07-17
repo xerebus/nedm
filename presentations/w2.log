@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Debian) (preloaded format=pdflatex 2014.7.16)  16 JUL 2014 17:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Debian) (preloaded format=pdflatex 2014.7.16)  17 JUL 2014 11:05
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1021,8 +1021,6 @@ Package pdftex.def Info: ../savedplots/original_Bx-eps-converted-to.pdf used on
 
 ] [8
 
-] [9
-
 ]
 Package epstopdf Info: Source file: <../savedplots/thickness_Bz.eps>
 (epstopdf)                    date: 2014-07-16 15:47:11
@@ -1036,14 +1034,14 @@ eps-converted-to.pdf ../savedplots/thickness_Bz.eps>
 (epstopdf)             \includegraphics on input line 67.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/thickness_Bz-eps-converted-to.pdf, id=390, 718.685pt x 424.58624
+<../savedplots/thickness_Bz-eps-converted-to.pdf, id=366, 718.685pt x 424.58624
 pt>
 File: ../savedplots/thickness_Bz-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/thickness_Bz-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/thickness_Bz-eps-converted-to.pdf used o
 n input line 67.
 (pdftex.def)             Requested size: 307.28987pt x 166.5376pt.
- [10
+ [9
 
  <../savedplots/thickness_Bz-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/thickness_Bx.eps>
@@ -1058,14 +1056,14 @@ eps-converted-to.pdf ../savedplots/thickness_Bx.eps>
 (epstopdf)             \includegraphics on input line 76.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/thickness_Bx-eps-converted-to.pdf, id=484, 718.685pt x 424.58624
+<../savedplots/thickness_Bx-eps-converted-to.pdf, id=459, 718.685pt x 424.58624
 pt>
 File: ../savedplots/thickness_Bx-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/thickness_Bx-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/thickness_Bx-eps-converted-to.pdf used o
 n input line 76.
 (pdftex.def)             Requested size: 307.28987pt x 166.5376pt.
- [11
+ [10
 
  <../savedplots/thickness_Bx-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/longer2cm_Bz.eps>
@@ -1080,14 +1078,14 @@ eps-converted-to.pdf ../savedplots/longer2cm_Bz.eps>
 (epstopdf)             \includegraphics on input line 86.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/longer2cm_Bz-eps-converted-to.pdf, id=577, 718.685pt x 424.58624
+<../savedplots/longer2cm_Bz-eps-converted-to.pdf, id=552, 718.685pt x 424.58624
 pt>
 File: ../savedplots/longer2cm_Bz-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/longer2cm_Bz-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/longer2cm_Bz-eps-converted-to.pdf used o
 n input line 86.
 (pdftex.def)             Requested size: 307.28987pt x 166.5376pt.
- [12
+ [11
 
  <../savedplots/longer2cm_Bz-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/longer2cm_Bx.eps>
@@ -1102,14 +1100,14 @@ eps-converted-to.pdf ../savedplots/longer2cm_Bx.eps>
 (epstopdf)             \includegraphics on input line 95.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/longer2cm_Bx-eps-converted-to.pdf, id=674, 718.685pt x 424.58624
+<../savedplots/longer2cm_Bx-eps-converted-to.pdf, id=648, 718.685pt x 424.58624
 pt>
 File: ../savedplots/longer2cm_Bx-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/longer2cm_Bx-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/longer2cm_Bx-eps-converted-to.pdf used o
 n input line 95.
 (pdftex.def)             Requested size: 307.28987pt x 166.5376pt.
- [13
+ [12
 
  <../savedplots/longer2cm_Bx-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/longer10cm_Bz.eps>
@@ -1124,14 +1122,14 @@ to.pdf>
 (epstopdf)             \includegraphics on input line 104.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/longer10cm_Bz-eps-converted-to.pdf, id=771, 718.685pt x 424.5862
+<../savedplots/longer10cm_Bz-eps-converted-to.pdf, id=745, 718.685pt x 424.5862
 4pt>
 File: ../savedplots/longer10cm_Bz-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/longer10cm_Bz-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/longer10cm_Bz-eps-converted-to.pdf used 
 on input line 104.
 (pdftex.def)             Requested size: 307.28987pt x 166.5376pt.
- [14
+ [13
 
  <../savedplots/longer10cm_Bz-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/longer10cm_Bx.eps>
@@ -1146,22 +1144,22 @@ to.pdf>
 (epstopdf)             \includegraphics on input line 113.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/longer10cm_Bx-eps-converted-to.pdf, id=867, 718.685pt x 424.5862
+<../savedplots/longer10cm_Bx-eps-converted-to.pdf, id=842, 718.685pt x 424.5862
 4pt>
 File: ../savedplots/longer10cm_Bx-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/longer10cm_Bx-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/longer10cm_Bx-eps-converted-to.pdf used 
 on input line 113.
 (pdftex.def)             Requested size: 307.28987pt x 166.5376pt.
- [15
+ [14
 
- <../savedplots/longer10cm_Bx-eps-converted-to.pdf>] [16
+ <../savedplots/longer10cm_Bx-eps-converted-to.pdf>] [15
+
+] [16
 
 ] [17
 
 ] [18
-
-] [19
 
 ]
 Package epstopdf Info: Source file: <../savedplots/notshear_Bx_0.eps>
@@ -1176,7 +1174,7 @@ to.pdf>
 (epstopdf)             \includegraphics on input line 139.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/notshear_Bx_0-eps-converted-to.pdf, id=1066, 718.685pt x 424.586
+<../savedplots/notshear_Bx_0-eps-converted-to.pdf, id=1040, 718.685pt x 424.586
 24pt>
 File: ../savedplots/notshear_Bx_0-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/notshear_Bx_0-eps-converted-to.pdf>
@@ -1188,7 +1186,7 @@ LaTeX Font Info:    Try loading font information for TS1+cmss on input line 139
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmss.fd
 File: ts1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-) [20
+) [19
 
  <../savedplots/notshear_Bx_0-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/notshear_Bx_180.eps>
@@ -1203,7 +1201,7 @@ d-to.pdf>
 (epstopdf)             \includegraphics on input line 149.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/notshear_Bx_180-eps-converted-to.pdf, id=1153, 718.685pt x 424.5
+<../savedplots/notshear_Bx_180-eps-converted-to.pdf, id=1128, 718.685pt x 424.5
 8624pt>
 File: ../savedplots/notshear_Bx_180-eps-converted-to.pdf Graphic file (type pdf
 )
@@ -1211,7 +1209,7 @@ File: ../savedplots/notshear_Bx_180-eps-converted-to.pdf Graphic file (type pdf
 Package pdftex.def Info: ../savedplots/notshear_Bx_180-eps-converted-to.pdf use
 d on input line 149.
 (pdftex.def)             Requested size: 307.28987pt x 166.5376pt.
- [21
+ [20
 
  <../savedplots/notshear_Bx_180-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/notshear_Bz_0_flipped.eps>
@@ -1219,20 +1217,14 @@ Package epstopdf Info: Source file: <../savedplots/notshear_Bz_0_flipped.eps>
 (epstopdf)                    size: 42687 bytes
 (epstopdf)             Output file: <../savedplots/notshear_Bz_0_flipped-eps-co
 nverted-to.pdf>
-(epstopdf)                    date: 2014-07-16 17:41:52
-(epstopdf)                    size: 37183 bytes
+(epstopdf)                    date: 2014-07-16 17:43:18
+(epstopdf)                    size: 37186 bytes
 (epstopdf)             Command: <epstopdf --outfile=../savedplots/notshear_Bz_0
 _flipped-eps-converted-to.pdf ../savedplots/notshear_Bz_0_flipped.eps>
 (epstopdf)             \includegraphics on input line 159.
-runsystem(epstopdf --outfile=../savedplots/notshear_Bz_0_flipped-eps-converted-
-to.pdf ../savedplots/notshear_Bz_0_flipped.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <../savedplots/notshear_Bz_0_flipped-eps-co
-nverted-to.pdf>
-(epstopdf)                    date: 2014-07-16 17:43:18
-(epstopdf)                    size: 37186 bytes.
-
-<../savedplots/notshear_Bz_0_flipped-eps-converted-to.pdf, id=1240, 718.685pt x
+<../savedplots/notshear_Bz_0_flipped-eps-converted-to.pdf, id=1215, 718.685pt x
  400.49625pt>
 File: ../savedplots/notshear_Bz_0_flipped-eps-converted-to.pdf Graphic file (ty
 pe pdf)
@@ -1241,7 +1233,7 @@ Package pdftex.def Info: ../savedplots/notshear_Bz_0_flipped-eps-converted-to.p
 df used on input line 159.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
 
-[22
+[21
 
  <../savedplots/notshear_Bz_0_flipped-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/notshear_Bz_180.eps>
@@ -1256,7 +1248,7 @@ d-to.pdf>
 (epstopdf)             \includegraphics on input line 169.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/notshear_Bz_180-eps-converted-to.pdf, id=1325, 718.685pt x 400.4
+<../savedplots/notshear_Bz_180-eps-converted-to.pdf, id=1300, 718.685pt x 400.4
 9625pt>
 File: ../savedplots/notshear_Bz_180-eps-converted-to.pdf Graphic file (type pdf
 )
@@ -1264,15 +1256,15 @@ File: ../savedplots/notshear_Bz_180-eps-converted-to.pdf Graphic file (type pdf
 Package pdftex.def Info: ../savedplots/notshear_Bz_180-eps-converted-to.pdf use
 d on input line 169.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
- [23
+ [22
 
- <../savedplots/notshear_Bz_180-eps-converted-to.pdf>] [24
+ <../savedplots/notshear_Bz_180-eps-converted-to.pdf>] [23
+
+] [24
 
 ] [25
 
 ] [26
-
-] [27
 
 ]
 \tf@nav=\write6
@@ -1299,29 +1291,32 @@ LaTeX Font Warning: Size substitutions with differences
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 191.
  ) 
 Here is how much of TeX's memory you used:
- 16967 strings out of 495021
- 323161 string characters out of 6181344
+ 16966 strings out of 495021
+ 323154 string characters out of 6181344
  379843 words of memory out of 5000000
  19723 multiletter control sequences out of 15000+600000
  16073 words of font info for 61 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  48i,14n,51p,431b,553s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/abiswas/.texmf-var/fonts/pk/ljfour/jknappen/ec/tcss1440.600pk></usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmssi12.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/s
-ymbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/sy
-mbols/msam7.pfb>
-Output written on w2.pdf (27 pages, 609244 bytes).
+pdfTeX warning (dest): name{Navigation27} has been referenced but does not ex
+ist, replaced by a fixed one
+
+ </home/abiswas/.texmf-var/fonts/pk/ljfour/jknappen/ec/tcss1440.600pk></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmssi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/sym
+bols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
+ols/msam7.pfb>
+Output written on w2.pdf (26 pages, 607301 bytes).
 PDF statistics:
- 1566 PDF objects out of 1728 (max. 8388607)
- 783 compressed objects within 8 object streams
- 55 named destinations out of 1000 (max. 500000)
+ 1541 PDF objects out of 1728 (max. 8388607)
+ 759 compressed objects within 8 object streams
+ 54 named destinations out of 1000 (max. 500000)
  103 words of extra memory for PDF output out of 10000 (max. 10000000)
 
