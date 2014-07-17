@@ -1,5 +1,5 @@
 \documentclass{beamer}
-\usepackage{graphicx}
+\usepackage{graphicx, amsmath, amssymb, textcomp}
 
 \newcommand{\pyplot}{\includegraphics[width=\textwidth, trim=60px 60px 60px 40px]}
 
@@ -10,17 +10,17 @@
 \maketitle
 
 \begin{frame}
-\frametitle{\texttt{plotter} script} \pause
+\frametitle{\texttt{plotter} script}
 
     \begin{itemize}
-    \item 324 sloc \pause
-    \item reads \texttt{RotationShield} and FieldMapping VI input \pause
-    \item uses new normalization method \pause
+    \item 324 sloc
+    \item reads \texttt{RotationShield} and FieldMapping VI input
+    \item uses new normalization method
         \begin{itemize}
-        \item average of data points near $(0, 0, 0)$ vs. polynomial fit \pause
-        \item calculates desired normalization level - average $B_x$ of measured maps \pause
+        \item average of data points near $(0, 0, 0)$ vs. polynomial fit
+        \item calculates desired normalization level - average $B_x$ of measured maps
         \end{itemize}
-    \item handles custom field slices \pause
+    \item handles custom field slices
     \item to-do: field gradients, interpolation, smooth plots
     \end{itemize}
 
@@ -46,12 +46,12 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{modifications to account for 10 cm offset}
+\frametitle{modifications to account for 10 cm offset} \pause
 
     \begin{itemize}
     \item varied metglas thickness from 5 cm to 1 mm \\ (closest to actual) \pause
     \item extended metglas slightly (2 cm) above $B_0$ coil \pause
-    \item extended metglas far (10 cm) above $B_0$ coil to highlight effects
+    \item extended metglas far (10 cm) above $B_0$ coil to highlight effects \pause
     \end{itemize}
 
 \end{frame}
@@ -113,7 +113,7 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{other things to try} \pause
+\frametitle{other things to try}
 
     \begin{itemize}
     \item metglas shearing - hard to model \pause
@@ -122,6 +122,66 @@
         current anywhere) \pause
         \item but before applying the field it builds an interaction matrix - \\ requires
         azimuthal symmetry \pause
+        \item would probably affect azimuthal symmetry in measured map
+        \end{itemize}
+    \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{azimuthal symmetry: 0\textdegree}
+
+    \begin{center}
+    \pyplot{../savedplots/notshear_Bx_0.eps}
+    \end{center}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{azimuthal symmetry: 180\textdegree}
+
+    \begin{center}
+    \pyplot{../savedplots/notshear_Bx_180.eps}
+    \end{center}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{azimuthal symmetry: 0\textdegree, $B_z$ axis flipped}
+
+    \begin{center}
+    \pyplot{../savedplots/notshear_Bz_0_flipped.eps}
+    \end{center}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{azimuthal symmetry: 180\textdegree}
+
+    \begin{center}
+    \pyplot{../savedplots/notshear_Bz_180.eps}
+    \end{center}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{other things to try}
+
+    \begin{itemize}
+    \item metglas shearing - hard to model
+        \begin{itemize}
+        \item \texttt{RotationShield} handles arbitrary fields (e.g. you can put \\ a line
+        current anywhere)
+        \item but before applying the field it builds an interaction matrix - \\ requires
+        azimuthal symmetry
+        \item would probably affect azimuthal symmetry in measured map \pause
+        \item either the shear doesn't cause a peak shift \pause
+        \item or it's aligned exactly along the $y$-axis \pause
         \end{itemize}
     \item rigorously check centering, dimensions of experimental setup
     \end{itemize}
