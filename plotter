@@ -133,12 +133,17 @@ class Field:
 
         center_box_size = 0.01
 
-        print "[calc] Finding data points around center..."
+        print "[calc] Finding data points around desired location..."
 
         x_small = find_indices(np.abs(self.x) <= center_box_size)
         y_small = find_indices(np.abs(self.y) <= center_box_size)
-        z_small = find_indices(np.abs(self.z - 0.8) <= center_box_size)
-        close_to_center = np.intersect1d(x_small, y_small, z_small)
+        z_small = find_indices(np.abs(self.z - 0.4) <= center_box_size)
+
+        assert len(x_small) > 0, "Cannot find points near desired location."
+        assert len(y_small) > 0, "Cannot find points near desired location."
+        assert len(z_small) > 0, "Cannot find points near desired location."
+
+        close_to_center = np.intersect1d(np.intersect1d(x_small, y_small), z_small)
         print "[calc] Taking samples from %i points." % len(close_to_center)
 
         Bx_sample = np.array([])
