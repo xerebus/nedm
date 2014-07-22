@@ -139,19 +139,19 @@ class Field:
         y_small = find_indices(np.abs(self.y) <= center_box_size)
         z_small = find_indices(np.abs(self.z - 0.4) <= center_box_size)
 
-        assert len(x_small) > 0, "Cannot find points near desired location."
-        assert len(y_small) > 0, "Cannot find points near desired location."
-        assert len(z_small) > 0, "Cannot find points near desired location."
-
         close_to_center = np.intersect1d(np.intersect1d(x_small, y_small), z_small)
-        print "[calc] Taking samples from %i points." % len(close_to_center)
-
-        Bx_sample = np.array([])
-        for index in close_to_center:
-            Bx_sample = np.append(Bx_sample, self.Bx[index])
-
-        self.avg_Bx = np.average(Bx_sample)
-        print "[calc] Calculated average Bx as %f mG." % self.avg_Bx
+        
+        if len(close_to_center) == 0:
+            print "[calc] No suitable points to calculate average Bx."
+            print "[calc] Defaulting to 540.0 mG."
+            self.avg_Bx = 540.0
+        else:
+            print "[calc] Taking samples from %i points." % len(close_to_center)
+            Bx_sample = np.array([])
+            for index in close_to_center:
+                Bx_sample = np.append(Bx_sample, self.Bx[index])
+            self.avg_Bx = np.average(Bx_sample)
+            print "[calc] Calculated average Bx as %f mG." % self.avg_Bx
 
     def normalize(self, newnorm):
         '''Given 'newnorm', the desired average field in the middle, scale a
@@ -163,6 +163,8 @@ class Field:
         self.calc_avg_Bx()
         scale = newnorm / self.avg_Bx
 
+        print "[norm] Normalizing %s..." % self.label
+
         self.Bx *= scale
         self.By *= scale
         self.Bz *= scale
@@ -173,6 +175,8 @@ class Field:
 
         assert not self.is_simmap, ("Why are you subtracting background " +
         "data from a simulated field?")
+
+        print "[fgbg] Subtracting %s from %s..." % (bgfield.label, self.label)
         
         try:
             self.Bx -= bgfield.Bx
@@ -202,7 +206,7 @@ class Field:
             elim_z = []
         
         elim_indices = elim_x + elim_y + elim_z
-        print "[slcf] Eliminating %i points from %s." % (len(elim_indices),
+        print "[slcf] Eliminating %i points from %s..." % (len(elim_indices),
         self.label)
 
         self.x = np.delete(self.x, elim_indices)
@@ -244,10 +248,10 @@ if __name__ == "__main__":
     parser.add_option("-z", "--slicez", action = "store", dest = "sz",
     help = "Restrict to points near z = SZ.", default = None)
 
-    parser.add_option("-b", "--background", action = "store", dest = "bgpath",
+    parser.add_option("-b", "--background", action = "append", dest = "bgpaths",
     help = ("Specify a path to a VI-output text file containing background " +
     " data. This data will be subtracted from all other VI-output data."),
-    default = None)
+    default = [])
     
     parser.add_option("-n", "--normal", action = "store", dest = "newnorm",
     help = "Custom normalization level in mG.", default = None)
@@ -333,13 +337,28 @@ if __name__ == "__main__":
         fields.append(Field(ipath))
 
     # subtract background data from all measured maps
-    if opts.bgpath is not None:
-        print "[fgbg] Found background file. Subtracting..."
-        bgfield = Field(opts.bgpath)
+    if len(opts.bgpaths) == 1:
+        print "[fgbg] Found single background file. Subtracting..."
+        bgfield = Field(opts.bgpaths[0])
         for field in fields:
             if not field.is_simmap:
                 field.subtract_bg(bgfield)
-        print "[fgbg] Background removed."
+    else:
+        print "[fgbg] Found multiple background files. Subtracting..."
+        i = 0
+        for field in fields:
+            if not field.is_simmap:
+                try:
+                    bgfield = Field(opts.bgpaths[i])
+                except IndexError:
+                    raise ValueError("If you specify multiple " +
+                    "background fields, you must specify one per measured " +
+                    "field.")
+                field.subtract_bg(bgfield)
+                i += 1
+    print "[fgbg] Background removed."
+
+
 
     # normalize all simulation maps
     if opts.newnorm is not None:
@@ -387,31 +406,31 @@ if __name__ == "__main__":
         print "[plot] Plotting curve (%i) %s..." % ((j + 1), field.label)
         if opts.Bx_show and opts.x_show:
             Bx_v_x.plot(field.x, field.Bx, marker[j % num_markers], 
-            label = field.label)
+            linestyle = '--', label = field.label)
         if opts.Bx_show and opts.y_show:
             Bx_v_y.plot(field.y, field.Bx, marker[j % num_markers], 
-            label = field.label)
+            linestyle = '--', label = field.label)
         if opts.Bx_show and opts.z_show:
             Bx_v_z.plot(field.z, field.Bx, marker[j % num_markers], 
-            label = field.label)
+            linestyle = '--', label = field.label)
         if opts.By_show and opts.x_show:
             By_v_x.plot(field.x, field.By, marker[j % num_markers], 
-            label = field.label)
+            linestyle = '--', label = field.label)
         if opts.By_show and opts.y_show:
             By_v_y.plot(field.y, field.By, marker[j % num_markers], 
-            label = field.label)
+            linestyle = '--', label = field.label)
         if opts.By_show and opts.z_show:
             By_v_z.plot(field.z, field.By, marker[j % num_markers], 
-            label = field.label)
+            linestyle = '--', label = field.label)
         if opts.Bz_show and opts.x_show:
             Bz_v_x.plot(field.x, field.Bz, marker[j % num_markers], 
-            label = field.label)
+            linestyle = '--', label = field.label)
         if opts.Bz_show and opts.y_show:
             Bz_v_y.plot(field.y, field.Bz, marker[j % num_markers], 
-            label = field.label)
+            linestyle = '--', label = field.label)
         if opts.Bz_show and opts.z_show:
             Bz_v_z.plot(field.z, field.Bz, marker[j % num_markers], 
-            label = field.label)
+            linestyle = '--', label = field.label)
         j += 1
 
     fontp = FontProperties()
