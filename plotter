@@ -163,8 +163,6 @@ class Field:
         self.calc_avg_Bx()
         scale = newnorm / self.avg_Bx
 
-        print "[norm] Normalizing %s..." % self.label
-
         self.Bx *= scale
         self.By *= scale
         self.Bz *= scale
