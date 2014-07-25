@@ -17,179 +17,134 @@ Laboratory, California Institute of Technology}
 \maketitle
 
 \section{Motivation}
+
+\subsection{Group goal: the half-scale model}
+
 The discovery of charge-parity symmetry (CP) violation 
-in the decay of neutral kaons has incited various attempts to extend the
+in the decay of neutral kaons has inspired attempts to extend the
 Standard Model \cite{cpv}. Measurements of the electric
-dipole moments of various particles provide important restrictions on these
-attempts and could guide these reformulations \cite{ill}.
-
-Previous efforts \cite{ill} to determine the electric dipole
-moment  of the neutron (nEDM)
-have yielded a numerical limit of $|d_n| < 2.9 \times 10^{-26}e\text{ cm}$.
-The nEDM collaboration intends to
-improve this limit \cite{krl} by measuring the behavior of trapped
+dipole moments (EDM) of various particles provide important restrictions
+and clues to guide new models. \cite{ill}.
+The neutron electric dipole moment (nEDM) collaboration intends to
+improve \cite{krl} the currently-measured limit \cite{ill}
+on the nEDM by measuring the Larmor precession of trapped
 ultra-cold neutrons (UCN) in a magnetic field.
-The experiment is currently being modeled at
-half-scale at Caltech.
 
-Determining the nEDM involves observing neutron movement in a magnetic field
-that must be uniform; if not, a
-``geometric phase effect'' creates the same shift in Larmor precession
-that would be measured if there were an EDM, thus creating the semblance
-of a false EDM\cite{coil}.
-The primarily experimental challenge is to create a contained magnetic field
-that can be controlled to point uniformly along a specific direction. To
-eliminate
-the influence of the Earth's field and other interference, and to contain
-the field, the setup is surrounded by a cylindrical
-superconducting lead shield. While
-this method shields the center of the experimental setup well,
-it can create undesired behavior
-in the magnetic field profile at the circular faces of the cylinder, which
-were previously not covered with superconducting material.
+An important obstacle is eliminating a ``geometric phase effect''
+that creates a shift in the UCN precession and results in
+a false EDM reading. Since this effect is caused by high field gradients,
+we need to make the magnetic field as uniform as possible.
+To 
+tackle the engineering challenge of creating an uniform magnetic field,
+we have constructed a half-scale model of the magnet that will be
+used in the nEDM experiment. We are both simulating and measuring
+the effects of various types of shielding ($\mu$-metal,
+ferromagnetic Metglas, and superconducting lead). The ultimate goal is to
+determine the optimal magnet design for the nEDM experiment.
 
-We plan to cover the faces of the cylinder with superconducting lead endcaps
-to create favorable boundary conditions for the magnetic field.
-While various styles of bridging the gap between the cylinder and the endcaps
-for the nEDM experiment have
-been explored \cite{endcapstyles}, further measurements are required to
-determine the effects of these endcaps on the boundary conditions of
-the magnetic field.
+\subsection{SURF goal: superconducting endcaps}
 
-A fuller understanding of these effects is critical to
-controlling the magnetic field and addressing potential challenges in the
-final nEDM experiment before they arise. 
+The current setup (fig. \ref{fig:structure})
+features a cylindrical $\cos\theta$ coil \cite{coil} (referred to as the $B_0$ coil)
+surrounded by concentric shells for shielding.
+This creates an uniform field near the center of the magnet, but
+also creates large gradients near the $\pm z$ boundaries, which could be significantly
+lowered by superconducting lead endcaps.
+
+Since November 2013 (when I first stared work in this group), we have designed and installed
+a bottom endcap. Measurements taken afterwards suggested that a top endcap would be more
+effective. As of July 2014, we have a top endcap installed on the magnet and are preparing
+to cool the lead shielding to superconducting temperature.
+
+The goal of this SURF is to help develop a reliable simulation of
+this endcap, measure its effects, explain any inconsistencies, and determine how effective
+this endcap style will be for the final nEDM experiment.
 
 \begin{figure}
-\includegraphics[width=0.45\textwidth]{out.eps}
+\includegraphics[width=0.45\textwidth]{../edm_1314year/out.eps}
 \caption{\label{fig:structure}Stylized diagram of the experimental
 setup.}
 \end{figure}
 
-\section{Experimental Setup}
+\section{Current status}
 
-The half-scale model magnet model at Caltech, shown in
-Figure \ref{fig:structure}, consists of various
-cylindrical
-shells placed inside each other. The innermost structure is 
-a G-10 plastic rod holding a 3-axis magnetic probe; these are encircled by a
-warm bore cylinder and a liquid nitrogen thermal shield.
+\subsection{Data analysis tools}
 
-Surrounding this foil is
-an acrylic structure with various coils of wire arranged in a $\cos\theta$ coil
-geometry
-to approximate a sheet current and produce the desired magnetic field
-profile \cite{coil}.
-These coils are collectively referred
-to as the $B_0$ coil.
+I have developed various programs to streamline the collection and analysis of data.
+We use National Instruments Labview to interface with temperature sensors, magnetic probes, shimming coils,
+and other apparatus in the lab. Creating a detailed map of the magnetic field often takes several hours,
+and the external magnetic field
+can change dramatically during this time; for example, we have had abberations in our data because a truck
+parked outside the lab. To avoid this issue, I created a program to monitor the external field at various
+locations, allowing us to know when the external field has changed dramatically and to throw out data accordingly.
 
-Each individual current in the $B_0$ coil, including shimming coils
-necessary for correcting non-uniformities in the field \cite{coil}, is
-controlled through a NI LabView Virtual Instrument (VI).
+I have also created a specialized plotting program (currently 324 single lines of code) to analyze the data
+we produce. This plotter manages foreground and background fields, normalizes simulation
+data by calculating the desired field at magnet center, and handles field slices, making it possible to
+compare data from multiple simulated and measured maps at a time.
 
-The $B_0$ coil is covered by a cylindrical Metglas 2705M magnetic
-alloy which serves to redirect the horizontal magnetic field from the $B_0$
-coil vertically along the surface of the Metglas. Surrounding this layer is the
-the superconducting lead cylinder, to which the endcaps in
-question will be attached. The external cryostat shield surrounds this
-structure.
+\subsection{Investigating the field offset}
 
-The bottom endcap is a G-10 annulus with a
-wall along the outer edge; this forms a ``cup'' shape with an access hole
-at the bottom. A lead sheet is fitted along the underside of
-the annulus and around the outside face of the wall, creating an enclosure
-over the top of the wall. The top endcap, while designed, has not yet been
-installed.
+We are using \texttt{RotationShield}, a ``linear matrix solver for systems with cyclic symmetry'' developed previously in the group, \cite{rotshield}
+to simulate our magnet and predict the effects of the superconducting endcap. Before making such predictions
+for the superconducting state, however, we needed to verify the simulation.
+The effects of the lead shield are negligible when the lead is above superconducting temperature, so a simulation
+including only the remaining magnetic shielding (i.e. the Metglas) should agree with measurements taken in
+the non-superconducting state. However, we noted that the measured and simulated maps were significantly offset,
+as show in fig. \ref{fig:orig_Bz_z}. My first task was to explain this discrepancy by investigating every
+difference between the simulated setup and the experimental setup.
 
-Along the lead shield are several helium cooling lines. While there are no
-cooling lines directly on the bottom endcap, the endcap sits on an aluminum
-plate which has cooling lines underneath it. This aluminum plate serves
-as a base for the entire setup and bears the weight of the $B_0$ coil, the
-Metglas shield, the lead shield, and the bottom endcap
-(totaling approximately 500 lbs), and will also cool
-the bottom endcap by contact.
+The simulation was created with a Metglas thickness of 3 cm, even though the Metglas is actually less than 1 mm thick,
+in order to avoid numerical instability in \texttt{RotationShield}. Knowing this, I simulated systems with various
+Metglas thicknesses. Analysis of the resulting data showed that varying the Metglas thickness
+changed the maximum value
+of $B_z$ by a relatively small amount, but did not shift the $B_z$ vs. $z$ curve, so this could not be the cause of
+the discrepancy.
 
-Temperature probes are installed at various points, including on the $B_0$
-coil, on multiple areas of the lead shield, and on multiple areas of the
-bottom lead endcap. Lakeshore DT670 silicon diode temperature sensors are
-used on the endcap.
+In our magnet, the Metglas shield also extends above the $B_0$ coil by a few centimeters. However, including this
+in the simulation also failed to produce a peak shift: even with the Metglas extended 10 cm above the coil (which
+I ran simply to highlight the effects), the offset was not reduced.
 
-\begin{figure}
-\includegraphics[width=0.45\textwidth]{endcap.png}
-\caption{\label{fig:endcap}The lead shield and the attached bottom endcap.}
-\end{figure}
+Another possible explanation was that, in the experiment, the Metglas was slightly sheared - one side was up to
+2 cm higher than the other. It was not possible to include this in the simulation since \texttt{RotationShield} was
+designed to build interaction matrices for azimuthally-symmetric boundary conditions. However, I ruled out the
+shearing as an explanation by examining the measured field map at various angles. If the shearing were to
+produce a peak shift, then data taken along $x = -0.1 \text{ m}, y = 0$ would be shifted relative to data
+taken along $x = 0.1 \text{ m}, y = 0$, unless the shear was exactly aligned with the $y$-axis, which was
+very unlikely.
+Since there was no shift between the data taken along both axes, the shearing could not explain the offset.
 
-\section{Procedure and Measurements}
+After these three explanations were ruled out, I carefully re-measured the dimensions of the coil and the
+Metglas to confirm that the dimensions we were using in the simulation were correct. When this did not
+resolve the offset, we took new field maps.
 
-Over several hours, the cryostat will be evacuated for thermal insulation and
-the cooling lines will bring the lead shield to below superconducting
-temperature (4 K).
+During the third week, I compared all available measured field maps and noticed that there was an offset between
+the measurements themselves. In fact, during the same field map,
+there was an offset between data taken with the magnetic probe
+moving up (from middle to top) and data taken with the probe moving down (from top to middle).
+Only the data taken while the probe moved down agreed nicely with the simulation.
+To investigate
+this issue, I took new field maps with the probe moving back and forth along a vertical axis. We marked the rod
+on which the probe is mounted to confirm that the probe was indeed revisiting the correct positions, and also
+damped any oscillations in the rod to prevent the probe from moving while taking measurements. Finally,
+the group traced the issue to the behavior of the probe's data collection program, which took an average of
+measurements collected over the time taken to move to a point rather than measuring once it had reached that point.
+I confirmed that this eliminated the offset between the going-up and going-down probe paths, and am now in a position
+to collect new field maps and compare those with the simulated data.i
 
-To assess the effectiveness of the bottom endcap design, we will
-measure its temperature over time. Although contact cooling in a vaccuum
-is difficult, because of the 500 pounds of normal force between the
-cooled aluminum plate and the lead endcap, we expect the thermal contact to be
-sufficient to bring the lead endcap to the desired superconducting
-temperature. If the contact is unsuitable, we will explore alternatives such as
-improving the contact surface with thermal grease or considering alternative
-endcap designs where the endcap is cooled directly. 
+\begin{figure*}
+\includegraphics[width=0.95\textwidth]{../savedplots/original_Bz.eps}
+\caption{\label{fig:orig_Bz_z}$B_z$ [mG] vs. $z$ [m] along the line $x = -0.1 \text{ m}, y = 0$.}
+\end{figure*}
 
-We will conduct measurements of the magnetic field gradient
-at multiple points near the bottom endcap and compare these
-gradients with measurements obtained from the center of the apparatus
-and with previous measurements taken before the endcap was installed. These
-gradient comparisons will allow us to determine the general effectiveness of
-the endcap in generating favorable boundary conditions (uniformity of the
-field); in addition, they will provide an additional method to ensure that the
-bottom endcap is indeed superconducting.
+\subsection{Cooldown}
 
-The collection of magnetic probe data
-is carried out in another LabView VI. Data is collected
-for the magnetic fields along three axes to create $B_x, B_y,$ and $B_z$
-arrays, each of which are plotted along the three spatial axes to create nine
-waveform graphs. We plan to analyze this data and create a model of the
-magnetic field behavior near the endcap compared to its behavior in other parts
-of the setup.
+During this time, we have also been cooling the lead shield and endcap. Once the lead temperature drops below
+7 K, I will be able to take the first field map that includes a superconducting top endcap. By that point, I will
+also have run high-resolution simulations that include the lead shield and top endcap. In the final weeks of SURF,
+I will analyze that data and determine whether our endcap simulations are accurate and how effective the top endcap
+will be for the final nEDM experiment.
 
-After examining the results, we will consider the effectiveness of the current
-endcap design, which could prompt modifications. Measurements
-will be repeated for the top endcap once it is installed
-to create a comprehensive profile of
-the changes caused by these endcaps in the boundary conditions of the field.
-
-\section{Personal Work Status}
-
-Since November 2013, my work in this experiment has involved:
-\begin{itemize}
-\item editing and developing the LabView VI used for field monitoring and
-shimming to synchronize magnetic field measurement sampling rates,
-\item developing tools, including a new VI, to compare magnetic field mapping
-data from various runs, and
-\item assisting with the installation of the bottom endcap and re-assembly
-of the setup, including reconfiguring temperature sensors.
-\end{itemize}
-
-A potential checklist for the summer will include:
-\begin{itemize}
-\item finishing the development of the aforementioned tools necessary to
-compare magnetic fields mappings,
-\item assessing the effectiveness of the thermal contact between the bottom
-endcap and the support plate,
-\item comparing the magnetic field profiles at the boundary near the installed
-endcap vs. at the center of the $B_0$ coil,
-\item comparing the magnetic field profile of the post-endcap setup vs. the
-previous setup,
-\item assisting with the construction of a top endcap, its installation, and
-re-assembly of the setup,
-\item repeating magnetic field comparisons for the top endcap, and
-\item developing numerical data analysis tools as necessary.
-\end{itemize}
-
-These steps lead to a better understanding of the effect of
-superconducting endcaps on the magnetic field in our model. The
-results will be key to the planning of the nEDM experiment and could prove
-useful to other particle physics experiments using similar superconducting
-endcaps.
 
 \begin{thebibliography}{}
 \bibitem{cpv} Cronin, J. ``Nobel Lecture: CP Symmetry Violation – The Search
@@ -199,6 +154,7 @@ for Its Origin,'' Nobel Media AB (2013).
 $\langle$krl.caltech.edu$\rangle$ (2014).
 \bibitem{endcapstyles} Malkowski, S., R. Y. Adhikari, J. Boissevain, C. Daurer, B. W. Filippone, B. Hona, B. Plaster, D. Woods, and H. Yan. ``Overlap Technique for End-Cap Seals on Cylindrical Magnetic Shields.'' \textit{IEEE Transactions on Magnetics} 49, no. 1 (2013): 651-653.
 \bibitem{coil} Perez Galvan, A., B. Plaster, J. Boissevain, R. Carr, B. W. Filippone, M. P. Mendenhall, R. Schmid, R. Alarcon, and S. Balascuta. ``High uniformity magnetic coil for search of neutron electric dipole moment.'' \textit{Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment} 660, no. 1 (2011): 147-153.
+\bibitem{rotshield} Mendenhall, M. P. \texttt{RotationShield} source. $\langle$https://github.com/mpmendenhall/rotationshield$\rangle$ (2014).
 \end{thebibliography}
 
 \end{document}
