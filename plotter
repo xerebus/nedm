@@ -137,14 +137,13 @@ class Field:
 
         x_small = find_indices(np.abs(self.x) <= center_box_size)
         y_small = find_indices(np.abs(self.y) <= center_box_size)
-        z_small = find_indices(np.abs(self.z - 0.4) <= center_box_size)
+        z_small = find_indices(np.abs(self.z) <= center_box_size)
 
         close_to_center = np.intersect1d(np.intersect1d(x_small, y_small), z_small)
         
         if len(close_to_center) == 0:
             print "[calc] No suitable points to calculate average Bx."
-            print "[calc] Defaulting to 540.0 mG."
-            self.avg_Bx = 540.0
+            self.avg_Bx = raw_input("[calc] Enter value to normalize to in [mG]: ")
         else:
             print "[calc] Taking samples from %i points." % len(close_to_center)
             Bx_sample = np.array([])
@@ -374,7 +373,7 @@ if __name__ == "__main__":
             print "[norm] No measured maps found. Using %f mG." % newnorm
         else:
             newnorm = np.average(norms)
-            print "[norm] Using calculated normalization level of %f mG." % newnorm
+            print "[norm] Using normalization level of %f mG." % newnorm
     print "[norm] Checking for simulated fields to normalize..."
     for field in fields:
         if field.is_simmap:
