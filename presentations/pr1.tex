@@ -27,12 +27,15 @@ dipole moments (EDM) of various particles provide important restrictions
 and clues to guide new models. \cite{ill}.
 The neutron electric dipole moment (nEDM) collaboration intends to
 improve \cite{krl} the currently-measured limit \cite{ill}
-on the nEDM by measuring the Larmor precession of trapped
-ultra-cold neutrons (UCN) in a magnetic field.
+on the neutron EDM with new experimental techniques.
+Trapped ultra-cold neutrons (UCN) precess in the presence
+of a constant magnetic field or a variable electric field; measuring
+a change in precession correlated with the electric field
+would confirm a non-zero EDM.
 
 An important obstacle is eliminating a ``geometric phase effect''
 that creates a shift in the UCN precession and results in
-a false EDM reading. Since this effect is caused by high field gradients,
+a false EDM reading. Since this effect is caused by field gradients,
 we need to make the magnetic field as uniform as possible.
 To 
 tackle the engineering challenge of creating an uniform magnetic field,
@@ -46,10 +49,9 @@ determine the optimal magnet design for the nEDM experiment.
 
 The current setup (fig. \ref{fig:structure})
 features a cylindrical $\cos\theta$ coil \cite{coil} (referred to as the $B_0$ coil)
-surrounded by concentric shells for shielding.
-This creates an uniform field near the center of the magnet, but
-also creates large gradients near the $\pm z$ boundaries, which could be significantly
-lowered by superconducting lead endcaps.
+surrounded by concentric open-ended cylindrical shells for shielding.
+In order to improve field uniformity, we investigate the effects of superconducting
+lead endcaps to close the open ends of the lead shield.
 
 Since November 2013 (when I first stared work in this group), we have designed and installed
 a bottom endcap. Measurements taken afterwards suggested that a top endcap would be more
@@ -90,8 +92,15 @@ to simulate our magnet and predict the effects of the superconducting endcap. Be
 for the superconducting state, however, we needed to verify the simulation.
 The effects of the lead shield are negligible when the lead is above superconducting temperature, so a simulation
 including only the remaining magnetic shielding (i.e. the Metglas) should agree with measurements taken in
-the non-superconducting state. However, we noted that the measured and simulated maps were significantly offset,
-as show in fig. \ref{fig:orig_Bz_z}. My first task was to explain this discrepancy by investigating every
+the non-superconducting state.
+
+However, we noted a significant discrepancy between the measured and simulated maps.
+Fig. \ref{fig:orig_Bz_z} shows the $z$ component of the magnetic field as a function of $z$ position along
+the vertical line $x = -0.1\text{ m}, y = 0$. There is a notable peak shift: the measured peak in $B_z$ occurs
+about 10 centimeters lower than it should according to the simulation. This presented a problem since we plan
+to use \texttt{RotationShield} to predict the effects of the superconducting endcap, but we could not correctly
+model our experiment without the endcap.
+My first task was to explain this discrepancy by investigating every
 difference between the simulated setup and the experimental setup.
 
 The simulation was created with a Metglas thickness of 3 cm, even though the Metglas is actually less than 1 mm thick,
@@ -130,11 +139,13 @@ damped any oscillations in the rod to prevent the probe from moving while taking
 the group traced the issue to the behavior of the probe's data collection program, which took an average of
 measurements collected over the time taken to move to a point rather than measuring once it had reached that point.
 I confirmed that this eliminated the offset between the going-up and going-down probe paths, and am now in a position
-to collect new field maps and compare those with the simulated data.i
+to collect new field maps and compare those with the simulated data.
 
 \begin{figure*}
 \includegraphics[width=0.95\textwidth]{../savedplots/original_Bz.eps}
-\caption{\label{fig:orig_Bz_z}$B_z$ [mG] vs. $z$ [m] along the line $x = -0.1 \text{ m}, y = 0$.}
+\caption{\label{fig:orig_Bz_z}The magnetic field component $B_z$ [mG] vs. $z$ [m] along the line
+$x = -0.1 \text{ m}, y = 0$. Green points are predicted by the \texttt{RotationShield} simulation, and blue points
+are from the initial measured field map. The measurement shows the $B_z$ maximum occurring 10 cm lower than it should.}
 \end{figure*}
 
 \subsection{Cooldown}
