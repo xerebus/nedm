@@ -355,31 +355,36 @@ if __name__ == "__main__":
                 i += 1
     print "[fgbg] Background removed."
 
-
-
     # normalize all simulation maps
-    if opts.newnorm is not None:
-        newnorm = np.float64(opts.newnorm)
-        print "[norm] Using provided normalization level of %f mG." % newnorm
-    else:
-        print "[norm] Calculating normalization level..."
-        norms = np.array([])
-        for field in fields:
-            if not field.is_simmap:
-                field.calc_avg_Bx()
-                norms = np.append(norms, np.float64(field.avg_Bx))
-        if norms.size == 0:
-            newnorm = 30.0
-            print "[norm] No measured maps found. Using %f mG." % newnorm
-        else:
-            newnorm = np.average(norms)
-            print "[norm] Using normalization level of %f mG." % newnorm
-    print "[norm] Checking for simulated fields to normalize..."
+    simmaps = 0
     for field in fields:
         if field.is_simmap:
-            print "[norm] Normalizing %s..." % field.label
-            field.normalize(newnorm)
-    print "[norm] All simulated fields normalized to %f mG." % newnorm
+            simmaps += 1
+    if simmaps > 0:
+        if opts.newnorm is not None:
+            newnorm = np.float64(opts.newnorm)
+            print "[norm] Using provided normalization level of %f mG." % newnorm
+        else:
+            print "[norm] Calculating normalization level..."
+            norms = np.array([])
+            for field in fields:
+                if not field.is_simmap:
+                    field.calc_avg_Bx()
+                    norms = np.append(norms, np.float64(field.avg_Bx))
+            if norms.size == 0:
+                newnorm = 30.0
+                print "[norm] No measured maps found. Using %f mG." % newnorm
+            else:
+                newnorm = np.average(norms)
+                print "[norm] Using normalization level of %f mG." % newnorm
+        print "[norm] Checking for simulated fields to normalize..."
+        for field in fields:
+            if field.is_simmap:
+                print "[norm] Normalizing %s..." % field.label
+                field.normalize(newnorm)
+        print "[norm] All simulated fields normalized to %f mG." % newnorm
+    else:
+        print "[norm] No simulated fields given; skipping normalization."
 
     # slice fields
     print "[slcf] Checking for slicing needs..."
