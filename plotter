@@ -256,6 +256,9 @@ if __name__ == "__main__":
     parser.add_option("-l", "--loc", action = "store", dest = "legloc",
     help = "Override legend location (see matplotlib docs).", default = 2)
 
+    parser.add_option("-A", "--adjust", action = "store_true", dest = "adjust",
+    help = "Enter interactive adjustment mode", default = False)
+
     parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
     help = "Flip all plots. Useful to demonstrate anti-symmetry.", default = False)
     
@@ -385,6 +388,20 @@ if __name__ == "__main__":
         print "[norm] All simulated fields normalized to %f mG." % newnorm
     else:
         print "[norm] No simulated fields given; skipping normalization."
+
+    # interactive adjustment mode
+    if opts.adjust:
+        print "[iadj] Entering interactive adjustment mode."
+        for field in fields:
+            print "[iadj] Editing field %s..." % field.label
+            x_shift = raw_input("[iadj] Enter x shift in [m]: ") or 0
+            y_shift = raw_input("[iadj] Enter y shift in [m]: ") or 0
+            z_shift = raw_input("[iadj] Enter z shift in [m]: ") or 0
+            field.x += float(x_shift)
+            field.y += float(y_shift)
+            field.z += float(z_shift)
+            print "[iadj] Adjusted field map."
+
 
     # slice fields
     print "[slcf] Checking for slicing needs..."
