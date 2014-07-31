@@ -256,9 +256,14 @@ if __name__ == "__main__":
     parser.add_option("-l", "--loc", action = "store", dest = "legloc",
     help = "Override legend location (see matplotlib docs).", default = 2)
 
-    parser.add_option("-A", "--adjust", action = "store_true", dest = "adjust",
-    help = "Enter interactive adjustment mode", default = False)
+    parser.add_option("--dx", action = "store", dest = "dx",
+    help = "Use if measured map is offset by x = DX.", default = 0)
+    parser.add_option("--dy", action = "store", dest = "dy",
+    help = "Use if measured map is offset by y = DY.", default = 0)
+    parser.add_option("--dz", action = "store", dest = "dz",
+    help = "Use if measured map is offset by z = DZ.", default = 0)
 
+    
     parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
     help = "Flip all plots. Useful to demonstrate anti-symmetry.", default = False)
     
@@ -270,6 +275,9 @@ if __name__ == "__main__":
     "The program will automatically determine which type is being read.")
         
     (opts, args) = parser.parse_args()
+
+    # get slice values 
+    (sx, sy, sz) = (np.float64(opts.sx), np.float64(opts.sy), np.float64(opts.sz))
 
     # if all plots are disabled, then show them all
     if not opts.x_show and not opts.y_show and not opts.z_show:
@@ -358,6 +366,17 @@ if __name__ == "__main__":
                 i += 1
     print "[fgbg] Background removed."
 
+    # apply offset
+    print "[offs] Applying offset vector (%s, %s, %s)." % (opts.dx, opts.dy, opts.dz)
+    sx += float(opts.dx)
+    sy += float(opts.dy)
+    sz += float(opts.dz)
+    for field in fields:
+        if not field.is_simmap:
+            field.x += float(opts.dx)
+            field.y += float(opts.dy)
+            field.z += float(opts.dz)
+
     # normalize all simulation maps
     simmaps = 0
     for field in fields:
@@ -388,25 +407,11 @@ if __name__ == "__main__":
         print "[norm] All simulated fields normalized to %f mG." % newnorm
     else:
         print "[norm] No simulated fields given; skipping normalization."
-
-    # interactive adjustment mode
-    if opts.adjust:
-        print "[iadj] Entering interactive adjustment mode."
-        for field in fields:
-            print "[iadj] Editing field %s..." % field.label
-            x_shift = raw_input("[iadj] Enter x shift in [m]: ") or 0
-            y_shift = raw_input("[iadj] Enter y shift in [m]: ") or 0
-            z_shift = raw_input("[iadj] Enter z shift in [m]: ") or 0
-            field.x += float(x_shift)
-            field.y += float(y_shift)
-            field.z += float(z_shift)
-            print "[iadj] Adjusted field map."
-
-
+    
     # slice fields
     print "[slcf] Checking for slicing needs..."
     for field in fields:
-        field.slice(np.float64(opts.sx), np.float64(opts.sy), np.float64(opts.sz))
+        field.slice(sx, sy, sz)
     print "[slcf] Slicing done."
 
     # flip if wanted
@@ -455,7 +460,7 @@ if __name__ == "__main__":
     fontp = FontProperties()
     fontp.set_size("small")
     
-    title = "Field slice in [m]: x = %s, y = %s, z = %s" % (opts.sx, opts.sy, opts.sz)
+    title = "Field slice in [m]: x = %s, y = %s, z = %s" % (sx, sy, sz)
     plt.suptitle(title, fontsize = "large", fontweight = "bold")
     plt.legend(loc = int(opts.legloc), prop = fontp)
 
