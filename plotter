@@ -187,7 +187,7 @@ class Field:
         '''Given specific x, y, z values, restrict the field to points close
         to those values.'''
 
-        tol = 0.005 # tolerance in m
+        tol = 0.003 # tolerance in m
 
         if not math.isnan(x):
             elim_x = find_indices(np.abs(self.x - x) > tol)
@@ -220,17 +220,20 @@ class Field:
         self.By *= -1
         self.Bz *= -1
 
+def parse_args():
+    '''Handles input flags. Returns (opts, args) from optparse.'''
 
-if __name__ == "__main__":
-
-    # handle input flags
     parser = optparse.OptionParser()
+    
+    # x, y, z axes
     parser.add_option("-i", "--showx", action = "store_true", dest = "x_show",
     help = "Show x plots", default = False)
     parser.add_option("-j", "--showy", action = "store_true", dest = "y_show",
     help = "Show y plots", default = False)
     parser.add_option("-k", "--showz", action = "store_true", dest = "z_show",
     help = "Show z plots", default = False)
+
+    # Bx, By, Bz axes
     parser.add_option("-X", "--showBx", action = "store_true", dest = "Bx_show",
     help = "Show Bx plots", default = False)
     parser.add_option("-Y", "--showBy", action = "store_true", dest = "By_show",
@@ -238,6 +241,7 @@ if __name__ == "__main__":
     parser.add_option("-Z", "--showBz", action = "store_true", dest = "Bz_show",
     help = "Show Bz plots", default = False)
 
+    # slicing
     parser.add_option("-x", "--slicex", action = "store", dest = "sx",
     help = "Restrict to points near x = SX.", default = None)
     parser.add_option("-y", "--slicey", action = "store", dest = "sy",
@@ -245,28 +249,29 @@ if __name__ == "__main__":
     parser.add_option("-z", "--slicez", action = "store", dest = "sz",
     help = "Restrict to points near z = SZ.", default = None)
 
+    # create background array
+    # NOTE: there must be exactly as many background files as measured
+    # maps specified
     parser.add_option("-b", "--background", action = "append", dest = "bgpaths",
     help = ("Specify a path to a VI-output text file containing background " +
     " data. This data will be subtracted from all other VI-output data."),
     default = [])
     
+    # misc for convenience
     parser.add_option("-n", "--normal", action = "store", dest = "newnorm",
     help = "Custom normalization level in mG.", default = None)
-
     parser.add_option("-l", "--loc", action = "store", dest = "legloc",
     help = "Override legend location (see matplotlib docs).", default = 2)
+    parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
+    help = "Flip all plots. Useful to demonstrate anti-symmetry.", default = False)
 
+    # offsets
     parser.add_option("--dx", action = "store", dest = "dx",
     help = "Use if measured map is offset by x = DX.", default = 0)
     parser.add_option("--dy", action = "store", dest = "dy",
     help = "Use if measured map is offset by y = DY.", default = 0)
     parser.add_option("--dz", action = "store", dest = "dz",
     help = "Use if measured map is offset by z = DZ.", default = 0)
-
-    
-    parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
-    help = "Flip all plots. Useful to demonstrate anti-symmetry.", default = False)
-    
     
     parser.usage = ("%s [options] path1 [path2] ...\n\n" %
     os.path.basename(sys.argv[0]) +
@@ -274,7 +279,13 @@ if __name__ == "__main__":
     "or a folder containing a Fieldmap.txt created with rotationshield.\n" +
     "The program will automatically determine which type is being read.")
         
-    (opts, args) = parser.parse_args()
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+
+    # handle input flags
+    (opts, args) = parse_args()
 
     # get slice values 
     (sx, sy, sz) = (np.float64(opts.sx), np.float64(opts.sy), np.float64(opts.sz))
@@ -288,7 +299,6 @@ if __name__ == "__main__":
         opts.Bx_show = True
         opts.By_show = True
         opts.Bz_show = True
-
 
     # count how many horizontal & vertical axes there will be
     horiz = 0
