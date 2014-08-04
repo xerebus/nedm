@@ -1,0 +1,15 @@
+RT, cryo in place
+Current in HH coil: 0V
+Current in B0 coil: 0mA
+Current in B0 shim 2: 0 mA
+Current in B0 shim 6 1/2: 0 v
+Current in B0 shim 6 3/4: 0 v
+Current in FM z-coil: 0
+Current in B0 z-coil1 (Helmholtz): 0 v
+Current in B0 z-coil 2 (Helmholtz): 0 v
+Current in B0 Y East: 0 v  
+Current in B0 Y West: 0 v
+Temperature: RT
+Superconducting shield:  no
+Superconducting state:no
+Inside Metglas shield: present% 7/31/2014 2:24:14 PM% Motion Settle (s): 1	Samp/Meas: 19	Contour file path: C:\EDM\Data\escribano_scans\z_scan_center2top_mini.scn% Cycle Number 0 started 7/31/2014 2:24:14 PM
