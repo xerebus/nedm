@@ -20,6 +20,31 @@ def find_indices(array_condition):
 
     return list(np.nonzero(array_condition)[0])
 
+class OffsetAxis:
+    '''Store a spatial axis for a vector map where the vector components are
+    not commonly centered. The offset vector V = (Vx, Vy, Vz) corresponds to the
+    centering offsets of each component of a vector field B = (Bx, By, Bz).
+    The axis centered with respect to Bx is (array + Vx), and so on.'''
+
+    def __init__(array, V):
+        '''Initialize the axis from a numpy array and offset vector V.
+        If V = (0, 0, 0), then the axis will behave like a standard axis.'''
+        
+        self.array = array
+        self.V = V
+        
+    def for(vector_component):
+        '''Return the axis as an array with the correct offset. vector_component
+        should be 'Bx', 'By', or 'Bz'.'''
+        
+        component_index = {'Bx' : 0, 'By' : 1, 'Bz' : 2}
+
+        try:
+            return array + V[component_index]
+        except IndexError:
+            raise ValueError("Specified vector component must be 'Bx', 'By', or 'Bz'.")
+
+
 class Field:
     '''Store a vector field that can be generated from rotationshield or VI
     output.'''
