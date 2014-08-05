@@ -20,30 +20,42 @@ def find_indices(array_condition):
 
     return list(np.nonzero(array_condition)[0])
 
+
 class OffsetAxis:
     '''Store a spatial axis for a vector map where the vector components are
     not commonly centered. The offset vector V = (Vx, Vy, Vz) corresponds to
     the centering offsets of each component of a vector field B = (Bx, By, Bz).
     The axis centered with respect to Bx is (array + Vx), and so on.'''
 
-    def __init__(self, array, V):
+    def __init__(self, array = np.array([]), V = (0.0, 0.0, 0.0)):
         '''Initialize the axis from a numpy array and offset vector V.
         If V = (0, 0, 0), then the axis will behave like a standard axis.'''
         
         self.array = array
         self.V = V
         
-    def offset_for(self, vector_component):
+    def ffor(self, vector_component):
         '''Return the axis as an array with the correct offset.
         vector_component should be 'Bx', 'By', or 'Bz'.'''
         
-        component_index = {'Bx' : 0, 'By' : 1, 'Bz' : 2}
+        comp_index = {'Bx' : 0, 'By' : 1, 'Bz' : 2}
 
         try:
-            return self.array + V[component_index]
+            return self.array + float(self.V[comp_index[vector_component]])
         except IndexError:
             raise ValueError("Specified vector component must be 'Bx', 'By'," +
             "or 'Bz'.")
+
+    def append(self, val):
+        '''Append val to the axis array.'''
+
+        self.array = np.append(self.array, np.float64(val))
+
+    def apply_offset(V):
+        '''Change self.V.'''
+
+        assert len(V) == 3, "Offset vector must be 3-dimensional."
+        self.V = V
 
 
 class Field:
@@ -55,9 +67,10 @@ class Field:
         output or a file containing FieldMapping VI output, and parse the file
         accordingly.'''
         
-        self.x = np.array([])
-        self.y = np.array([])
-        self.z = np.array([])
+        self.x = OffsetAxis()
+        self.y = OffsetAxis()
+        self.z = OffsetAxis()
+
         self.Bx = np.array([])
         self.By = np.array([])
         self.Bz = np.array([])
@@ -106,9 +119,10 @@ class Field:
             except ValueError:
                 raise ValueError("Cannot unpack line:\n%s" % line)
 
-            self.x = np.append(self.x, np.float64(this_x))
-            self.y = np.append(self.y, np.float64(this_y))
-            self.z = np.append(self.z, np.float64(this_z))
+            self.x.append(this_x)
+            self.y.append(this_y)
+            self.z.append(this_z)
+
             self.Bx = np.append(self.Bx, np.float64(this_Bx))
             self.By = np.append(self.By, np.float64(this_By))
             self.Bz = np.append(self.Bz, np.float64(this_Bz))
@@ -137,9 +151,10 @@ class Field:
             except ValueError:
                 raise ValueError("Cannot unpack line:\n%s" % line)
             
-            self.x = np.append(self.x, np.float64(this_x))
-            self.y = np.append(self.y, np.float64(this_y))
-            self.z = np.append(self.z, np.float64(this_z))
+            self.x.append(this_x)
+            self.y.append(this_y)
+            self.z.append(this_z)
+            
             self.Bx = np.append(self.Bx, np.float64(this_Bx))
             self.By = np.append(self.By, np.float64(this_By))
             self.Bz = np.append(self.Bz, np.float64(this_Bz))
@@ -148,9 +163,9 @@ class Field:
 
         # FieldMapping VI outputs distances in mm, we want meters
         print "[file] Converting distances..."
-        self.x /= np.float64(1000)
-        self.y /= np.float64(1000)
-        self.z /= np.float64(1000)
+        self.x.array /= np.float64(1000)
+        self.y.array /= np.float64(1000)
+        self.z.array /= np.float64(1000)
 
         print "[file] Reading done."
 
@@ -161,9 +176,9 @@ class Field:
 
         print "[calc] Finding data points around desired location..."
 
-        x_small = find_indices(np.abs(self.x) <= center_box_size)
-        y_small = find_indices(np.abs(self.y) <= center_box_size)
-        z_small = find_indices(np.abs(self.z) <= center_box_size)
+        x_small = find_indices(np.abs(self.x.array) <= center_box_size)
+        y_small = find_indices(np.abs(self.y.array) <= center_box_size)
+        z_small = find_indices(np.abs(self.z.array) <= center_box_size)
 
         close_to_center = np.intersect1d(np.intersect1d(x_small,
         y_small), z_small)
@@ -217,15 +232,15 @@ class Field:
         tol = 0.003 # tolerance in m
 
         if not math.isnan(x):
-            elim_x = find_indices(np.abs(self.x - x) > tol)
+            elim_x = find_indices(np.abs(self.x.array - x) > tol)
         else:
             elim_x = []
         if not math.isnan(y):
-            elim_y = find_indices(np.abs(self.y - y) > tol)
+            elim_y = find_indices(np.abs(self.y.array - y) > tol)
         else:
             elim_y = []
         if not math.isnan(z):
-            elim_z = find_indices(np.abs(self.z - z) > tol)
+            elim_z = find_indices(np.abs(self.z.array - z) > tol)
         else:
             elim_z = []
         
@@ -233,9 +248,10 @@ class Field:
         print "[slcf] Eliminating %i points from %s..." % (len(elim_indices),
         self.label)
 
-        self.x = np.delete(self.x, elim_indices)
-        self.y = np.delete(self.y, elim_indices)
-        self.z = np.delete(self.z, elim_indices)
+        self.x.array = np.delete(self.x.array, elim_indices)
+        self.y.array = np.delete(self.y.array, elim_indices)
+        self.z.array = np.delete(self.z.array, elim_indices)
+
         self.Bx = np.delete(self.Bx, elim_indices)
         self.By = np.delete(self.By, elim_indices)
         self.Bz = np.delete(self.Bz, elim_indices)
@@ -246,6 +262,7 @@ class Field:
         self.Bx *= -1
         self.By *= -1
         self.Bz *= -1
+
 
 def parse_args():
     '''Handles input flags. Returns (opts, args) from optparse.'''
@@ -288,8 +305,8 @@ def parse_args():
     # misc for convenience
     parser.add_option("-n", "--normal", action = "store", dest = "newnorm",
     help = "Custom normalization level in mG.", default = None)
-    parser.add_option("-l", "--loc", action = "store", dest = "legloc",
-    help = "Override legend location (see matplotlib docs).", default = 2)
+    #parser.add_option("-l", "--loc", action = "store", dest = "legloc",
+    #help = "Override legend location (see matplotlib docs).", default = 2)
     parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
     help = "Flip all plots. Useful to demonstrate anti-symmetry.",
     default = False)
@@ -309,6 +326,7 @@ def parse_args():
     "The program will automatically determine which type is being read.")
         
     return parser.parse_args()
+
 
 def subtract_bgs(fields, opts):
     '''Given a list of paths to background files, subtract the backgrounds
@@ -335,6 +353,7 @@ def subtract_bgs(fields, opts):
                 i += 1
     print "[fgbg] Background removed."
 
+
 def apply_offset(fields, opts):
     '''Given an offset vector, apply it to all measured fields.'''
     
@@ -342,9 +361,9 @@ def apply_offset(fields, opts):
     print "[offs] Applying offset vector (%s, %s, %s)." % offset_vector
     for field in fields:
         if not field.is_simmap:
-            field.x += float(opts.dx)
-            field.y += float(opts.dy)
-            field.z += float(opts.dz)
+            field.x.array += float(opts.dx)
+            field.y.array += float(opts.dy)
+            field.z.array += float(opts.dz)
 
 
 def normalize(fields, opts):
@@ -508,31 +527,31 @@ if __name__ == "__main__":
     for field in fields:
         print "[plot] Plotting curve (%i) %s..." % ((j + 1), field.label)
         if opts.Bx_show and opts.x_show:
-            Bx_v_x.plot(field.x, field.Bx, marker[j % num_markers], 
+            Bx_v_x.plot(field.x.ffor('Bx'), field.Bx, marker[j % num_markers], 
             linestyle = '--', label = field.label)
         if opts.Bx_show and opts.y_show:
-            Bx_v_y.plot(field.y, field.Bx, marker[j % num_markers], 
+            Bx_v_y.plot(field.y.ffor('Bx'), field.Bx, marker[j % num_markers], 
             linestyle = '--', label = field.label)
         if opts.Bx_show and opts.z_show:
-            Bx_v_z.plot(field.z, field.Bx, marker[j % num_markers], 
+            Bx_v_z.plot(field.z.ffor('Bx'), field.Bx, marker[j % num_markers], 
             linestyle = '--', label = field.label)
         if opts.By_show and opts.x_show:
-            By_v_x.plot(field.x, field.By, marker[j % num_markers], 
+            By_v_x.plot(field.x.ffor('By'), field.By, marker[j % num_markers], 
             linestyle = '--', label = field.label)
         if opts.By_show and opts.y_show:
-            By_v_y.plot(field.y, field.By, marker[j % num_markers], 
+            By_v_y.plot(field.y.ffor('By'), field.By, marker[j % num_markers], 
             linestyle = '--', label = field.label)
         if opts.By_show and opts.z_show:
-            By_v_z.plot(field.z, field.By, marker[j % num_markers], 
+            By_v_z.plot(field.z.ffor('By'), field.By, marker[j % num_markers], 
             linestyle = '--', label = field.label)
         if opts.Bz_show and opts.x_show:
-            Bz_v_x.plot(field.x, field.Bz, marker[j % num_markers], 
+            Bz_v_x.plot(field.x.ffor('Bz'), field.Bz, marker[j % num_markers], 
             linestyle = '--', label = field.label)
         if opts.Bz_show and opts.y_show:
-            Bz_v_y.plot(field.y, field.Bz, marker[j % num_markers], 
+            Bz_v_y.plot(field.y.ffor('Bz'), field.Bz, marker[j % num_markers], 
             linestyle = '--', label = field.label)
         if opts.Bz_show and opts.z_show:
-            Bz_v_z.plot(field.z, field.Bz, marker[j % num_markers], 
+            Bz_v_z.plot(field.z.ffor('Bz'), field.Bz, marker[j % num_markers], 
             linestyle = '--', label = field.label)
         j += 1
 
@@ -541,7 +560,7 @@ if __name__ == "__main__":
     
     title = "Field slice in [m]: x = %s, y = %s, z = %s" % (sx, sy, sz)
     plt.suptitle(title, fontsize = "large", fontweight = "bold")
-    plt.legend(loc = int(opts.legloc), prop = fontp)
+    plt.legend(loc = "best", prop = fontp)
 
     print "[plot] === Plotting done."
     plt.show()
