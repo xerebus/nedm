@@ -22,27 +22,28 @@ def find_indices(array_condition):
 
 class OffsetAxis:
     '''Store a spatial axis for a vector map where the vector components are
-    not commonly centered. The offset vector V = (Vx, Vy, Vz) corresponds to the
-    centering offsets of each component of a vector field B = (Bx, By, Bz).
+    not commonly centered. The offset vector V = (Vx, Vy, Vz) corresponds to
+    the centering offsets of each component of a vector field B = (Bx, By, Bz).
     The axis centered with respect to Bx is (array + Vx), and so on.'''
 
-    def __init__(array, V):
+    def __init__(self, array, V):
         '''Initialize the axis from a numpy array and offset vector V.
         If V = (0, 0, 0), then the axis will behave like a standard axis.'''
         
         self.array = array
         self.V = V
         
-    def for(vector_component):
-        '''Return the axis as an array with the correct offset. vector_component
-        should be 'Bx', 'By', or 'Bz'.'''
+    def offset_for(self, vector_component):
+        '''Return the axis as an array with the correct offset.
+        vector_component should be 'Bx', 'By', or 'Bz'.'''
         
         component_index = {'Bx' : 0, 'By' : 1, 'Bz' : 2}
 
         try:
-            return array + V[component_index]
+            return self.array + V[component_index]
         except IndexError:
-            raise ValueError("Specified vector component must be 'Bx', 'By', or 'Bz'.")
+            raise ValueError("Specified vector component must be 'Bx', 'By'," +
+            "or 'Bz'.")
 
 
 class Field:
@@ -79,8 +80,8 @@ class Field:
             try:
                 f = open(ipath, 'r')
             except IOError:
-                raise ValueError("%s does not contain rotationshield output, \
-                nor is it a text file. Cannot handle." % ipath)
+                raise ValueError(("%s does not contain rotationshield" +
+                " output, nor is it a text file. Cannot handle.") % ipath)
 
         if self.is_simmap:
             print "[path] Reading as rotationshield output..."
@@ -164,13 +165,14 @@ class Field:
         y_small = find_indices(np.abs(self.y) <= center_box_size)
         z_small = find_indices(np.abs(self.z) <= center_box_size)
 
-        close_to_center = np.intersect1d(np.intersect1d(x_small, y_small), z_small)
+        close_to_center = np.intersect1d(np.intersect1d(x_small,
+        y_small), z_small)
         
         if len(close_to_center) == 0:
             print "[calc] No suitable points to calculate average Bx."
-            self.avg_Bx = raw_input("[calc] Enter value to normalize to in [mG]: ")
+            self.avg_Bx = raw_input("[calc] Enter desired norm [mG]: ")
         else:
-            print "[calc] Taking samples from %i points." % len(close_to_center)
+            print "[calc] Sampling from %i points." % len(close_to_center)
             Bx_sample = np.array([])
             for index in close_to_center:
                 Bx_sample = np.append(Bx_sample, self.Bx[index])
@@ -259,12 +261,12 @@ def parse_args():
     help = "Show z plots", default = False)
 
     # Bx, By, Bz axes
-    parser.add_option("-X", "--showBx", action = "store_true", dest = "Bx_show",
-    help = "Show Bx plots", default = False)
-    parser.add_option("-Y", "--showBy", action = "store_true", dest = "By_show",
-    help = "Show By plots", default = False)
-    parser.add_option("-Z", "--showBz", action = "store_true", dest = "Bz_show",
-    help = "Show Bz plots", default = False)
+    parser.add_option("-X", "--showBx", action = "store_true",
+    dest = "Bx_show", help = "Show Bx plots", default = False)
+    parser.add_option("-Y", "--showBy", action = "store_true",
+    dest = "By_show", help = "Show By plots", default = False)
+    parser.add_option("-Z", "--showBz", action = "store_true",
+    dest = "Bz_show", help = "Show Bz plots", default = False)
 
     # slicing
     parser.add_option("-x", "--slicex", action = "store", dest = "sx",
@@ -277,7 +279,8 @@ def parse_args():
     # create background array
     # NOTE: there must be exactly as many background files as measured
     # maps specified
-    parser.add_option("-b", "--background", action = "append", dest = "bgpaths",
+    parser.add_option("-b", "--background", action = "append",
+    dest = "bgpaths",
     help = ("Specify a path to a VI-output text file containing background " +
     " data. This data will be subtracted from all other VI-output data."),
     default = [])
@@ -288,7 +291,8 @@ def parse_args():
     parser.add_option("-l", "--loc", action = "store", dest = "legloc",
     help = "Override legend location (see matplotlib docs).", default = 2)
     parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
-    help = "Flip all plots. Useful to demonstrate anti-symmetry.", default = False)
+    help = "Flip all plots. Useful to demonstrate anti-symmetry.",
+    default = False)
 
     # offsets
     parser.add_option("--dx", action = "store", dest = "dx",
@@ -306,80 +310,10 @@ def parse_args():
         
     return parser.parse_args()
 
+def subtract_bgs(fields, opts):
+    '''Given a list of paths to background files, subtract the backgrounds
+    from the list of measured field objects.'''
 
-if __name__ == "__main__":
-
-    # handle input flags
-    (opts, args) = parse_args()
-
-    # get slice values 
-    (sx, sy, sz) = (np.float64(opts.sx), np.float64(opts.sy), np.float64(opts.sz))
-
-    # if all plots are disabled, then show them all
-    if not opts.x_show and not opts.y_show and not opts.z_show:
-        opts.x_show = True
-        opts.y_show = True
-        opts.z_show = True
-    if not opts.Bx_show and not opts.By_show and not opts.Bz_show:
-        opts.Bx_show = True
-        opts.By_show = True
-        opts.Bz_show = True
-
-    # count how many horizontal & vertical axes there will be
-    horiz = 0
-    vert = 0
-    for opt in [opts.x_show, opts.y_show, opts.z_show]:
-        if opt:
-            horiz += 1
-    for opt in [opts.Bx_show, opts.By_show, opts.Bz_show]:
-        if opt:
-            vert += 1
-    if horiz == 0:
-        horiz = 3
-    if vert == 0:
-        vert = 3
-
-    # create the correct number of subplots
-    
-    fig = plt.figure()
-    i = 0 # subplot counter
-
-    if opts.Bx_show == True and opts.x_show == True:
-        Bx_v_x = fig.add_subplot(vert, horiz, i + 1, xlabel = "x", ylabel = "Bx")
-        i += 1
-    if opts.Bx_show == True and opts.y_show == True:
-        Bx_v_y = fig.add_subplot(vert, horiz, i + 1, xlabel = "y", ylabel = "Bx")
-        i += 1
-    if opts.Bx_show == True and opts.z_show == True:
-        Bx_v_z = fig.add_subplot(vert, horiz, i + 1, xlabel = "z", ylabel = "Bx")
-        i += 1
-    if opts.By_show == True and opts.x_show == True:
-        By_v_x = fig.add_subplot(vert, horiz, i + 1, xlabel = "x", ylabel = "By")
-        i += 1
-    if opts.By_show == True and opts.y_show == True:
-        By_v_y = fig.add_subplot(vert, horiz, i + 1, xlabel = "y", ylabel = "By")
-        i += 1
-    if opts.By_show == True and opts.z_show == True:
-        By_v_z = fig.add_subplot(vert, horiz, i + 1, xlabel = "z", ylabel = "By")
-        i += 1
-    if opts.Bz_show == True and opts.x_show == True:
-        Bz_v_x = fig.add_subplot(vert, horiz, i + 1, xlabel = "x", ylabel = "Bz")
-        i += 1
-    if opts.Bz_show == True and opts.y_show == True:
-        Bz_v_y = fig.add_subplot(vert, horiz, i + 1, xlabel = "y", ylabel = "Bz")
-        i += 1
-    if opts.Bz_show == True and opts.z_show == True:
-        Bz_v_z = fig.add_subplot(vert, horiz, i + 1, xlabel = "z", ylabel = "Bz")
-        i += 1
-
-    print "[plot] === %i plots will be made." % i
-
-    # populate a list of Field objects
-    fields = []
-    for ipath in args:
-        fields.append(Field(ipath))
-
-    # subtract background data from all measured maps
     if len(opts.bgpaths) == 1:
         print "[fgbg] Found single background file. Subtracting..."
         bgfield = Field(opts.bgpaths[0])
@@ -401,26 +335,33 @@ if __name__ == "__main__":
                 i += 1
     print "[fgbg] Background removed."
 
-    # apply offset
-    print "[offs] Applying offset vector (%s, %s, %s)." % (opts.dx, opts.dy, opts.dz)
-    sx += float(opts.dx)
-    sy += float(opts.dy)
-    sz += float(opts.dz)
+def apply_offset(fields, opts):
+    '''Given an offset vector, apply it to all measured fields.'''
+    
+    offset_vector = (opts.dx, opts.dy, opts.dz)
+    print "[offs] Applying offset vector (%s, %s, %s)." % offset_vector
     for field in fields:
         if not field.is_simmap:
             field.x += float(opts.dx)
             field.y += float(opts.dy)
             field.z += float(opts.dz)
 
-    # normalize all simulation maps
+
+def normalize(fields, opts):
+    '''Normalize all simulated fields to agree with measured fields.'''
+
+    # count simulated fields
     simmaps = 0
     for field in fields:
         if field.is_simmap:
             simmaps += 1
+
     if simmaps > 0:
+        
+        # calculate or ask for desired norm
         if opts.newnorm is not None:
             newnorm = np.float64(opts.newnorm)
-            print "[norm] Using provided normalization level of %f mG." % newnorm
+            print "[norm] Using provided norm of %f mG." % newnorm
         else:
             print "[norm] Calculating normalization level..."
             norms = np.array([])
@@ -434,14 +375,117 @@ if __name__ == "__main__":
             else:
                 newnorm = np.average(norms)
                 print "[norm] Using normalization level of %f mG." % newnorm
+        
+        # normalize fields
         print "[norm] Checking for simulated fields to normalize..."
         for field in fields:
             if field.is_simmap:
                 print "[norm] Normalizing %s..." % field.label
                 field.normalize(newnorm)
         print "[norm] All simulated fields normalized to %f mG." % newnorm
+    
     else:
         print "[norm] No simulated fields given; skipping normalization."
+
+
+if __name__ == "__main__":
+
+    # handle input flags
+    (opts, args) = parse_args()
+
+    # get slice values 
+    (sx, sy, sz) = (np.float64(opts.sx), np.float64(opts.sy),
+    np.float64(opts.sz))
+
+    # if all plots are disabled, then show them all
+    if not opts.x_show and not opts.y_show and not opts.z_show:
+        opts.x_show = opts.y_show = opts.z_show = True
+    if not opts.Bx_show and not opts.By_show and not opts.Bz_show:
+        opts.Bx_show = opts.By_show = opts. Bz_show = True
+
+    # count how many horizontal & vertical axes there will be
+    horiz = 0
+    vert = 0
+    for opt in [opts.x_show, opts.y_show, opts.z_show]:
+        if opt:
+            horiz += 1
+    for opt in [opts.Bx_show, opts.By_show, opts.Bz_show]:
+        if opt:
+            vert += 1
+    if horiz == 0:
+        horiz = 3
+    if vert == 0:
+        vert = 3
+
+    # create the correct number of subplots
+    
+    fig = plt.figure()
+    i = 0 # subplot counter
+
+    if opts.Bx_show and opts.x_show:
+        Bx_v_x = fig.add_subplot(vert, horiz, i + 1)
+        Bx_v_x.set_xlabel("x", fontweight = "bold")
+        Bx_v_x.set_ylabel("Bx", fontweight = "bold")
+        i += 1
+    if opts.Bx_show and opts.y_show:
+        Bx_v_y = fig.add_subplot(vert, horiz, i + 1)
+        Bx_v_y.set_xlabel("y", fontweight = "bold")
+        Bx_v_y.set_ylabel("Bx", fontweight = "bold")
+        i += 1
+    if opts.Bx_show and opts.z_show:
+        Bx_v_z = fig.add_subplot(vert, horiz, i + 1)
+        Bx_v_z.set_xlabel("z", fontweight = "bold")
+        Bx_v_z.set_ylabel("Bx", fontweight = "bold")
+        i += 1
+    if opts.By_show and opts.x_show:
+        By_v_x = fig.add_subplot(vert, horiz, i + 1)
+        By_v_x.set_xlabel("x", fontweight = "bold")
+        By_v_x.set_ylabel("By", fontweight = "bold")
+        i += 1
+    if opts.By_show and opts.y_show:
+        By_v_y = fig.add_subplot(vert, horiz, i + 1)
+        By_v_y.set_xlabel("y", fontweight = "bold")
+        By_v_y.set_ylabel("By", fontweight = "bold")
+        i += 1
+    if opts.By_show and opts.z_show:
+        By_v_z = fig.add_subplot(vert, horiz, i + 1)
+        By_v_z.set_xlabel("z", fontweight = "bold")
+        By_v_z.set_ylabel("By", fontweight = "bold")
+        i += 1
+    if opts.Bz_show and opts.x_show:
+        Bz_v_x = fig.add_subplot(vert, horiz, i + 1)
+        Bz_v_x.set_xlabel("x", fontweight = "bold")
+        Bz_v_x.set_ylabel("Bz", fontweight = "bold")
+        i += 1
+    if opts.Bz_show and opts.y_show:
+        Bz_v_y = fig.add_subplot(vert, horiz, i + 1)
+        Bz_v_y.set_xlabel("y", fontweight = "bold")
+        Bz_v_y.set_ylabel("Bz", fontweight = "bold")
+        i += 1
+    if opts.Bz_show and opts.z_show:
+        Bz_v_z = fig.add_subplot(vert, horiz, i + 1)
+        Bz_v_z.set_xlabel("z", fontweight = "bold")
+        Bz_v_z.set_ylabel("Bz", fontweight = "bold")
+        i += 1
+
+    print "[plot] === %i plots will be made." % i
+
+    # populate a list of Field objects
+    fields = []
+    for ipath in args:
+        fields.append(Field(ipath))
+
+    # subtract background data from all measured maps
+    subtract_bgs(fields, opts)
+
+    # change slice and apply offset
+    sx += float(opts.dx)
+    sy += float(opts.dy)
+    sz += float(opts.dz)
+    apply_offset(fields, opts)
+
+    # normalize all simulation maps
+    normalize(fields, opts)
     
     # slice fields
     print "[slcf] Checking for slicing needs..."
