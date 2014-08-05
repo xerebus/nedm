@@ -51,7 +51,7 @@ class OffsetAxis:
 
         self.array = np.append(self.array, np.float64(val))
 
-    def apply_offset(V):
+    def apply_offset(self, V):
         '''Change self.V.'''
 
         assert len(V) == 3, "Offset vector must be 3-dimensional."
@@ -172,7 +172,7 @@ class Field:
     def calc_avg_Bx(self):
         '''Calculate the average Bx around the center from existing data.'''
 
-        center_box_size = 0.01
+        center_box_size = 0.02
 
         print "[calc] Finding data points around desired location..."
 
@@ -301,15 +301,6 @@ def parse_args():
     help = ("Specify a path to a VI-output text file containing background " +
     " data. This data will be subtracted from all other VI-output data."),
     default = [])
-    
-    # misc for convenience
-    parser.add_option("-n", "--normal", action = "store", dest = "newnorm",
-    help = "Custom normalization level in mG.", default = None)
-    #parser.add_option("-l", "--loc", action = "store", dest = "legloc",
-    #help = "Override legend location (see matplotlib docs).", default = 2)
-    parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
-    help = "Flip all plots. Useful to demonstrate anti-symmetry.",
-    default = False)
 
     # offsets
     parser.add_option("--dx", action = "store", dest = "dx",
@@ -319,9 +310,18 @@ def parse_args():
     parser.add_option("--dz", action = "store", dest = "dz",
     help = "Use if measured map is offset by z = DZ.", default = 0)
     
+    # misc for convenience
+    parser.add_option("-n", "--normal", action = "store", dest = "newnorm",
+    help = "Custom normalization level in mG.", default = None)
+    #parser.add_option("-l", "--loc", action = "store", dest = "legloc",
+    #help = "Override legend location (see matplotlib docs).", default = 2)
+    parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
+    help = "Flip all plots. Useful to demonstrate anti-symmetry.",
+    default = False)
+    
     parser.usage = ("%s [options] path1 [path2] ...\n\n" %
     os.path.basename(sys.argv[0]) +
-    "The path should be either a text file containing Labview VI output\n" +
+    "Each path should be either a text file containing Labview VI output\n" +
     "or a folder containing a Fieldmap.txt created with rotationshield.\n" +
     "The program will automatically determine which type is being read.")
         
@@ -356,6 +356,10 @@ def subtract_bgs(fields, opts):
 
 def apply_offset(fields, opts):
     '''Given an offset vector, apply it to all measured fields.'''
+    
+    opts.sx += float(opts.dx)
+    opts.sy += float(opts.dy)
+    opts.sz += float(opts.dz)
     
     offset_vector = (opts.dx, opts.dy, opts.dz)
     print "[offs] Applying offset vector (%s, %s, %s)." % offset_vector
@@ -407,13 +411,39 @@ def normalize(fields, opts):
         print "[norm] No simulated fields given; skipping normalization."
 
 
+def apply_axis_offsets(fields, opts):
+    '''Apply probe configuration offsets to spatial axes.'''
+
+    print "[aoff] Applying axis offsets..."
+    for field in fields:
+        if not field.is_simmap:
+            field.z.apply_offset((-0.015, 0.015, 0))
+
+
+def slice_fields(fields, opts):
+    '''Eliminate all points except those along the specified domain.'''
+
+    print "[slcf] Checking for slicing needs..."
+    for field in fields:
+        field.slice(opts.sx, opts.sy, opts.sz)
+    print "[slcf] Slicing done."
+
+
+def flip(fields, opts):
+    '''Flip fields if desired.'''
+
+    if opts.flip:
+        print "[flip] Flipping plots as requested."
+        for field in fields:
+            field.flip()
+
 if __name__ == "__main__":
 
     # handle input flags
     (opts, args) = parse_args()
 
-    # get slice values 
-    (sx, sy, sz) = (np.float64(opts.sx), np.float64(opts.sy),
+    # parse slice values 
+    (opts.sx, opts.sy, opts.sz) = (np.float64(opts.sx), np.float64(opts.sy),
     np.float64(opts.sz))
 
     # if all plots are disabled, then show them all
@@ -494,29 +524,14 @@ if __name__ == "__main__":
     for ipath in args:
         fields.append(Field(ipath))
 
-    # subtract background data from all measured maps
+    # analysis steps
+
     subtract_bgs(fields, opts)
-
-    # change slice and apply offset
-    sx += float(opts.dx)
-    sy += float(opts.dy)
-    sz += float(opts.dz)
     apply_offset(fields, opts)
-
-    # normalize all simulation maps
+    apply_axis_offsets(fields, opts)
     normalize(fields, opts)
-    
-    # slice fields
-    print "[slcf] Checking for slicing needs..."
-    for field in fields:
-        field.slice(sx, sy, sz)
-    print "[slcf] Slicing done."
-
-    # flip if wanted
-    if opts.flip:
-        print "[flip] Flipping plots as requested."
-        for field in fields:
-            field.flip()
+    slice_fields(fields, opts)
+    flip(fields, opts)
     
     # plot curve for each field
 
@@ -558,7 +573,7 @@ if __name__ == "__main__":
     fontp = FontProperties()
     fontp.set_size("small")
     
-    title = "Field slice in [m]: x = %s, y = %s, z = %s" % (sx, sy, sz)
+    title = "Field slice in [m]: x = %s, y = %s, z = %s" % (opts.sx, opts.sy, opts.sz)
     plt.suptitle(title, fontsize = "large", fontweight = "bold")
     plt.legend(loc = "best", prop = fontp)
 
