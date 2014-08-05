@@ -13,6 +13,8 @@ import math
 
 from matplotlib.font_manager import FontProperties
 
+### PURE HELPER FUNCTIONS
+
 def find_indices(array_condition):
     '''Given a 1D numpy array, finds indices where the value in the array
     meets the condition. Condition should be written in terms of array, not
@@ -20,6 +22,7 @@ def find_indices(array_condition):
 
     return list(np.nonzero(array_condition)[0])
 
+### CLASSES
 
 class OffsetAxis:
     '''Store a spatial axis for a vector map where the vector components are
@@ -263,6 +266,7 @@ class Field:
         self.By *= -1
         self.Bz *= -1
 
+### DATA-SPECIFIC HELPER FUNCTIONS
 
 def parse_args():
     '''Handles input flags. Returns (opts, args) from optparse.'''
@@ -417,7 +421,7 @@ def apply_axis_offsets(fields, opts):
     print "[aoff] Applying axis offsets..."
     for field in fields:
         if not field.is_simmap:
-            field.z.apply_offset((-0.015, 0.015, 0))
+            field.z.apply_offset((0.015, -0.015, 0))
 
 
 def slice_fields(fields, opts):
@@ -436,6 +440,8 @@ def flip(fields, opts):
         print "[flip] Flipping plots as requested."
         for field in fields:
             field.flip()
+
+### MAIN ROUTINE
 
 if __name__ == "__main__":
 
