@@ -80,7 +80,8 @@ class Field:
         
         self.is_simmap = True
 
-        self.avg_Bx = 0
+        self.avg_Bx = None
+        self.avg_Bz = None
 
         self.path = ipath
         self.label = os.path.basename(os.path.normpath(ipath))
@@ -172,8 +173,8 @@ class Field:
 
         print "[file] Reading done."
 
-    def calc_avg_Bx(self):
-        '''Calculate the average Bx around the center from existing data.'''
+    def calc_avg_B(self):
+        '''Calculate the average B around the center from existing data.'''
 
         center_box_size = 0.02
 
@@ -187,15 +188,20 @@ class Field:
         y_small), z_small)
         
         if len(close_to_center) == 0:
-            print "[calc] No suitable points to calculate average Bx."
-            self.avg_Bx = raw_input("[calc] Enter desired norm [mG]: ")
+            print "[calc] No suitable points to calculate average B."
+            self.avg_Bx = raw_input("[calc] Enter center Bx [mG]: ") or 621.0
+            self.avg_Bx = raw_input("[calc] Enter center Bz [mG]: ") or 0.0
         else:
             print "[calc] Sampling from %i points." % len(close_to_center)
             Bx_sample = np.array([])
+            Bz_sample = np.array([])
             for index in close_to_center:
                 Bx_sample = np.append(Bx_sample, self.Bx[index])
+                Bz_sample = np.append(Bz_sample, self.Bz[index])
             self.avg_Bx = np.average(Bx_sample)
+            self.avg_Bz = np.average(Bz_sample)
             print "[calc] Calculated average Bx as %f mG." % self.avg_Bx
+            print "[calc] Calculated average Bz as %f mG." % self.avg_Bz
 
     def normalize(self, newnorm):
         '''Given 'newnorm', the desired average field in the middle, scale a
@@ -204,7 +210,7 @@ class Field:
         assert self.is_simmap, ("Why are you trying to normalize a measured " +
         "field?")
 
-        self.calc_avg_Bx()
+        self.calc_avg_B()
         scale = newnorm / self.avg_Bx
 
         self.Bx *= scale
@@ -394,7 +400,7 @@ def normalize(fields, opts):
             norms = np.array([])
             for field in fields:
                 if not field.is_simmap:
-                    field.calc_avg_Bx()
+                    field.calc_avg_B()
                     norms = np.append(norms, np.float64(field.avg_Bx))
             if norms.size == 0:
                 newnorm = 30.0
@@ -422,6 +428,25 @@ def apply_axis_offsets(fields, opts):
     for field in fields:
         if not field.is_simmap:
             field.z.apply_offset((0.015, -0.015, 0))
+
+
+def correct_tilt(fields, opts):
+    '''Estimates the probe's tilt and corrects the data accordingly.'''
+
+    for field in fields:
+        if not field.is_simmap:
+            
+            # see presentation docs for details about the geometry
+            
+            print "[tilt] === Estimating probe angle for %s..." % field.label
+            field.calc_avg_B()
+            th = - (field.avg_Bz / field.avg_Bx)
+            print "[tilt] Probe tilt angle: %f radians." % th
+
+            field.Bx = (field.Bx * math.cos(th)) - (field.Bz * math.sin(th))
+            field.Bz = (field.Bz * math.cos(th)) + (field.Bx * math.sin(th))
+
+            print "[tilt] Adjusted readings."
 
 
 def slice_fields(fields, opts):
@@ -535,6 +560,7 @@ if __name__ == "__main__":
     subtract_bgs(fields, opts)
     apply_offset(fields, opts)
     apply_axis_offsets(fields, opts)
+    correct_tilt(fields, opts)
     normalize(fields, opts)
     slice_fields(fields, opts)
     flip(fields, opts)
