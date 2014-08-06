@@ -281,48 +281,49 @@ def parse_args():
     
     # x, y, z axes
     parser.add_option("-i", "--showx", action = "store_true", dest = "x_show",
-    help = "Show x plots", default = False)
+    help = "show x plots", default = False)
     parser.add_option("-j", "--showy", action = "store_true", dest = "y_show",
-    help = "Show y plots", default = False)
+    help = "show y plots", default = False)
     parser.add_option("-k", "--showz", action = "store_true", dest = "z_show",
-    help = "Show z plots", default = False)
+    help = "show z plots", default = False)
 
     # Bx, By, Bz axes
     parser.add_option("-X", "--showBx", action = "store_true",
-    dest = "Bx_show", help = "Show Bx plots", default = False)
+    dest = "Bx_show", help = "show Bx plots", default = False)
     parser.add_option("-Y", "--showBy", action = "store_true",
-    dest = "By_show", help = "Show By plots", default = False)
+    dest = "By_show", help = "show By plots", default = False)
     parser.add_option("-Z", "--showBz", action = "store_true",
-    dest = "Bz_show", help = "Show Bz plots", default = False)
+    dest = "Bz_show", help = "show Bz plots", default = False)
 
     # slicing
     parser.add_option("-x", "--slicex", action = "store", dest = "sx",
-    help = "Restrict to points near x = SX.", default = None)
+    help = "restrict to points near x = SX", default = None)
     parser.add_option("-y", "--slicey", action = "store", dest = "sy",
-    help = "Restrict to points near y = SY.", default = None)
+    help = "restrict to points near y = SY", default = None)
     parser.add_option("-z", "--slicez", action = "store", dest = "sz",
-    help = "Restrict to points near z = SZ.", default = None)
+    help = "restrict to points near z = SZ", default = None)
 
     # create background array
     # NOTE: there must be exactly as many background files as measured
     # maps specified
-    parser.add_option("-b", "--background", action = "append",
+    parser.add_option("-b", action = "append",
     dest = "bgpaths",
-    help = ("Specify a path to a VI-output text file containing background " +
-    " data. This data will be subtracted from all other VI-output data."),
+    help = ("Specify a path to a VI-output text file containing background" +
+    " data. If you use this options, provide either one background file, or" +
+    " one per foreground file."),
     default = [])
 
     # offsets
     parser.add_option("--dx", action = "store", dest = "dx",
-    help = "Use if measured map is offset by x = DX.", default = 0)
+    help = "use if measured map is offset by x = DX", default = 0)
     parser.add_option("--dy", action = "store", dest = "dy",
-    help = "Use if measured map is offset by y = DY.", default = 0)
+    help = "use if measured map is offset by y = DY", default = 0)
     parser.add_option("--dz", action = "store", dest = "dz",
-    help = "Use if measured map is offset by z = DZ.", default = 0)
+    help = "use if measured map is offset by z = DZ", default = 0)
     
     # misc for convenience
-    parser.add_option("-n", "--normal", action = "store", dest = "newnorm",
-    help = "Custom normalization level in mG.", default = None)
+    parser.add_option("-n", action = "store", dest = "newnorm",
+    help = "custom normalization level in mG", default = None)
     #parser.add_option("-l", "--loc", action = "store", dest = "legloc",
     #help = "Override legend location (see matplotlib docs).", default = 2)
     parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
@@ -332,8 +333,8 @@ def parse_args():
     parser.usage = ("%s [options] path1 [path2] ...\n\n" %
     os.path.basename(sys.argv[0]) +
     "Each path should be either a text file containing Labview VI output\n" +
-    "or a folder containing a Fieldmap.txt created with rotationshield.\n" +
-    "The program will automatically determine which type is being read.")
+    "or a folder containing a Fieldmap.txt created with rotationshield;\n" +
+    "the program will determine which type is being read.")
         
     return parser.parse_args()
 
