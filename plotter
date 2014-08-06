@@ -466,6 +466,45 @@ def flip(fields, opts):
         for field in fields:
             field.flip()
 
+### PLOTTING HELPER FUNCTIONS
+
+def make_plot(fig, opts, ylabel, xlabel, vert, horiz, i):
+    '''Queries the relevant options and creates subplots.'''
+
+    x_opt = eval("opts." + xlabel + "_show")
+    y_opt = eval("opts." + ylabel + "_show")
+
+    if x_opt and y_opt:
+        this_plot = fig.add_subplot(vert, horiz, i + 1)
+        this_plot.set_xlabel(xlabel, fontweight = "bold")
+        this_plot.set_ylabel(ylabel, fontweight = "bold")
+        i += 1
+    else:
+        this_plot = None
+
+    return (this_plot, i)
+
+def insert_field_into_plot(opts, this_plot, ylabel, xlabel, field, j):
+    '''Queries the relevant options and plots the desired field.'''
+    
+    x_opt = eval("opts." + xlabel + "_show")
+    y_opt = eval("opts." + ylabel + "_show")
+
+    marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
+
+    if x_opt and y_opt:
+        
+        x_axis = eval("field." + xlabel + ".ffor('" + ylabel + "')")
+        y_axis = eval("field." + ylabel)
+
+        this_plot.plot(x_axis, y_axis, marker[j % len(marker)], 
+        linestyle = '--', label = field.label)
+
+    else:
+        assert this_plot == None
+    
+    return this_plot
+
 ### MAIN ROUTINE
 
 if __name__ == "__main__":
@@ -502,51 +541,17 @@ if __name__ == "__main__":
     fig = plt.figure()
     i = 0 # subplot counter
 
-    if opts.Bx_show and opts.x_show:
-        Bx_v_x = fig.add_subplot(vert, horiz, i + 1)
-        Bx_v_x.set_xlabel("x", fontweight = "bold")
-        Bx_v_x.set_ylabel("Bx", fontweight = "bold")
-        i += 1
-    if opts.Bx_show and opts.y_show:
-        Bx_v_y = fig.add_subplot(vert, horiz, i + 1)
-        Bx_v_y.set_xlabel("y", fontweight = "bold")
-        Bx_v_y.set_ylabel("Bx", fontweight = "bold")
-        i += 1
-    if opts.Bx_show and opts.z_show:
-        Bx_v_z = fig.add_subplot(vert, horiz, i + 1)
-        Bx_v_z.set_xlabel("z", fontweight = "bold")
-        Bx_v_z.set_ylabel("Bx", fontweight = "bold")
-        i += 1
-    if opts.By_show and opts.x_show:
-        By_v_x = fig.add_subplot(vert, horiz, i + 1)
-        By_v_x.set_xlabel("x", fontweight = "bold")
-        By_v_x.set_ylabel("By", fontweight = "bold")
-        i += 1
-    if opts.By_show and opts.y_show:
-        By_v_y = fig.add_subplot(vert, horiz, i + 1)
-        By_v_y.set_xlabel("y", fontweight = "bold")
-        By_v_y.set_ylabel("By", fontweight = "bold")
-        i += 1
-    if opts.By_show and opts.z_show:
-        By_v_z = fig.add_subplot(vert, horiz, i + 1)
-        By_v_z.set_xlabel("z", fontweight = "bold")
-        By_v_z.set_ylabel("By", fontweight = "bold")
-        i += 1
-    if opts.Bz_show and opts.x_show:
-        Bz_v_x = fig.add_subplot(vert, horiz, i + 1)
-        Bz_v_x.set_xlabel("x", fontweight = "bold")
-        Bz_v_x.set_ylabel("Bz", fontweight = "bold")
-        i += 1
-    if opts.Bz_show and opts.y_show:
-        Bz_v_y = fig.add_subplot(vert, horiz, i + 1)
-        Bz_v_y.set_xlabel("y", fontweight = "bold")
-        Bz_v_y.set_ylabel("Bz", fontweight = "bold")
-        i += 1
-    if opts.Bz_show and opts.z_show:
-        Bz_v_z = fig.add_subplot(vert, horiz, i + 1)
-        Bz_v_z.set_xlabel("z", fontweight = "bold")
-        Bz_v_z.set_ylabel("Bz", fontweight = "bold")
-        i += 1
+    (Bx_v_x, i) = make_plot(fig, opts, "Bx", "x", vert, horiz, i)
+    (Bx_v_y, i) = make_plot(fig, opts, "Bx", "y", vert, horiz, i)
+    (Bx_v_z, i) = make_plot(fig, opts, "Bx", "z", vert, horiz, i)
+
+    (By_v_x, i) = make_plot(fig, opts, "By", "x", vert, horiz, i)
+    (By_v_y, i) = make_plot(fig, opts, "By", "y", vert, horiz, i)
+    (By_v_z, i) = make_plot(fig, opts, "By", "z", vert, horiz, i)
+    
+    (Bz_v_x, i) = make_plot(fig, opts, "Bz", "x", vert, horiz, i)
+    (Bz_v_y, i) = make_plot(fig, opts, "Bz", "y", vert, horiz, i)
+    (Bz_v_z, i) = make_plot(fig, opts, "Bz", "z", vert, horiz, i)
 
     print "[plot] === %i plots will be made." % i
 
@@ -568,38 +573,23 @@ if __name__ == "__main__":
     # plot curve for each field
 
     j = 0 # curve counter
-    marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
-    num_markers = len(marker)
     
     for field in fields:
+        
         print "[plot] Plotting curve (%i) %s..." % ((j + 1), field.label)
-        if opts.Bx_show and opts.x_show:
-            Bx_v_x.plot(field.x.ffor('Bx'), field.Bx, marker[j % num_markers], 
-            linestyle = '--', label = field.label)
-        if opts.Bx_show and opts.y_show:
-            Bx_v_y.plot(field.y.ffor('Bx'), field.Bx, marker[j % num_markers], 
-            linestyle = '--', label = field.label)
-        if opts.Bx_show and opts.z_show:
-            Bx_v_z.plot(field.z.ffor('Bx'), field.Bx, marker[j % num_markers], 
-            linestyle = '--', label = field.label)
-        if opts.By_show and opts.x_show:
-            By_v_x.plot(field.x.ffor('By'), field.By, marker[j % num_markers], 
-            linestyle = '--', label = field.label)
-        if opts.By_show and opts.y_show:
-            By_v_y.plot(field.y.ffor('By'), field.By, marker[j % num_markers], 
-            linestyle = '--', label = field.label)
-        if opts.By_show and opts.z_show:
-            By_v_z.plot(field.z.ffor('By'), field.By, marker[j % num_markers], 
-            linestyle = '--', label = field.label)
-        if opts.Bz_show and opts.x_show:
-            Bz_v_x.plot(field.x.ffor('Bz'), field.Bz, marker[j % num_markers], 
-            linestyle = '--', label = field.label)
-        if opts.Bz_show and opts.y_show:
-            Bz_v_y.plot(field.y.ffor('Bz'), field.Bz, marker[j % num_markers], 
-            linestyle = '--', label = field.label)
-        if opts.Bz_show and opts.z_show:
-            Bz_v_z.plot(field.z.ffor('Bz'), field.Bz, marker[j % num_markers], 
-            linestyle = '--', label = field.label)
+        
+        insert_field_into_plot(opts, Bx_v_x, "Bx", "x", field, j)
+        insert_field_into_plot(opts, Bx_v_y, "Bx", "y", field, j)
+        insert_field_into_plot(opts, Bx_v_z, "Bx", "z", field, j)
+
+        insert_field_into_plot(opts, By_v_x, "By", "x", field, j)
+        insert_field_into_plot(opts, By_v_y, "By", "y", field, j)
+        insert_field_into_plot(opts, By_v_z, "By", "z", field, j)
+        
+        insert_field_into_plot(opts, Bz_v_x, "Bz", "x", field, j)
+        insert_field_into_plot(opts, Bz_v_y, "Bz", "y", field, j)
+        insert_field_into_plot(opts, Bz_v_z, "Bz", "z", field, j)
+        
         j += 1
 
     fontp = FontProperties()
