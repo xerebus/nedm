@@ -372,13 +372,15 @@ def apply_offset(fields, opts):
     opts.sz += float(opts.dz)
     
     offset_vector = (opts.dx, opts.dy, opts.dz)
-    print "[offs] Applying offset vector (%s, %s, %s)." % offset_vector
+    
     for field in fields:
         if not field.is_simmap:
             field.x.array += float(opts.dx)
             field.y.array += float(opts.dy)
             field.z.array += float(opts.dz)
 
+    print ("[offs] Applied probe centering offset vector (%s, %s, %s)." 
+    % offset_vector)
 
 def normalize(fields, opts):
     '''Normalize all simulated fields to agree with measured fields.'''
@@ -424,11 +426,10 @@ def normalize(fields, opts):
 def apply_axis_offsets(fields, opts):
     '''Apply probe configuration offsets to spatial axes.'''
 
-    print "[aoff] Applying axis offsets..."
     for field in fields:
         if not field.is_simmap:
             field.z.apply_offset((0.015, -0.015, 0))
-
+    print "[aoff] Applied probe axis offsets."
 
 def correct_tilt(fields, opts):
     '''Estimates the probe's tilt and corrects the data accordingly.'''
@@ -484,18 +485,18 @@ def make_plot(fig, opts, ylabel, xlabel, vert, horiz, i):
 
     return (this_plot, i)
 
-def insert_field_into_plot(opts, this_plot, ylabel, xlabel, field, j):
+def insert_field_into_plot(field, ylabel, xlabel, opts, j):
     '''Queries the relevant options and plots the desired field.'''
     
     x_opt = eval("opts." + xlabel + "_show")
     y_opt = eval("opts." + ylabel + "_show")
 
-    marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
-
     if x_opt and y_opt:
         
         x_axis = eval("field." + xlabel + ".ffor('" + ylabel + "')")
         y_axis = eval("field." + ylabel)
+        this_plot = eval(ylabel + "_v_" + xlabel)
+        marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
 
         this_plot.plot(x_axis, y_axis, marker[j % len(marker)], 
         linestyle = '--', label = field.label)
@@ -578,17 +579,17 @@ if __name__ == "__main__":
         
         print "[plot] Plotting curve (%i) %s..." % ((j + 1), field.label)
         
-        insert_field_into_plot(opts, Bx_v_x, "Bx", "x", field, j)
-        insert_field_into_plot(opts, Bx_v_y, "Bx", "y", field, j)
-        insert_field_into_plot(opts, Bx_v_z, "Bx", "z", field, j)
+        insert_field_into_plot(field, "Bx", "x", opts, j)
+        insert_field_into_plot(field, "Bx", "y", opts, j)
+        insert_field_into_plot(field, "Bx", "z", opts, j)
 
-        insert_field_into_plot(opts, By_v_x, "By", "x", field, j)
-        insert_field_into_plot(opts, By_v_y, "By", "y", field, j)
-        insert_field_into_plot(opts, By_v_z, "By", "z", field, j)
+        insert_field_into_plot(field, "By", "x", opts, j)
+        insert_field_into_plot(field, "By", "y", opts, j)
+        insert_field_into_plot(field, "By", "z", opts, j)
         
-        insert_field_into_plot(opts, Bz_v_x, "Bz", "x", field, j)
-        insert_field_into_plot(opts, Bz_v_y, "Bz", "y", field, j)
-        insert_field_into_plot(opts, Bz_v_z, "Bz", "z", field, j)
+        insert_field_into_plot(field, "Bz", "x", opts, j)
+        insert_field_into_plot(field, "Bz", "y", opts, j)
+        insert_field_into_plot(field, "Bz", "z", opts, j)
         
         j += 1
 
