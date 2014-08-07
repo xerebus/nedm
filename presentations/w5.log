@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Debian) (preloaded format=pdflatex 2014.7.16)  6 AUG 2014 22:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Debian) (preloaded format=pdflatex 2014.7.16)  7 AUG 2014 15:30
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1001,7 +1001,77 @@ Package pdftex.def Info: figures/nEDM_P_T_violation.png used on input line 76.
 (pdftex.def)             Requested size: 122.91406pt x 163.4787pt.
  [3
 
- <./figures/nEDM_P_T_violation.png (PNG copy)>] [4
+ <./figures/nEDM_P_T_violation.png (PNG copy)>]
+File: figures/nEDM_P_T_violation.png Graphic file (type png)
+ <use figures/nEDM_P_T_violation.png>
+Package pdftex.def Info: figures/nEDM_P_T_violation.png used on input line 76.
+(pdftex.def)             Requested size: 122.91406pt x 163.4787pt.
+ [4
+
+]
+File: figures/nEDM_P_T_violation.png Graphic file (type png)
+
+<use figures/nEDM_P_T_violation.png>
+Package pdftex.def Info: figures/nEDM_P_T_violation.png used on input line 76.
+(pdftex.def)             Requested size: 122.91406pt x 163.4787pt.
+ [5
+
+]
+File: figures/nEDM_P_T_violation.png Graphic file (type png)
+ <use figures/nEDM_P_T_violation.png>
+Package pdftex.def Info: figures/nEDM_P_T_violation.png used on input line 76.
+(pdftex.def)             Requested size: 122.91406pt x 163.4787pt.
+
+[6
+
+]
+File: figures/nEDM_P_T_violation.png Graphic file (type png)
+ <use figures/nEDM_P_T_violation.png>
+Package pdftex.def Info: figures/nEDM_P_T_violation.png used on input line 76.
+(pdftex.def)             Requested size: 122.91406pt x 163.4787pt.
+ [7
+
+]
+File: figures/nEDM_P_T_violation.png Graphic file (type png)
+
+<use figures/nEDM_P_T_violation.png>
+Package pdftex.def Info: figures/nEDM_P_T_violation.png used on input line 76.
+(pdftex.def)             Requested size: 122.91406pt x 163.4787pt.
+ [8
+
+]
+File: figures/nEDM_P_T_violation.png Graphic file (type png)
+ <use figures/nEDM_P_T_violation.png>
+Package pdftex.def Info: figures/nEDM_P_T_violation.png used on input line 76.
+(pdftex.def)             Requested size: 122.91406pt x 163.4787pt.
+
+[9
+
+]
+File: figures/nEDM_P_T_violation.png Graphic file (type png)
+ <use figures/nEDM_P_T_violation.png>
+Package pdftex.def Info: figures/nEDM_P_T_violation.png used on input line 76.
+(pdftex.def)             Requested size: 122.91406pt x 163.4787pt.
+ [10
+
+] [11
+
+] [12
+
+] [13
+
+] [14
+
+] [15
+
+] [16
+
+]
+[17
+
+] [18
+
+] [19
 
 ]
 Package epstopdf Info: Source file: <figures/simplified_structure.eps>
@@ -1016,17 +1086,101 @@ e-eps-converted-to.pdf figures/simplified_structure.eps>
 (epstopdf)             \includegraphics on input line 130.
 Package epstopdf Info: Output file is already uptodate.
 
-<figures/simplified_structure-eps-converted-to.pdf, id=51, 1709.38625pt x 1318.
-9275pt>
+<figures/simplified_structure-eps-converted-to.pdf, id=129, 1709.38625pt x 1318
+.9275pt>
 File: figures/simplified_structure-eps-converted-to.pdf Graphic file (type pdf)
 
  <use figures/simplified_structure-eps-converted-to.pdf>
 Package pdftex.def Info: figures/simplified_structure-eps-converted-to.pdf used
  on input line 130.
 (pdftex.def)             Requested size: 153.64493pt x 115.40169pt.
- [5
+ [20
 
  <./figures/simplified_structure-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <figures/simplified_structure.eps>
+(epstopdf)                    date: 2014-08-06 15:36:08
+(epstopdf)                    size: 122359 bytes
+(epstopdf)             Output file: <figures/simplified_structure-eps-converted
+-to.pdf>
+(epstopdf)                    date: 2014-08-06 15:36:54
+(epstopdf)                    size: 68813 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/simplified_structur
+e-eps-converted-to.pdf figures/simplified_structure.eps>
+(epstopdf)             \includegraphics on input line 130.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/simplified_structure-eps-converted-to.pdf Graphic file (type pdf)
+
+
+<use figures/simplified_structure-eps-converted-to.pdf>
+Package pdftex.def Info: figures/simplified_structure-eps-converted-to.pdf used
+ on input line 130.
+(pdftex.def)             Requested size: 153.64493pt x 115.40169pt.
+ [21
+
+]
+Package epstopdf Info: Source file: <figures/simplified_structure.eps>
+(epstopdf)                    date: 2014-08-06 15:36:08
+(epstopdf)                    size: 122359 bytes
+(epstopdf)             Output file: <figures/simplified_structure-eps-converted
+-to.pdf>
+(epstopdf)                    date: 2014-08-06 15:36:54
+(epstopdf)                    size: 68813 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/simplified_structur
+e-eps-converted-to.pdf figures/simplified_structure.eps>
+(epstopdf)             \includegraphics on input line 130.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/simplified_structure-eps-converted-to.pdf Graphic file (type pdf)
+
+
+<use figures/simplified_structure-eps-converted-to.pdf>
+Package pdftex.def Info: figures/simplified_structure-eps-converted-to.pdf used
+ on input line 130.
+(pdftex.def)             Requested size: 153.64493pt x 115.40169pt.
+ [22
+
+]
+Package epstopdf Info: Source file: <figures/simplified_structure.eps>
+(epstopdf)                    date: 2014-08-06 15:36:08
+(epstopdf)                    size: 122359 bytes
+(epstopdf)             Output file: <figures/simplified_structure-eps-converted
+-to.pdf>
+(epstopdf)                    date: 2014-08-06 15:36:54
+(epstopdf)                    size: 68813 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/simplified_structur
+e-eps-converted-to.pdf figures/simplified_structure.eps>
+(epstopdf)             \includegraphics on input line 130.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/simplified_structure-eps-converted-to.pdf Graphic file (type pdf)
+
+
+<use figures/simplified_structure-eps-converted-to.pdf>
+Package pdftex.def Info: figures/simplified_structure-eps-converted-to.pdf used
+ on input line 130.
+(pdftex.def)             Requested size: 153.64493pt x 115.40169pt.
+ [23
+
+]
+Package epstopdf Info: Source file: <figures/simplified_structure.eps>
+(epstopdf)                    date: 2014-08-06 15:36:08
+(epstopdf)                    size: 122359 bytes
+(epstopdf)             Output file: <figures/simplified_structure-eps-converted
+-to.pdf>
+(epstopdf)                    date: 2014-08-06 15:36:54
+(epstopdf)                    size: 68813 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/simplified_structur
+e-eps-converted-to.pdf figures/simplified_structure.eps>
+(epstopdf)             \includegraphics on input line 130.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/simplified_structure-eps-converted-to.pdf Graphic file (type pdf)
+
+
+<use figures/simplified_structure-eps-converted-to.pdf>
+Package pdftex.def Info: figures/simplified_structure-eps-converted-to.pdf used
+ on input line 130.
+(pdftex.def)             Requested size: 153.64493pt x 115.40169pt.
+ [24
+
+]
 Package epstopdf Info: Source file: <../savedplots/original_Bz.eps>
 (epstopdf)                    date: 2014-08-06 16:00:25
 (epstopdf)                    size: 56076 bytes
@@ -1039,58 +1193,58 @@ ps-converted-to.pdf ../savedplots/original_Bz.eps>
 (epstopdf)             \includegraphics on input line 152.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/original_Bz-eps-converted-to.pdf, id=59, 718.685pt x 400.49625pt
->
+<../savedplots/original_Bz-eps-converted-to.pdf, id=158, 718.685pt x 400.49625p
+t>
 File: ../savedplots/original_Bz-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/original_Bz-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/original_Bz-eps-converted-to.pdf used on
  input line 152.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
- [6
+ [25
 
  <../savedplots/original_Bz-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/thickness_Bz.eps>
-(epstopdf)                    date: 2014-07-16 15:47:11
-(epstopdf)                    size: 56017 bytes
+(epstopdf)                    date: 2014-08-07 15:27:38
+(epstopdf)                    size: 61489 bytes
 (epstopdf)             Output file: <../savedplots/thickness_Bz-eps-converted-t
 o.pdf>
-(epstopdf)                    date: 2014-07-16 16:12:37
-(epstopdf)                    size: 45719 bytes
+(epstopdf)                    date: 2014-08-07 15:28:32
+(epstopdf)                    size: 47517 bytes
 (epstopdf)             Command: <epstopdf --outfile=../savedplots/thickness_Bz-
 eps-converted-to.pdf ../savedplots/thickness_Bz.eps>
 (epstopdf)             \includegraphics on input line 161.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/thickness_Bz-eps-converted-to.pdf, id=129, 718.685pt x 424.58624
+<../savedplots/thickness_Bz-eps-converted-to.pdf, id=229, 718.685pt x 400.49625
 pt>
 File: ../savedplots/thickness_Bz-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/thickness_Bz-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/thickness_Bz-eps-converted-to.pdf used o
 n input line 161.
-(pdftex.def)             Requested size: 307.28987pt x 166.5376pt.
- [7
+(pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
+ [26
 
  <../savedplots/thickness_Bz-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/longer10cm_Bz.eps>
-(epstopdf)                    date: 2014-07-16 16:27:10
-(epstopdf)                    size: 58027 bytes
+(epstopdf)                    date: 2014-08-07 15:29:33
+(epstopdf)                    size: 63476 bytes
 (epstopdf)             Output file: <../savedplots/longer10cm_Bz-eps-converted-
 to.pdf>
-(epstopdf)                    date: 2014-07-16 16:27:55
-(epstopdf)                    size: 47594 bytes
+(epstopdf)                    date: 2014-08-07 15:29:39
+(epstopdf)                    size: 49345 bytes
 (epstopdf)             Command: <epstopdf --outfile=../savedplots/longer10cm_Bz
 -eps-converted-to.pdf ../savedplots/longer10cm_Bz.eps>
 (epstopdf)             \includegraphics on input line 170.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/longer10cm_Bz-eps-converted-to.pdf, id=203, 718.685pt x 424.5862
-4pt>
+<../savedplots/longer10cm_Bz-eps-converted-to.pdf, id=301, 718.685pt x 400.4962
+5pt>
 File: ../savedplots/longer10cm_Bz-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/longer10cm_Bz-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/longer10cm_Bz-eps-converted-to.pdf used 
 on input line 170.
-(pdftex.def)             Requested size: 307.28987pt x 166.5376pt.
- [8
+(pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
+ [27
 
  <../savedplots/longer10cm_Bz-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/upDown_Bz.eps>
@@ -1105,13 +1259,13 @@ df>
 (epstopdf)             \includegraphics on input line 179.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/upDown_Bz-eps-converted-to.pdf, id=279, 718.685pt x 400.49625pt>
+<../savedplots/upDown_Bz-eps-converted-to.pdf, id=376, 718.685pt x 400.49625pt>
 File: ../savedplots/upDown_Bz-eps-converted-to.pdf Graphic file (type pdf)
 <use ../savedplots/upDown_Bz-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/upDown_Bz-eps-converted-to.pdf used on i
 nput line 179.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
- [9
+ [28
 
  <../savedplots/upDown_Bz-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/manyx_Bz_z.eps>
@@ -1126,14 +1280,14 @@ s-converted-to.pdf ../savedplots/manyx_Bz_z.eps>
 (epstopdf)             \includegraphics on input line 188.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/manyx_Bz_z-eps-converted-to.pdf, id=342, 718.685pt x 400.49625pt
+<../savedplots/manyx_Bz_z-eps-converted-to.pdf, id=439, 718.685pt x 400.49625pt
 >
 File: ../savedplots/manyx_Bz_z-eps-converted-to.pdf Graphic file (type pdf)
  <use ../savedplots/manyx_Bz_z-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/manyx_Bz_z-eps-converted-to.pdf used on 
 input line 188.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
- [10
+ [29
 
  <../savedplots/manyx_Bz_z-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/endcapOnAxis_dx0.eps>
@@ -1148,7 +1302,7 @@ dx0-eps-converted-to.pdf ../savedplots/endcapOnAxis_dx0.eps>
 (epstopdf)             \includegraphics on input line 197.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/endcapOnAxis_dx0-eps-converted-to.pdf, id=403, 718.685pt x 400.4
+<../savedplots/endcapOnAxis_dx0-eps-converted-to.pdf, id=500, 718.685pt x 400.4
 9625pt>
 File: ../savedplots/endcapOnAxis_dx0-eps-converted-to.pdf Graphic file (type pd
 f)
@@ -1156,7 +1310,7 @@ f)
 Package pdftex.def Info: ../savedplots/endcapOnAxis_dx0-eps-converted-to.pdf us
 ed on input line 197.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
- [11
+ [30
 
  <../savedplots/endcapOnAxis_dx0-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/endcapOnAxis_dx1p4.eps>
@@ -1171,7 +1325,7 @@ dx1p4-eps-converted-to.pdf ../savedplots/endcapOnAxis_dx1p4.eps>
 (epstopdf)             \includegraphics on input line 206.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/endcapOnAxis_dx1p4-eps-converted-to.pdf, id=469, 718.685pt x 400
+<../savedplots/endcapOnAxis_dx1p4-eps-converted-to.pdf, id=566, 718.685pt x 400
 .49625pt>
 File: ../savedplots/endcapOnAxis_dx1p4-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -1179,7 +1333,7 @@ pdf)
 Package pdftex.def Info: ../savedplots/endcapOnAxis_dx1p4-eps-converted-to.pdf 
 used on input line 206.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
- [12
+ [31
 
  <../savedplots/endcapOnAxis_dx1p4-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/endcapOneBetter.eps>
@@ -1194,7 +1348,7 @@ er-eps-converted-to.pdf ../savedplots/endcapOneBetter.eps>
 (epstopdf)             \includegraphics on input line 215.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/endcapOneBetter-eps-converted-to.pdf, id=538, 718.685pt x 400.49
+<../savedplots/endcapOneBetter-eps-converted-to.pdf, id=636, 718.685pt x 400.49
 625pt>
 File: ../savedplots/endcapOneBetter-eps-converted-to.pdf Graphic file (type pdf
 )
@@ -1202,7 +1356,7 @@ File: ../savedplots/endcapOneBetter-eps-converted-to.pdf Graphic file (type pdf
 Package pdftex.def Info: ../savedplots/endcapOneBetter-eps-converted-to.pdf use
 d on input line 215.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
- [13
+ [32
 
  <../savedplots/endcapOneBetter-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <figures/probe.eps>
@@ -1216,16 +1370,72 @@ Package epstopdf Info: Source file: <figures/probe.eps>
 (epstopdf)             \includegraphics on input line 252.
 Package epstopdf Info: Output file is already uptodate.
 
-<figures/probe-eps-converted-to.pdf, id=616, 450.68375pt x 430.60875pt>
+<figures/probe-eps-converted-to.pdf, id=712, 450.68375pt x 430.60875pt>
 File: figures/probe-eps-converted-to.pdf Graphic file (type pdf)
 
 <use figures/probe-eps-converted-to.pdf>
 Package pdftex.def Info: figures/probe-eps-converted-to.pdf used on input line 
 252.
 (pdftex.def)             Requested size: 153.64493pt x 146.79926pt.
- [14
+ [33
 
  <./figures/probe-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <figures/probe.eps>
+(epstopdf)                    date: 2014-08-06 17:10:29
+(epstopdf)                    size: 21058 bytes
+(epstopdf)             Output file: <figures/probe-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-08-06 17:10:33
+(epstopdf)                    size: 11103 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/probe-eps-converted
+-to.pdf figures/probe.eps>
+(epstopdf)             \includegraphics on input line 252.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/probe-eps-converted-to.pdf Graphic file (type pdf)
+ <use figures/probe-eps-converted-to.pdf>
+Package pdftex.def Info: figures/probe-eps-converted-to.pdf used on input line 
+252.
+(pdftex.def)             Requested size: 153.64493pt x 146.79926pt.
+ [34
+
+]
+Package epstopdf Info: Source file: <figures/probe.eps>
+(epstopdf)                    date: 2014-08-06 17:10:29
+(epstopdf)                    size: 21058 bytes
+(epstopdf)             Output file: <figures/probe-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-08-06 17:10:33
+(epstopdf)                    size: 11103 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/probe-eps-converted
+-to.pdf figures/probe.eps>
+(epstopdf)             \includegraphics on input line 252.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/probe-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/probe-eps-converted-to.pdf>
+Package pdftex.def Info: figures/probe-eps-converted-to.pdf used on input line 
+252.
+(pdftex.def)             Requested size: 153.64493pt x 146.79926pt.
+ [35
+
+]
+Package epstopdf Info: Source file: <figures/probe.eps>
+(epstopdf)                    date: 2014-08-06 17:10:29
+(epstopdf)                    size: 21058 bytes
+(epstopdf)             Output file: <figures/probe-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-08-06 17:10:33
+(epstopdf)                    size: 11103 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/probe-eps-converted
+-to.pdf figures/probe.eps>
+(epstopdf)             \includegraphics on input line 252.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/probe-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/probe-eps-converted-to.pdf>
+Package pdftex.def Info: figures/probe-eps-converted-to.pdf used on input line 
+252.
+(pdftex.def)             Requested size: 153.64493pt x 146.79926pt.
+ [36
+
+]
 Package epstopdf Info: Source file: <../savedplots/endcapThreeNoOffset.eps>
 (epstopdf)                    date: 2014-08-06 18:29:08
 (epstopdf)                    size: 62294 bytes
@@ -1238,7 +1448,7 @@ Offset-eps-converted-to.pdf ../savedplots/endcapThreeNoOffset.eps>
 (epstopdf)             \includegraphics on input line 261.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/endcapThreeNoOffset-eps-converted-to.pdf, id=625, 718.685pt x 40
+<../savedplots/endcapThreeNoOffset-eps-converted-to.pdf, id=736, 718.685pt x 40
 0.49625pt>
 File: ../savedplots/endcapThreeNoOffset-eps-converted-to.pdf Graphic file (type
  pdf)
@@ -1247,7 +1457,7 @@ Package pdftex.def Info: ../savedplots/endcapThreeNoOffset-eps-converted-to.pdf
  used on input line 261.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
 
-[15
+[37
 
  <../savedplots/endcapThreeNoOffset-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <../savedplots/endcapThreeOffset.eps>
@@ -1262,7 +1472,7 @@ fset-eps-converted-to.pdf ../savedplots/endcapThreeOffset.eps>
 (epstopdf)             \includegraphics on input line 270.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/endcapThreeOffset-eps-converted-to.pdf, id=700, 718.685pt x 400.
+<../savedplots/endcapThreeOffset-eps-converted-to.pdf, id=813, 718.685pt x 400.
 49625pt>
 File: ../savedplots/endcapThreeOffset-eps-converted-to.pdf Graphic file (type p
 df)
@@ -1270,7 +1480,7 @@ df)
 Package pdftex.def Info: ../savedplots/endcapThreeOffset-eps-converted-to.pdf u
 sed on input line 270.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
- [16
+ [38
 
  <../savedplots/endcapThreeOffset-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <figures/probe_tilt.eps>
@@ -1284,16 +1494,110 @@ erted-to.pdf figures/probe_tilt.eps>
 (epstopdf)             \includegraphics on input line 295.
 Package epstopdf Info: Output file is already uptodate.
 
-<figures/probe_tilt-eps-converted-to.pdf, id=776, 549.05125pt x 262.9825pt>
+<figures/probe_tilt-eps-converted-to.pdf, id=889, 549.05125pt x 262.9825pt>
 File: figures/probe_tilt-eps-converted-to.pdf Graphic file (type pdf)
 
 <use figures/probe_tilt-eps-converted-to.pdf>
 Package pdftex.def Info: figures/probe_tilt-eps-converted-to.pdf used on input 
 line 295.
 (pdftex.def)             Requested size: 153.64493pt x 73.59045pt.
- [17
+ [39
 
  <./figures/probe_tilt-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <figures/probe_tilt.eps>
+(epstopdf)                    date: 2014-08-06 17:40:56
+(epstopdf)                    size: 10015 bytes
+(epstopdf)             Output file: <figures/probe_tilt-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-08-06 17:40:59
+(epstopdf)                    size: 5352 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/probe_tilt-eps-conv
+erted-to.pdf figures/probe_tilt.eps>
+(epstopdf)             \includegraphics on input line 295.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/probe_tilt-eps-converted-to.pdf Graphic file (type pdf)
+ <use figures/probe_tilt-eps-converted-to.pdf>
+Package pdftex.def Info: figures/probe_tilt-eps-converted-to.pdf used on input 
+line 295.
+(pdftex.def)             Requested size: 153.64493pt x 73.59045pt.
+ [40
+
+]
+Package epstopdf Info: Source file: <figures/probe_tilt.eps>
+(epstopdf)                    date: 2014-08-06 17:40:56
+(epstopdf)                    size: 10015 bytes
+(epstopdf)             Output file: <figures/probe_tilt-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-08-06 17:40:59
+(epstopdf)                    size: 5352 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/probe_tilt-eps-conv
+erted-to.pdf figures/probe_tilt.eps>
+(epstopdf)             \includegraphics on input line 295.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/probe_tilt-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/probe_tilt-eps-converted-to.pdf>
+Package pdftex.def Info: figures/probe_tilt-eps-converted-to.pdf used on input 
+line 295.
+(pdftex.def)             Requested size: 153.64493pt x 73.59045pt.
+ [41
+
+]
+Package epstopdf Info: Source file: <figures/probe_tilt.eps>
+(epstopdf)                    date: 2014-08-06 17:40:56
+(epstopdf)                    size: 10015 bytes
+(epstopdf)             Output file: <figures/probe_tilt-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-08-06 17:40:59
+(epstopdf)                    size: 5352 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/probe_tilt-eps-conv
+erted-to.pdf figures/probe_tilt.eps>
+(epstopdf)             \includegraphics on input line 295.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/probe_tilt-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/probe_tilt-eps-converted-to.pdf>
+Package pdftex.def Info: figures/probe_tilt-eps-converted-to.pdf used on input 
+line 295.
+(pdftex.def)             Requested size: 153.64493pt x 73.59045pt.
+ [42
+
+]
+Package epstopdf Info: Source file: <figures/probe_tilt.eps>
+(epstopdf)                    date: 2014-08-06 17:40:56
+(epstopdf)                    size: 10015 bytes
+(epstopdf)             Output file: <figures/probe_tilt-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-08-06 17:40:59
+(epstopdf)                    size: 5352 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/probe_tilt-eps-conv
+erted-to.pdf figures/probe_tilt.eps>
+(epstopdf)             \includegraphics on input line 295.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/probe_tilt-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/probe_tilt-eps-converted-to.pdf>
+Package pdftex.def Info: figures/probe_tilt-eps-converted-to.pdf used on input 
+line 295.
+(pdftex.def)             Requested size: 153.64493pt x 73.59045pt.
+ [43
+
+]
+Package epstopdf Info: Source file: <figures/probe_tilt.eps>
+(epstopdf)                    date: 2014-08-06 17:40:56
+(epstopdf)                    size: 10015 bytes
+(epstopdf)             Output file: <figures/probe_tilt-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-08-06 17:40:59
+(epstopdf)                    size: 5352 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/probe_tilt-eps-conv
+erted-to.pdf figures/probe_tilt.eps>
+(epstopdf)             \includegraphics on input line 295.
+Package epstopdf Info: Output file is already uptodate.
+File: figures/probe_tilt-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/probe_tilt-eps-converted-to.pdf>
+Package pdftex.def Info: figures/probe_tilt-eps-converted-to.pdf used on input 
+line 295.
+(pdftex.def)             Requested size: 153.64493pt x 73.59045pt.
+ [44
+
+]
 Package epstopdf Info: Source file: <../savedplots/w5_comp.eps>
 (epstopdf)                    date: 2014-08-06 18:35:38
 (epstopdf)                    size: 67905 bytes
@@ -1306,14 +1610,14 @@ onverted-to.pdf ../savedplots/w5_comp.eps>
 (epstopdf)             \includegraphics on input line 304.
 Package epstopdf Info: Output file is already uptodate.
 
-<../savedplots/w5_comp-eps-converted-to.pdf, id=784, 718.685pt x 400.49625pt>
+<../savedplots/w5_comp-eps-converted-to.pdf, id=923, 718.685pt x 400.49625pt>
 File: ../savedplots/w5_comp-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ../savedplots/w5_comp-eps-converted-to.pdf>
 Package pdftex.def Info: ../savedplots/w5_comp-eps-converted-to.pdf used on inp
 ut line 304.
 (pdftex.def)             Requested size: 307.28987pt x 154.16328pt.
- [18
+ [45
 
  <../savedplots/w5_comp-eps-converted-to.pdf>]
 \tf@nav=\write6
@@ -1340,10 +1644,10 @@ LaTeX Font Warning: Size substitutions with differences
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 306.
  ) 
 Here is how much of TeX's memory you used:
- 16948 strings out of 495021
- 322551 string characters out of 6181344
- 382831 words of memory out of 5000000
- 19719 multiletter control sequences out of 15000+600000
+ 16998 strings out of 495021
+ 323002 string characters out of 6181344
+ 383844 words of memory out of 5000000
+ 19715 multiletter control sequences out of 15000+600000
  17758 words of font info for 66 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  48i,11n,51p,431b,606s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1361,10 +1665,10 @@ ts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/ms
 am10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msb
 m10.pfb>
-Output written on w5.pdf (18 pages, 1145162 bytes).
+Output written on w5.pdf (45 pages, 1182937 bytes).
 PDF statistics:
- 917 PDF objects out of 1000 (max. 8388607)
- 209 compressed objects within 3 object streams
- 37 named destinations out of 1000 (max. 500000)
+ 1068 PDF objects out of 1200 (max. 8388607)
+ 334 compressed objects within 4 object streams
+ 91 named destinations out of 1000 (max. 500000)
  123 words of extra memory for PDF output out of 10000 (max. 10000000)
 
