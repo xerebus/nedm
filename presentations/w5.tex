@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[handout]{beamer}
 \usepackage{graphicx, amsmath, amssymb, textcomp}
 
 \newcommand{\pyplot}{\includegraphics[width=\textwidth, trim=60px 60px 60px 40px]}
@@ -129,18 +129,18 @@
 
 \end{frame}
 
-\begin{frame}
-\frametitle{analyzing the magnetic field profile}
-
-    \begin{itemize}
-        \item simulate experiment and calculate field
-        \item compare simulation and measurement in warm case
-        \item correct measurements
-        \item use simulation to predict effects of endcap
-        \item see whether measurements agree
-    \end{itemize}
-
-\end{frame}
+%\begin{frame}
+%\frametitle{analyzing the magnetic field profile}
+%
+%    \begin{itemize}
+%        \item simulate experiment and calculate field
+%        \item compare simulation and measurement in warm case
+%        \item correct measurements
+%        \item use simulation to predict effects of endcap
+%        \item see whether measurements agree
+%    \end{itemize}
+%
+%\end{frame}
 
 \begin{frame}
 \frametitle{original comparison, warm}
@@ -152,10 +152,37 @@
 \end{frame}
 
 \begin{frame}
+\frametitle{Metglas thickness}
+
+    \begin{center}
+    \pyplot{../savedplots/thickness_Bz.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Metglas 10 cm longer on top}
+
+    \begin{center}
+    \pyplot{../savedplots/longer10cm_Bz.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
 \frametitle{correction 1: probe measurement time}
 
     \begin{center}
     \pyplot{../savedplots/upDown_Bz.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{correction 2: $x$ centering}
+
+    \begin{center}
+    \pyplot{../savedplots/manyx_Bz_z.eps}
     \end{center}
 
 \end{frame}
@@ -179,7 +206,25 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{correction 3: probe offset}
+\frametitle{comparison, superconducting}
+
+    \begin{center}
+    \pyplot{../savedplots/endcapOneBetter.eps}
+    \end{center}
+
+\end{frame}
+
+%\begin{frame}
+%\frametitle{comparison, superconducting}
+%
+%    \begin{center}
+%    \pyplot{../savedplots/endcapThreeBetter.eps}
+%    \end{center}
+%
+%\end{frame}
+
+\begin{frame}
+\frametitle{correction 3: probe axis offset}
 
 
     \begin{columns}
@@ -207,6 +252,24 @@
 \end{frame}
 
 \begin{frame}
+\frametitle{comparison, superconducting, no probe axis offset}
+
+    \begin{center}
+    \pyplot{../savedplots/endcapThreeNoOffset.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{comparison, superconducting, probe axis offset}
+
+    \begin{center}
+    \pyplot{../savedplots/endcapThreeOffset.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
 \frametitle{correction 4: probe tilt}
     
     \begin{center}
@@ -228,6 +291,15 @@
     \begin{equation*}
         \theta = -\frac{B'_z}{B'_x}
     \end{equation*}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{comparison, superconducting}
+
+    \begin{center}
+    \pyplot{../savedplots/w5_comp.eps}
+    \end{center}
 
 \end{frame}
 
