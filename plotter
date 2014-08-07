@@ -190,7 +190,7 @@ class Field:
         if len(close_to_center) == 0:
             print "[calc] No suitable points to calculate average B."
             self.avg_Bx = raw_input("[calc] Enter center Bx [mG]: ") or 621.0
-            self.avg_Bx = raw_input("[calc] Enter center Bz [mG]: ") or 0.0
+            self.avg_Bz = raw_input("[calc] Enter center Bz [mG]: ") or 0.0
         else:
             print "[calc] Sampling from %i points." % len(close_to_center)
             Bx_sample = np.array([])
@@ -478,8 +478,8 @@ def make_plot(fig, opts, ylabel, xlabel, vert, horiz, i):
 
     if x_opt and y_opt:
         this_plot = fig.add_subplot(vert, horiz, i + 1)
-        this_plot.set_xlabel(xlabel, fontweight = "bold")
-        this_plot.set_ylabel(ylabel, fontweight = "bold")
+        this_plot.set_xlabel(xlabel + " [m]", fontweight = "bold")
+        this_plot.set_ylabel(ylabel + " [mG]", fontweight = "bold")
         i += 1
     else:
         this_plot = None
@@ -491,12 +491,13 @@ def insert_field_into_plot(field, ylabel, xlabel, opts, j):
     
     x_opt = eval("opts." + xlabel + "_show")
     y_opt = eval("opts." + ylabel + "_show")
+    
+    this_plot = eval(ylabel + "_v_" + xlabel)
 
     if x_opt and y_opt:
         
         x_axis = eval("field." + xlabel + ".ffor('" + ylabel + "')")
         y_axis = eval("field." + ylabel)
-        this_plot = eval(ylabel + "_v_" + xlabel)
         marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
 
         this_plot.plot(x_axis, y_axis, marker[j % len(marker)], 
