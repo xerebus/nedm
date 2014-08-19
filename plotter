@@ -496,15 +496,31 @@ def insert_field_into_plot(field, ylabel, xlabel, opts, j):
     y_opt = eval("opts." + ylabel + "_show")
     
     this_plot = eval(ylabel + "_v_" + xlabel)
+    
+    sim_colors = ["c", "m", "g", "y", "k"]
+    meas_colors = ["b", "r"]
 
     if x_opt and y_opt:
         
         x_axis = eval("field." + xlabel + ".ffor('" + ylabel + "')")
         y_axis = eval("field." + ylabel)
-        marker = ["o", "D", "s", "^", "<", ">", "v", "h"]
 
-        this_plot.plot(x_axis, y_axis, marker[j % len(marker)], 
-        linestyle = '--', label = field.label)
+        
+        if field.is_simmap:
+            
+            color = sim_colors[j % len(sim_colors)]
+
+            this_plot.plot(x_axis, y_axis, "o", 
+            linestyle = "--", c = color, mec = color,
+            mfc = "None", mew = 1.2, label = field.label)
+
+        else:
+            
+            color = meas_colors[j % len(meas_colors)]
+            
+            this_plot.plot(x_axis, y_axis, "D", 
+            linestyle = "None", c = color, mec = color,
+            mfc = color, label = field.label)
 
     else:
         assert this_plot == None
