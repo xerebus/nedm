@@ -103,11 +103,13 @@ class Field:
         if self.is_simmap:
             print "[path] Reading as rotationshield output..."
             self.read_sim_file(f)
+            self.label = "[sim] " + self.label
         else:
             # must be a VI file, because if not, plotter will exit with
             # ValueError above
             print "[path] Reading as VI output..."
             self.read_meas_file(f)
+            self.label = "[data] " + self.label
 
 
     def read_sim_file(self, f):
