@@ -445,7 +445,8 @@ def correct_tilt(fields, opts):
             print "[tilt] === Estimating probe angle for %s..." % field.label
             field.calc_avg_B()
             th = - (field.avg_Bz / field.avg_Bx)
-            print "[tilt] Probe tilt angle: %f radians." % th
+            th_deg = th * (360 / (2 * math.pi))
+            print "[tilt] Probe tilt angle: %f degrees." % th_deg
 
             field.Bx = (field.Bx * math.cos(th)) - (field.Bz * math.sin(th))
             field.Bz = (field.Bz * math.cos(th)) + (field.Bx * math.sin(th))
