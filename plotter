@@ -497,8 +497,8 @@ def insert_field_into_plot(field, ylabel, xlabel, opts, j):
     
     this_plot = eval(ylabel + "_v_" + xlabel)
     
-    sim_colors = ["c", "m", "g", "y", "k"]
-    meas_colors = ["b", "r"]
+    sim_colors = ["c", "m", "y", "k", "g"]
+    meas_colors = ["b", "r", "g", "y", "k"]
 
     if x_opt and y_opt:
         

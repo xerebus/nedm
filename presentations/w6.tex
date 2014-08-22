@@ -1,0 +1,195 @@
+\documentclass{beamer}
+\usepackage{graphicx, amsmath, amssymb, textcomp}
+
+\newcommand{\pyplot}{\includegraphics[width=\textwidth, trim=60px 60px 60px 40px]}
+
+
+\begin{document}
+
+\title{Week 6: Centering and Axial Shield Effects}
+\maketitle
+
+\begin{frame}
+\frametitle{current data analysis steps}
+
+    \begin{enumerate}
+    \item subtract backgrounds
+    \item correct for probe mis-centering along $x$ axis
+    \item correct for $B_x$, $B_y$, $B_z$ probe separations
+    \item estimate probe tilt angle and correct $B_z$
+    \item normalize simulated maps to $B_z$ at magnet center
+    \end{enumerate}
+
+    \begin{itemize}
+    \item step 2 ($x$ centering) will be done differently
+    \item steps 3 \& 4 are new this week
+    \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{correction 2: $x$ centering}
+
+    \begin{enumerate}
+    \item plot $B_z$ v. $z$ along $x = 0, y = 0$
+        \begin{itemize}
+        \item if probe is perfectly centered, curve will be flat
+        \item height of actual curve peak suggests how far off-center we are
+        \end{itemize}
+    \item guess $x$ offsets
+    \item plot $B_z$ v. $z$ along extremities $x = \pm 0.1 \text{ m}, y = 0$
+    \end{enumerate}
+
+    \begin{itemize}
+    \item doing step 1 for three maps:
+        \begin{itemize}
+            \item axial shield normal, endcap normal (9:43/9:27)
+            \item axial shield SC, endcap unknown (12:35/12:20)
+            \item axial shield SC, endcap SC (13:38/13:24)
+        \end{itemize}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{$B_z$ v. $z$ along $x = 0, y = 0$ for three maps}
+
+    \begin{center}
+    \pyplot{../savedplots/082014/x_offset_difference.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{correction 2: $x$ centering (cont.)}
+
+    \begin{itemize}
+    \item peak heights are substantially different
+    \item two possibilities:
+        \begin{itemize}
+        \item we are seeing a small-scale version of the effect of the endcap
+        \item or, probe became further offset in $x$ between 12:35 and 13:38
+        \end{itemize}
+    \item probably a mix of both
+    \item best to use 4mm $x$ offset for all three maps - assuming that the probe became
+    further offset between the normal and SC measurements would probably be confirmation bias
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{(axial normal, endcap normal) and \\(axial SC, endcap unknown) agree}
+
+    \begin{center}
+    \pyplot{../savedplots/082014/normal_axial_data_agree.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{both agree with Metglas-only simulation \\(no axial, no endcap)}
+
+    \begin{center}
+    \pyplot{../savedplots/082014/normal_axial_agree.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{(axial normal, endcap normal) and \\(axial SC, endcap unknown)}
+
+    \begin{itemize}
+    \item agrees with Simon's plots
+    \item when endcap state was unknown, it was likely not SC
+    \item effect of the axial shield alone going SC seems to be minimal \\(as expected by design)
+    \bigskip
+    \item but simulation predicts stronger effect from axial shield!
+    \item this effect is highly dependent on axial shield length
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{simulations: axial shield not present, and present with lengths {1100, 1105, 1110} mm}
+
+    \begin{center}
+    \pyplot{../savedplots/082014/axial_effect.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{simulations: same, but with SC endcap at $z = 1.128$ m\\ in all four cases}
+
+    \begin{center}
+    \pyplot{../savedplots/082014/axial_effect_endcap.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{axial shield effects}
+
+    \begin{itemize}
+    \item we expect axial shield effect to be negligible
+    \item effect is indeed negligible when axial shield is 1100 mm tall
+    \item but taller axial shields have a substantial $B_z$ suppression effect
+    \item presence of SC endcap hides this suppression effect
+    \end{itemize}
+
+    \begin{itemize}
+    \item 1100 mm is closest to Metglas height (1080 mm)
+    \item perhaps what really matters is the height difference between the Metglas and axial shields?
+    \item next: simulations with axial shield height fixed at 1110 mm, metglas height varying $\pm 5$ mm
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{axial shield and Metglas height difference}
+
+    \begin{center}
+    \pyplot{../savedplots/082014/axial_effect_metglas.eps}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{thoughts}
+
+    \begin{itemize}
+    \item axial shield's $B_z$ suppression effect correlated with axial-Metglas height difference:\\ 
+    the further the axial shield extends above the Metglas, the more it suppresses $B_z$ (lower
+    peak height)
+    \item SC endcap hides this suppression effect
+        \begin{itemize}
+        \item suppression effect desirable?
+        \item simulate extending the axial shield in lieu of the endcap to create better field uniformity?
+        \end{itemize}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{thoughts (cont.)}
+
+    \begin{itemize}
+    \item how do we explain the agreement between (axial normal, endcap normal) and (axial SC, endcap unknown)
+    in the data?
+    \end{itemize}
+    \begin{enumerate}
+    \item maybe the real axial-Metglas height difference is smaller than measured? 
+        \begin{itemize}
+        \item we measured the heights of the axial and Metglas shields individually
+        \item perhaps reinforce this by measuring the height difference and gap - $z$ centering may be off
+        \item if the gap is very small, then the axial shield suppression effect will be negligible (as shown
+        in the simulation with axial shield height at 1100 mm)
+        \end{itemize}
+    \item maybe the endcap was partially SC, somehow enough to hide an axial shield suppression effect, but
+    not enough to match the (axial SC, endcap SC) simulation? (very unlikely)
+    \end{enumerate}
+
+\end{frame}
+
+\end{document}
