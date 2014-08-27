@@ -1,3 +1,0 @@
-Effects of a superconducting lead endcap on the magnetic field profile for the nEDM search
-
-Discovery of a non-zero electric dipole moment in the neutron (nEDM) would indicate a CP violation, with implications for extending the Standard Model and confirming predictions about matter-antimatter assymetry. Experiments using precession shifts to measure the nEDM require an uniform magnetic field to prevent false signals. We investigate the effectiveness of a superconducting lead endcap in promoting field uniformity inside an open-ended cylindrical coil. Measured field maps in the superconducting state closely match simulations and suggest that the endcap causes field peaks to shift away from magnet center, decreasing field gradients in the desired region.
