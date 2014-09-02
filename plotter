@@ -191,7 +191,7 @@ class Field:
         
         if len(close_to_center) == 0:
             print "[calc] No suitable points to calculate average B."
-            self.avg_Bx = raw_input("[calc] Enter center Bx [mG]: ") or 621.0
+            self.avg_Bx = raw_input("[calc] Enter center Bx [mG]: ") or 600.0
             self.avg_Bz = raw_input("[calc] Enter center Bz [mG]: ") or 0.0
         else:
             print "[calc] Sampling from %i points." % len(close_to_center)
