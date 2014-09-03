@@ -89,13 +89,13 @@ class Field:
         print "[path] === Examining %s" % ipath
 
         try:
-            f = open(ipath + "/Fieldmap.txt", 'r')
+            f = open(ipath + "/Fieldmap.txt", "r")
             print "[path] Found Fieldmap.txt."
         except IOError:
             print "[path] Did not find Fieldmap.txt. Trying as text file."
             self.is_simmap = False
             try:
-                f = open(ipath, 'r')
+                f = open(ipath, "r")
             except IOError:
                 raise ValueError(("%s does not contain rotationshield" +
                 " output, nor is it a text file. Cannot handle.") % ipath)
