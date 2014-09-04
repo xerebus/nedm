@@ -2,27 +2,40 @@
 
 # fieldpic.py (Aritra Biswas)
 # ---------------------------
-# Generates pictures with field lines from rotationshield output
+# Generates pictures with field lines from rotationshield output.
+# NOTE: Pictures show a plane at a fixed y. The horizontal axis in the picture
+#       is x, and the vertical is z.
 
 import turtle as tt
 import sys
-
-from plotter import OffsetAxis, Field
-
+from plotter import *
 from scipy.interpolate import LinearNDInterpolator
 import numpy as np
+import math
 
-### CLASSES
+### MAGIC NUMBERS
 
-### HELPER FUNCTIONS
+PIXELS_PER_M = 1000.0 # pixels-to-meter scale for reasonably-sized picture
+DELTA_Z = 100.0 # z separation between field line starting points (in pixels)
+NORM_BX = 600.0 # desired Bx [mG] at magnet center
 
-def interpolate(field):
+# boundaries in pixels
+LEFT_X = -100.0
+RIGHT_X = 100.0
+BOTTOM_Z = 0.0
+TOP_Z = 1300.0
+
+### DATA HELPER FUNCTIONS
+
+def get_interpolator(field):
     '''Given a Field object, do multivariate cubic interpolation and output
     a function B(x, y, z) = (Bx, By, Bz).'''
 
-    # check that the field is a simulated one - no support for measured fields yet
+    print "[intp] === Interpolating %s" % field.label
+
+    # check that the field is a simulated one - no support for measured fields
     assert field.is_simmap
-    # check that there is no axis offset (there shouldn't be in simulated maps)
+    # check that there is no axis offset (shouldn't be in simulated maps)
     assert field.x.V == field.y.V == field.z.V == (0, 0, 0)
     # check position array lengths
     assert len(field.x.array) == len(field.y.array) == len(field.z.array)
@@ -33,25 +46,150 @@ def interpolate(field):
     # construct 2D array of known values
     values = np.array([field.Bx, field.By, field.Bz]).T
 
-    return LinearNDInterpolator(points, values)
+    print "[intp] Known points and values organized."
 
-def draw():
+    print "[intp] Calculating..."
 
-    # hide turtle and drawing process
-    tt.hideturtle() 
-    tt.tracer(0)
+    # LinearNDInterpolator returns an interpolator object that outputs arrays,
+    # but we want a tuple output
+    array_form_interpolator = LinearNDInterpolator(points, values)
+    print "[intp] Creating tuple-compatible function..."
+    tuple_form_interpolator = lambda x, y, z: tuple(array_form_interpolator(x, y, z))
 
-    tt.forward(50)
+    print "[intp] Done."
 
-    for i in range(100):
-        tt.left(1)
-        tt.forward(1)
-        i += 1
+    return tuple_form_interpolator
 
-    tt.done()
+### DRAWING HELPER FUNCTIONS
 
-### MAIN ROUTINE
+def get_color(magnitude):
+    '''Determine the (r, g, b) color for a line piece from the B vector
+    magnitude.'''
+
+    # make sure magnitude is positive
+    magnitude = abs(magnitude)
+
+    # if magnitude is out of scale, bring it down
+    if magnitude > (1.1 * NORM_BX):
+        magnitude = NORM_BX
+
+    # convert magnitude (0 - 660) to index (0 - 1.0)
+    index = magnitude * (1.0 / 660.0)
+
+    # return (r, g, b) color with redness corresponding to magnitude
+    return (index, 0, 1.0 - index)
+
+def draw_line_piece(B, y_m):
+    '''Starting from the turtle's current position, find the B vector there
+    and follow it.'''
+
+    # get real position in meters
+    (x_px, z_px) = tuple(tt.position())
+    (x_m, z_m) = (x_px / PIXELS_PER_M, z_px / PIXELS_PER_M)
+
+    # get B vector at that position and calculated needed things
+    (Bx, By, Bz) = B(x_m, y_m, z_m)
+    angle = int(math.atan2(Bz, Bx) * (360 / (2 * math.pi)))
+    magnitude = math.sqrt(Bx**2 + Bz**2)
+
+    # set color and thickness
+    tt.pensize(2)
+    color = get_color(magnitude)
+    tt.pencolor(color)
+    
+    print "-------"
+    print (x_px, z_px)
+    print (x_m, z_m)
+    print (Bx, Bz)
+    print angle
+    print magnitude
+    print color
+
+    # draw
+    tt.setheading(angle)
+    tt.pendown()
+    tt.forward(1)
+    tt.penup()
+
+def draw_arrow():
+    '''Draw an arrow toward the turtle's current heading, then return to
+    position and heading.'''
+
+    arrow_length = 7 # pixels
+    arrow_width = 10 # pixels
+    arrow_end = tt.position()
+    old_heading = tt.heading()
+
+    # move to back end of upper line
+    tt.penup()
+    tt.backward(arrow_length)
+    tt.left(90)
+    tt.forward(arrow_width)
+    # draw upper line
+    tt.pendown()
+    tt.setposition(arrow_end)
+    tt.setheading(old_heading)
+    # move to back end of lower line
+    tt.penup()
+    tt.backward(arrow_length)
+    tt.right(90)
+    tt.forward(arrow_width)
+    # draw lower line
+    tt.pendown()
+    tt.setposition(arrow_end)
+    tt.setheading(old_heading)
+    tt.penup()
+
+def create_field_line(B, y_m, start_point_px, end_condition):
+    '''Go to the start point and call draw_line_piece(B, y_m) until
+    end_condition happens. end_condition should be a lambda expresssion
+    taking a tuple representing the current position as its only argument.'''
+
+    tt.penup()
+    tt.setposition(start_point_px)
+
+    while not end_condition(tuple(tt.position())):
+        draw_line_piece(B, y_m)
+
+    draw_arrow()
+
+def create_pic_left_edge(B, y_m):
+    '''Draw field lines with starting points at the left x edge,
+    and ending at the right x edge.'''
+
+    # for each line, stop when x coordinate reaches right edge
+    end_condition = lambda position: position[0] > RIGHT_X
+
+    for z_px in xrange(int(BOTTOM_Z), int(TOP_Z), int(DELTA_Z)):
+        start_point_px = (int(LEFT_X), z_px)
+        create_field_line(B, y_m, start_point_px, end_condition)
+
+## MAIN ROUTINE
 
 if __name__ == "__main__":
+    
+    # set fastest speed with tracing if desired
+    if False:
+        tt.speed(0)
+        tt.tracer(1)
+    else:
+        tt.tracer(0)
+    
+    tt.hideturtle()
 
-    pass
+    # fit window
+    tt.setworldcoordinates(int(LEFT_X) - 50, int(BOTTOM_Z) - 50, int(RIGHT_X) + 50, int(TOP_Z) + 300)
+
+    # decide y slice - TODO
+    y_m = 0
+
+    # create Field object, normalize it to NORM_BX, and create the interpolator
+    field = Field(sys.argv[1])
+    field.normalize(NORM_BX)
+    B = get_interpolator(field)
+
+    # draw
+    print "[draw] Drawing..."
+    create_pic_left_edge(B, y_m)
+    print "[draw] Done."
+    tt.done()
