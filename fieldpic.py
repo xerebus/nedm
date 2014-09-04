@@ -22,7 +22,7 @@ NORM_BX = 600.0 # desired Bx [mG] at magnet center
 # boundaries in pixels
 LEFT_X = -100.0
 RIGHT_X = 100.0
-BOTTOM_Z = 0.0
+BOTTOM_Z = 500.0
 TOP_Z = 1300.0
 
 ### DATA HELPER FUNCTIONS
@@ -85,11 +85,11 @@ def draw_line_piece(B, y_m):
 
     # get real position in meters
     (x_px, z_px) = tuple(tt.position())
-    (x_m, z_m) = (x_px / PIXELS_PER_M, z_px / PIXELS_PER_M)
+    (x_m, z_m) = (float(x_px) / float(PIXELS_PER_M), float(z_px) / float(PIXELS_PER_M))
 
     # get B vector at that position and calculated needed things
     (Bx, By, Bz) = B(x_m, y_m, z_m)
-    angle = int(math.atan2(Bz, Bx) * (360 / (2 * math.pi)))
+    angle = math.atan2(Bz, Bx) * (360 / (2 * math.pi))
     magnitude = math.sqrt(Bx**2 + Bz**2)
 
     # set color and thickness
@@ -161,7 +161,7 @@ def create_pic_left_edge(B, y_m):
     end_condition = lambda position: position[0] > RIGHT_X
 
     for z_px in xrange(int(BOTTOM_Z), int(TOP_Z), int(DELTA_Z)):
-        start_point_px = (int(LEFT_X), z_px)
+        start_point_px = (LEFT_X, z_px)
         create_field_line(B, y_m, start_point_px, end_condition)
 
 ## MAIN ROUTINE
@@ -175,10 +175,8 @@ if __name__ == "__main__":
     else:
         tt.tracer(0)
     
-    tt.hideturtle()
-
     # fit window
-    tt.setworldcoordinates(int(LEFT_X) - 50, int(BOTTOM_Z) - 50, int(RIGHT_X) + 50, int(TOP_Z) + 300)
+    tt.setworldcoordinates(LEFT_X - 50, BOTTOM_Z - 50, RIGHT_X + 50, TOP_Z + 150)
 
     # decide y slice - TODO
     y_m = 0
@@ -192,4 +190,5 @@ if __name__ == "__main__":
     print "[draw] Drawing..."
     create_pic_left_edge(B, y_m)
     print "[draw] Done."
+    tt.hideturtle()
     tt.done()
