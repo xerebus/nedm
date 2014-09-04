@@ -48,7 +48,7 @@ def get_interpolator(field):
 
     print "[intp] Known points and values organized."
 
-    print "[intp] Calculating..."
+    print "[intp] Calculating interpolation parameters..."
 
     # LinearNDInterpolator returns an interpolator object that outputs arrays,
     # but we want a tuple output
