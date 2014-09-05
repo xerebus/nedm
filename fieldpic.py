@@ -160,7 +160,7 @@ def create_pic_left_edge(B, y_m):
     # for each line, stop when x coordinate reaches right edge
     end_condition = lambda position: position[0] > RIGHT_X
 
-    for z_px in xrange(int(BOTTOM_Z), int(TOP_Z), int(DELTA_Z)):
+    for z_px in xrange(int(BOTTOM_Z), int(TOP_Z) + 1, int(DELTA_Z)):
         start_point_px = (LEFT_X, z_px)
         create_field_line(B, y_m, start_point_px, end_condition)
 
