@@ -168,6 +168,9 @@ def create_pic_left_edge(B, y_m):
 
 if __name__ == "__main__":
     
+    # fit window
+    tt.setworldcoordinates(LEFT_X - 50, BOTTOM_Z - 50, RIGHT_X + 50, TOP_Z + 150)
+
     # set fastest speed with tracing if desired
     if False:
         tt.speed(0)
@@ -175,9 +178,6 @@ if __name__ == "__main__":
     else:
         tt.tracer(0)
     
-    # fit window
-    tt.setworldcoordinates(LEFT_X - 50, BOTTOM_Z - 50, RIGHT_X + 50, TOP_Z + 150)
-
     # decide y slice - TODO
     y_m = 0
 
