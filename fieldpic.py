@@ -7,6 +7,7 @@
 #       is x, and the vertical is z.
 
 import turtle as tt
+import Tkinter
 import sys
 from plotter import *
 from scipy.interpolate import LinearNDInterpolator
@@ -168,15 +169,10 @@ def create_pic_left_edge(B, y_m):
 
 if __name__ == "__main__":
     
-    # fit window
-    tt.setworldcoordinates(LEFT_X - 50, BOTTOM_Z - 50, RIGHT_X + 50, TOP_Z + 150)
-
-    # set fastest speed with tracing if desired
-    if False:
-        tt.speed(0)
-        tt.tracer(1)
-    else:
-        tt.tracer(0)
+    # open window and allow resizing
+    tt.tracer(0)
+    raw_input("[scrn] Resize window as desired, then press [Enter] to continue...")
+    tt.setworldcoordinates(LEFT_X - 50, BOTTOM_Z - 50, RIGHT_X + 50, TOP_Z + 100)
     
     # decide y slice - TODO
     y_m = 0
