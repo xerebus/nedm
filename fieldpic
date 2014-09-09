@@ -98,13 +98,13 @@ def draw_line_piece(B, y_m):
     color = get_color(magnitude)
     tt.pencolor(color)
     
-    print "-------"
-    print "Pixel position: " + str((x_px, z_px))
-    print "Real position: " + str((x_m, z_m))
-    print "(Bx, Bz): " + str((Bx, Bz))
-    print "Angle: " + str(angle)
-    print "Magnitude: " str(magnitude)
-    print "Color: " + str(color)
+    print "[draw] -------"
+    print "[draw] Pixel position: " + str((x_px, z_px))
+    print "[draw] Real position: " + str((x_m, z_m))
+    print "[draw] (Bx, Bz): " + str((Bx, Bz))
+    print "[draw] Angle: " + str(angle)
+    print "[draw] Magnitude: " str(magnitude)
+    print "[draw] Color: " + str(color)
 
     # draw
     tt.setheading(angle)
