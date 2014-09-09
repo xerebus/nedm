@@ -186,5 +186,8 @@ if __name__ == "__main__":
     print "[draw] Drawing..."
     create_pic_left_edge(B, y_m)
     print "[draw] Done."
-    tt.hideturtle()
-    tt.done()
+    
+    # save
+    ts = tt.getscreen()
+    filename = "fieldpics/fieldpic_" + field.label.split()[1] + ".eps"
+    ts.getcanvas().postscript(file = filename)
