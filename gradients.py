@@ -200,6 +200,6 @@ if __name__ == "__main__":
     print "dBy/dy = %f mG/m" % dBy_dy
     print "dBz/dy = %f mG/m" % dBz_dy
     
-    print "dBx/dx = %f mG/m" % dBx_dz
-    print "dBy/dx = %f mG/m" % dBy_dz
-    print "dBz/dx = %f mG/m" % dBz_dz
+    print "dBx/dz = %f mG/m" % dBx_dz
+    print "dBy/dz = %f mG/m" % dBy_dz
+    print "dBz/dz = %f mG/m" % dBz_dz
