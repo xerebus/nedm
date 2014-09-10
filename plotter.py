@@ -44,7 +44,7 @@ class OffsetAxis:
         comp_index = {'Bx' : 0, 'By' : 1, 'Bz' : 2}
 
         try:
-            return self.array + float(self.V[comp_index[vector_component]])
+            return self.array + np.float64(self.V[comp_index[vector_component]])
         except IndexError:
             raise ValueError("Specified vector component must be 'Bx', 'By'," +
             "or 'Bz'.")
