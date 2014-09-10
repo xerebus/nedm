@@ -1,3 +1,4 @@
 *.slvdat
 rotationshield
 rotationshield/*
+*.pyc
