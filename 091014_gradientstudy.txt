@@ -1,0 +1,39 @@
+(Calculated with gradients.py as of git commit 68f7e3bef96a6d2110139b80be93890e57e2f686)
+
+--- axial normal, endcap normal (simmaps/metglas3cmThick)
+
+dBx/dx = -0.577909 mG/m
+dBy/dx = 0.000016 mG/m
+dBz/dx = -0.067750 mG/m
+dBx/dy = 0.000000 mG/m
+dBy/dy = 0.613465 mG/m
+dBz/dy = -0.000001 mG/m
+dBx/dz = -0.083685 mG/m
+dBy/dz = -0.000001 mG/m
+dBz/dz = -0.056020 mG/m
+
+--- axial SC, endcap normal (simmaps/axial1100mmTall)
+    (used 1100mm since previous study showed that this run is the most
+    accurate about the metglas/axial shield height difference)
+
+dBx/dx = -0.607976 mG/m
+dBy/dx = -0.000493 mG/m
+dBz/dx = -0.099810 mG/m
+dBx/dy = 0.000064 mG/m
+dBy/dy = 0.641320 mG/m
+dBz/dy = -0.000021 mG/m
+dBx/dz = -0.043446 mG/m
+dBy/dz = -0.000130 mG/m
+dBz/dz = -0.080428 mG/m
+
+--- axial SC, endcap SC (simmaps/axial1100mmTallWithEndcap)
+
+dBx/dx = -0.613835 mG/m
+dBy/dx = -0.000000 mG/m
+dBz/dx = -0.032092 mG/m
+dBx/dy = 0.000000 mG/m
+dBy/dy = 0.636744 mG/m
+dBz/dy = -0.000007 mG/m
+dBx/dz = -0.077458 mG/m
+dBy/dz = 0.000006 mG/m
+dBz/dz = -0.070128 mG/m
