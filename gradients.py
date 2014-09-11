@@ -17,7 +17,7 @@ urf = (0.0505, 0.025, 0.10) # upper right front (x, y, z)
 
 # preferences that shouldn't need to be changed
 tolerance = 0.001 # maximum tolerated position error
-newnorm = 600 # desired Bx at center
+newnorm = 30 # desired Bx at center
 
 # for convenience
 spatial_axes = ["x", "y", "z"]
@@ -188,18 +188,29 @@ if __name__ == "__main__":
     print "[calc] Calculating d{Bx, By, Bz}/dz..."
     (dBx_dz, dBy_dz, dBz_dz) = avg_grad_in_direction(field, "z", axes_positions)
 
+    # convert mG/m to uG/cm
+    dBx_dx *= 10
+    dBy_dx *= 10
+    dBz_dx *= 10
+    dBx_dy *= 10
+    dBy_dy *= 10
+    dBz_dy *= 10
+    dBx_dz *= 10
+    dBy_dz *= 10
+    dBz_dz *= 10
+
     print "[calc] Done."
     print
 
     # summary output
-    print "dBx/dx = %f mG/m" % dBx_dx
-    print "dBy/dx = %f mG/m" % dBy_dx
-    print "dBz/dx = %f mG/m" % dBz_dx
+    print "dBx/dx = %f uG/cm" % dBx_dx
+    print "dBy/dx = %f uG/cm" % dBy_dx
+    print "dBz/dx = %f uG/cm" % dBz_dx
     
-    print "dBx/dy = %f mG/m" % dBx_dy
-    print "dBy/dy = %f mG/m" % dBy_dy
-    print "dBz/dy = %f mG/m" % dBz_dy
+    print "dBx/dy = %f uG/cm" % dBx_dy
+    print "dBy/dy = %f uG/cm" % dBy_dy
+    print "dBz/dy = %f uG/cm" % dBz_dy
     
-    print "dBx/dz = %f mG/m" % dBx_dz
-    print "dBy/dz = %f mG/m" % dBy_dz
-    print "dBz/dz = %f mG/m" % dBz_dz
+    print "dBx/dz = %f uG/cm" % dBx_dz
+    print "dBy/dz = %f uG/cm" % dBy_dz
+    print "dBz/dz = %f uG/cm" % dBz_dz

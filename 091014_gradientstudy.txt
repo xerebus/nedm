@@ -37,3 +37,39 @@ dBz/dy = -0.000007 mG/m
 dBx/dz = -0.077458 mG/m
 dBy/dz = 0.000006 mG/m
 dBz/dz = -0.070128 mG/m
+
+--- axial normal, endcap normal, metglas 1mm thick (simmaps/metglas1mmThick)
+
+dBx/dx = -0.529305 mG/m
+dBy/dx = 0.000012 mG/m
+dBz/dx = -0.162970 mG/m
+dBx/dy = -0.000058 mG/m
+dBy/dy = 0.675825 mG/m
+dBz/dy = -0.000043 mG/m
+dBx/dz = -0.118164 mG/m
+dBy/dz = 0.000020 mG/m
+dBz/dz = -0.154286 mG/m
+
+--- axial normal, endcap SC, fine gridding (simmaps/superEndcap)
+
+dBx/dx = -0.581327 mG/m
+dBy/dx = 0.000015 mG/m
+dBz/dx = -0.030205 mG/m
+dBx/dy = 0.000000 mG/m
+dBy/dy = 0.610609 mG/m
+dBz/dy = -0.000003 mG/m
+dBx/dz = -0.075800 mG/m
+dBy/dz = -0.000003 mG/m
+dBz/dz = -0.047624 mG/m
+
+--- axial normal, endcap SC, coarse gridding (simmaps/superEndcap_OG)
+
+dBx/dx = -0.631307 mG/m
+dBy/dx = -0.000000 mG/m
+dBz/dx = -0.029698 mG/m
+dBx/dy = 0.000000 mG/m
+dBy/dy = 0.657425 mG/m
+dBz/dy = -0.000000 mG/m
+dBx/dz = -0.075656 mG/m
+dBy/dz = 0.000001 mG/m
+dBz/dz = -0.052204 mG/m
