@@ -16,7 +16,7 @@ llb = (0.0125, -0.025, -0.10) # lower left back (x, y, z)
 urf = (0.0505, 0.025, 0.10) # upper right front (x, y, z)
 
 # preferences that shouldn't need to be changed
-tolerance = 0.001 # maximum tolerated position error
+tolerance = 0.0001 # maximum tolerated position error
 newnorm = 30 # desired Bx at center
 
 # for convenience
@@ -29,8 +29,7 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
     '''Return the volume-averaged
     d{vector_axis in vector_axes}/d(spatial_axis).'''
 
-
-    print "[calc] Will be calculating d{Bx, By, Bz}/d%s." % spatial_axis
+    #print "[calc] Will be calculating d{Bx, By, Bz}/d%s." % spatial_axis
     
     # arrays to store each component of the gradient
     array_dBx_dspat = np.array([])
@@ -45,7 +44,7 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
     orthogonal_axes.remove(spatial_axis) # leave other two axes
     orth_axis_1 = orthogonal_axes[0]
     orth_axis_2 = orthogonal_axes[1]
-    print "[calc] Orthogonal axes are %s and %s." % (orth_axis_1, orth_axis_2)
+    #print "[calc] Orthogonal axes are %s and %s." % (orth_axis_1, orth_axis_2)
 
     # positions along the two other axes
     orth_axis_1_positions = axes_positions[orth_axis_1]
@@ -62,12 +61,12 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
                 spatial_pos = spatial_axis_positions[i]
                 spatial_pos_next = spatial_axis_positions[i + 1]
                 
-                print "[calc] I am currently at:"
-                print "[calc]  (orthogonal axis 1) %s = %f" % (orth_axis_1, orth_pos_1)
-                print "[calc]  (orthogonal axis 2) %s = %f" % (orth_axis_2, orth_pos_2)
-                print "[calc]  (axis of movement) %s = %f" % (spatial_axis, spatial_pos)
-                print "[calc] I am going to:"
-                print "[calc]  (axis of movement) %s = %f" % (spatial_axis, spatial_pos_next)
+                #print "[calc] I am currently at:"
+                #print "[calc]  (orthogonal axis 1) %s = %f" % (orth_axis_1, orth_pos_1)
+                #print "[calc]  (orthogonal axis 2) %s = %f" % (orth_axis_2, orth_pos_2)
+                #print "[calc]  (axis of movement) %s = %f" % (spatial_axis, spatial_pos)
+                #print "[calc] I am going to:"
+                #print "[calc]  (axis of movement) %s = %f" % (spatial_axis, spatial_pos_next)
                 
                 # get current (x, y, z)
                 position = [None, None, None]
@@ -75,7 +74,7 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
                 position[axis_index[orth_axis_1]] = orth_pos_1
                 position[axis_index[orth_axis_2]] = orth_pos_2
                 position = tuple(position)
-                print "[calc] Confirm - I am at: (%f, %f, %f)" % position
+                #print "[calc] Confirm - I am at: (%f, %f, %f)" % position
                 
                 # get next (x, y, z)
                 position_next = [None, None, None]
@@ -83,13 +82,13 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
                 position_next[axis_index[orth_axis_1]] = orth_pos_1
                 position_next[axis_index[orth_axis_2]] = orth_pos_2
                 position_next = tuple(position_next)
-                print "[calc] Confirm - I am going to: (%f, %f, %f)" % position
+                #print "[calc] Confirm - I am going to: (%f, %f, %f)" % position
 
                 # get B at both positions
                 (Bx, By, Bz) = lookup_B(field, position)
-                print "[calc] B(%f, %f, %f) = (%f, %f, %f)" % (position + (Bx, By, Bz))
+                #print "[calc] B(%f, %f, %f) = (%f, %f, %f)" % (position + (Bx, By, Bz))
                 (Bx_n, By_n, Bz_n) = lookup_B(field, position_next)
-                print "[calc] B(%f, %f, %f) = (%f, %f, %f)" % (position_next + (Bx_n, By_n, Bz_n))
+                #print "[calc] B(%f, %f, %f) = (%f, %f, %f)" % (position_next + (Bx_n, By_n, Bz_n))
 
                 # calculate differences
                 dBx = Bx_n - Bx
@@ -174,7 +173,7 @@ if __name__ == "__main__":
 
     # normalize field
     field.normalize(newnorm)
-    print "[norm] Field normalized to %f mG." % newnorm
+    #print "[norm] Field normalized to %f mG." % newnorm
 
     # get axes positions
     axes_positions = get_unique_axes_positions(field)

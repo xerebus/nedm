@@ -1,0 +1,15 @@
+[test] Creating random B...
+
+dBx/dx = 0.567410 uG/cm
+dBy/dx = 0.741444 uG/cm
+dBz/dx = 0.390185 uG/cm
+dBx/dy = 0.171446 uG/cm
+dBy/dy = 0.066498 uG/cm
+dBz/dy = 0.181510 uG/cm
+dBx/dz = 0.538366 uG/cm
+dBy/dz = 0.301732 uG/cm
+dBz/dz = 0.291300 uG/cm
+
+[test] Writing file...
+[test] Need to write 78000 points.
+[test] Done.
