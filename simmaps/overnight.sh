@@ -4,6 +4,8 @@ RUNLIST=$(ls | grep _SG)
 
 for FOLDER in $RUNLIST; do
     cd $FOLDER
-    ./exec.sh
+    echo "*** Starting simulation job: $FOLDER"
+    ./exec.sh > progress.out &
+    echo "*** Backgrounded."
     cd ..
 done
