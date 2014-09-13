@@ -7,6 +7,7 @@
 import sys
 import numpy as np
 import math
+import time
 from plotter import *
 
 ### GLOBAL
@@ -29,7 +30,7 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
     '''Return the volume-averaged
     d{vector_axis in vector_axes}/d(spatial_axis).'''
 
-    #print "[calc] Will be calculating d{Bx, By, Bz}/d%s." % spatial_axis
+    print "[calc] Will be calculating d{Bx, By, Bz}/d%s." % spatial_axis
     
     # arrays to store each component of the gradient
     array_dBx_dspat = np.array([])
@@ -41,10 +42,12 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
 
     # the two other axes
     orthogonal_axes = spatial_axes[:] # copy spatial axes
+    assert orthogonal_axes == ["x", "y", "z"]
     orthogonal_axes.remove(spatial_axis) # leave other two axes
+    assert len(orthogonal_axes) == 2
     orth_axis_1 = orthogonal_axes[0]
     orth_axis_2 = orthogonal_axes[1]
-    #print "[calc] Orthogonal axes are %s and %s." % (orth_axis_1, orth_axis_2)
+    print "[calc] Orthogonal axes are %s and %s." % (orth_axis_1, orth_axis_2)
 
     # positions along the two other axes
     orth_axis_1_positions = axes_positions[orth_axis_1]
@@ -61,12 +64,12 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
                 spatial_pos = spatial_axis_positions[i]
                 spatial_pos_next = spatial_axis_positions[i + 1]
                 
-                #print "[calc] I am currently at:"
-                #print "[calc]  (orthogonal axis 1) %s = %f" % (orth_axis_1, orth_pos_1)
-                #print "[calc]  (orthogonal axis 2) %s = %f" % (orth_axis_2, orth_pos_2)
-                #print "[calc]  (axis of movement) %s = %f" % (spatial_axis, spatial_pos)
-                #print "[calc] I am going to:"
-                #print "[calc]  (axis of movement) %s = %f" % (spatial_axis, spatial_pos_next)
+                print "[calc] I am currently at:"
+                print "[calc]  (orthogonal axis 1) %s = %f" % (orth_axis_1, orth_pos_1)
+                print "[calc]  (orthogonal axis 2) %s = %f" % (orth_axis_2, orth_pos_2)
+                print "[calc]  (axis of movement) %s = %f" % (spatial_axis, spatial_pos)
+                print "[calc] I am going to:"
+                print "[calc]  (axis of movement) %s = %f" % (spatial_axis, spatial_pos_next)
                 
                 # get current (x, y, z)
                 position = [None, None, None]
@@ -74,7 +77,7 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
                 position[axis_index[orth_axis_1]] = orth_pos_1
                 position[axis_index[orth_axis_2]] = orth_pos_2
                 position = tuple(position)
-                #print "[calc] Confirm - I am at: (%f, %f, %f)" % position
+                print "[calc] Confirm - I am at: (%f, %f, %f)" % position
                 
                 # get next (x, y, z)
                 position_next = [None, None, None]
@@ -82,27 +85,31 @@ def avg_grad_in_direction(field, spatial_axis, axes_positions):
                 position_next[axis_index[orth_axis_1]] = orth_pos_1
                 position_next[axis_index[orth_axis_2]] = orth_pos_2
                 position_next = tuple(position_next)
-                #print "[calc] Confirm - I am going to: (%f, %f, %f)" % position
+                print "[calc] Confirm - I am going to: (%f, %f, %f)" % position_next
 
                 # get B at both positions
                 (Bx, By, Bz) = lookup_B(field, position)
-                #print "[calc] B(%f, %f, %f) = (%f, %f, %f)" % (position + (Bx, By, Bz))
+                print "[calc] B(%f, %f, %f) = (%f, %f, %f)" % (position + (Bx, By, Bz))
                 (Bx_n, By_n, Bz_n) = lookup_B(field, position_next)
-                #print "[calc] B(%f, %f, %f) = (%f, %f, %f)" % (position_next + (Bx_n, By_n, Bz_n))
+                print "[calc] B(%f, %f, %f) = (%f, %f, %f)" % (position_next + (Bx_n, By_n, Bz_n))
 
                 # calculate differences
-                dBx = Bx_n - Bx
-                dBy = By_n - By
-                dBz = Bz_n - Bz
-                dspat = spatial_pos_next - spatial_pos
+                this_dBx = Bx_n - Bx
+                this_dBy = By_n - By
+                this_dBz = Bz_n - Bz
+                this_dspat = spatial_pos_next - spatial_pos
+
+                # calculate gradients
+                this_dBx_dspat = np.float64(this_dBx) / np.float64(this_dspat)
+                this_dBy_dspat = np.float64(this_dBy) / np.float64(this_dspat)
+                this_dBz_dspat = np.float64(this_dBz) / np.float64(this_dspat)
 
                 # calculate gradients and add to storage arrays
-                array_dBx_dspat = np.append(array_dBx_dspat,
-                (np.float64(dBx) / np.float64(dspat)))
-                array_dBy_dspat = np.append(array_dBy_dspat,
-                (np.float64(dBy) / np.float64(dspat)))
-                array_dBz_dspat = np.append(array_dBz_dspat,
-                (np.float64(dBz) / np.float64(dspat)))
+                array_dBx_dspat = np.append(array_dBx_dspat, this_dBx_dspat)
+                array_dBy_dspat = np.append(array_dBy_dspat, this_dBy_dspat)
+                array_dBz_dspat = np.append(array_dBz_dspat, this_dBz_dspat)
+
+                #time.sleep(2)
 
     # get averages from storage arrays
     dBx_dspat = np.average(array_dBx_dspat)
@@ -172,7 +179,7 @@ if __name__ == "__main__":
     assert field.is_simmap
 
     # normalize field
-    field.normalize(newnorm)
+    #field.normalize(newnorm)
     #print "[norm] Field normalized to %f mG." % newnorm
 
     # get axes positions
@@ -188,15 +195,15 @@ if __name__ == "__main__":
     (dBx_dz, dBy_dz, dBz_dz) = avg_grad_in_direction(field, "z", axes_positions)
 
     # convert mG/m to uG/cm
-    dBx_dx *= 10
-    dBy_dx *= 10
-    dBz_dx *= 10
-    dBx_dy *= 10
-    dBy_dy *= 10
-    dBz_dy *= 10
-    dBx_dz *= 10
-    dBy_dz *= 10
-    dBz_dz *= 10
+#    dBx_dx *= 10
+#    dBy_dx *= 10
+#    dBz_dx *= 10
+#    dBx_dy *= 10
+#    dBy_dy *= 10
+#    dBz_dy *= 10
+#    dBx_dz *= 10
+#    dBy_dz *= 10
+#    dBz_dz *= 10
 
     print "[calc] Done."
     print

@@ -10,36 +10,33 @@ import numpy as np
 def create_B():
     '''Generate random parameters and create a B function.'''
 
-    # dx parameters
-    xx = random.random()
-    yx = random.random()
-    zx = random.random()
+    dBx_dx = random.random()
+    dBx_dy = random.random()
+    dBx_dz = random.random()
 
-    # dy parameters
-    xy = random.random()
-    yy = random.random()
-    zy = random.random()
+    dBy_dx = random.random()
+    dBy_dy = random.random()
+    dBy_dz = random.random()
 
-    # dz parameters
-    xz = random.random()
-    yz = random.random()
-    zz = random.random()
+    dBz_dx = random.random()
+    dBz_dy = random.random()
+    dBz_dz = random.random()
 
     # print out paraments in gradients.py format
    
     print
     
-    print "dBx/dx = %f uG/cm" % xx
-    print "dBy/dx = %f uG/cm" % yx
-    print "dBz/dx = %f uG/cm" % zx
+    print "dBx/dx = %f uG/cm" % dBx_dx
+    print "dBy/dx = %f uG/cm" % dBy_dx
+    print "dBz/dx = %f uG/cm" % dBz_dx
     
-    print "dBx/dy = %f uG/cm" % xy
-    print "dBy/dy = %f uG/cm" % yy
-    print "dBz/dy = %f uG/cm" % zy
+    print "dBx/dy = %f uG/cm" % dBx_dy
+    print "dBy/dy = %f uG/cm" % dBy_dy
+    print "dBz/dy = %f uG/cm" % dBz_dy
     
-    print "dBx/dz = %f uG/cm" % xz
-    print "dBy/dz = %f uG/cm" % yz
-    print "dBz/dz = %f uG/cm" % zz
+    print "dBx/dz = %f uG/cm" % dBx_dz
+    print "dBy/dz = %f uG/cm" % dBy_dz
+    print "dBz/dz = %f uG/cm" % dBz_dz
 
     print
 
@@ -47,9 +44,9 @@ def create_B():
         '''Return B(x, y, z) = (Bx, By, Bz).'''
 
         # calculate B components
-        Bx = xx*x + yx*y + zx*z
-        By = xy*x + yy*y + zy*z
-        Bz = xz*x + yz*x + zz*z
+        Bx = (dBx_dx)*x + (dBx_dy)*y + (dBx_dz)*z
+        By = (dBy_dx)*x + (dBy_dy)*y + (dBy_dz)*z
+        Bz = (dBz_dx)*x + (dBz_dy)*y + (dBz_dz)*z
 
         return (Bx, By, Bz)
 
@@ -59,9 +56,9 @@ def write_to_file(B):
     '''Given a function B(x, y, z), write a RotationShield
     output file.'''
 
-    x_array = np.arange(0.0125, 0.0505, 0.001)
-    y_array = np.arange(-0.0250, 0.0250, 0.001)
-    z_array = np.arange(-0.1000, 0.1000, 0.005)
+    x_array = np.arange(0.0125, 0.0505, 0.01)
+    y_array = np.arange(-0.0250, 0.0250, 0.01)
+    z_array = np.arange(-0.1000, 0.1000, 0.01)
 
     points = len(x_array) * len(y_array) * len(z_array)
     print "[test] Need to write %i points." % points
