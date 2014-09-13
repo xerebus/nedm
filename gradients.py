@@ -177,8 +177,8 @@ if __name__ == "__main__":
     assert field.is_simmap
 
     # normalize field
-    #field.normalize(newnorm)
-    #print "[norm] Field normalized to %f mG." % newnorm
+    field.normalize(newnorm)
+    print "[norm] Field normalized to %f mG." % newnorm
 
     # get axes positions
     axes_positions = get_unique_axes_positions(field)
@@ -193,20 +193,21 @@ if __name__ == "__main__":
     (dBx_dz, dBy_dz, dBz_dz) = avg_grad_in_direction(field, "z", axes_positions)
 
     # convert mG/m to uG/cm
-    #dBx_dx *= 10
-    #dBy_dx *= 10
-    #dBz_dx *= 10
-    #dBx_dy *= 10
-    #dBy_dy *= 10
-    #dBz_dy *= 10
-    #dBx_dz *= 10
-    #dBy_dz *= 10
-    #dBz_dz *= 10
+    dBx_dx *= 10
+    dBy_dx *= 10
+    dBz_dx *= 10
+    dBx_dy *= 10
+    dBy_dy *= 10
+    dBz_dy *= 10
+    dBx_dz *= 10
+    dBy_dz *= 10
+    dBz_dz *= 10
 
     print "[calc] Done."
     print
 
-    # summary output
+    print "--- %s" % field.label
+
     print "dBx/dx = %f uG/cm" % dBx_dx
     print "dBy/dx = %f uG/cm" % dBy_dx
     print "dBz/dx = %f uG/cm" % dBz_dx
@@ -218,3 +219,5 @@ if __name__ == "__main__":
     print "dBx/dz = %f uG/cm" % dBx_dz
     print "dBy/dz = %f uG/cm" % dBy_dz
     print "dBz/dz = %f uG/cm" % dBz_dz
+
+    print
