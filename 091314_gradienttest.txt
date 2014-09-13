@@ -1,0 +1,19 @@
+[path] === Examining testmap/
+[path] Found Fieldmap.txt.
+[path] Reading as rotationshield output...
+[file] Parsing rotationshield output file...
+[file] Reading done.
+[calc] Calculating d{Bx, By, Bz}/dx...
+[calc] Calculating d{Bx, By, Bz}/dy...
+[calc] Calculating d{Bx, By, Bz}/dz...
+[calc] Done.
+
+dBx/dx = 0.271800 uG/cm
+dBy/dx = 0.636542 uG/cm
+dBz/dx = 0.282284 uG/cm
+dBx/dy = 0.718354 uG/cm
+dBy/dy = 0.425249 uG/cm
+dBz/dy = 0.063694 uG/cm
+dBx/dz = 0.724006 uG/cm
+dBy/dz = 0.666559 uG/cm
+dBz/dz = 0.368107 uG/cm

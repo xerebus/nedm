@@ -1,14 +1,14 @@
 [test] Creating random B...
 
-dBx/dx = 0.923713 uG/cm
-dBy/dx = 0.341211 uG/cm
-dBz/dx = 0.306070 uG/cm
-dBx/dy = 0.279554 uG/cm
-dBy/dy = 0.088128 uG/cm
-dBz/dy = 0.095683 uG/cm
-dBx/dz = 0.378091 uG/cm
-dBy/dz = 0.478607 uG/cm
-dBz/dz = 0.799172 uG/cm
+dBx/dx = 0.271800 uG/cm
+dBy/dx = 0.636542 uG/cm
+dBz/dx = 0.282286 uG/cm
+dBx/dy = 0.718356 uG/cm
+dBy/dy = 0.425249 uG/cm
+dBz/dy = 0.063694 uG/cm
+dBx/dz = 0.724007 uG/cm
+dBy/dz = 0.666559 uG/cm
+dBz/dz = 0.368106 uG/cm
 
 [test] Writing file...
 [test] Need to write 400 points.
