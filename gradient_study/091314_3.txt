@@ -1,0 +1,26 @@
+[path] === Examining simmaps/axial1100mmTallWithEndcap_SG/
+[path] Found Fieldmap.txt.
+[path] Reading as rotationshield output...
+[file] Parsing rotationshield output file...
+[file] Reading done.
+[calc] Finding data points around desired location...
+[calc] Sampling from 16000 points.
+[calc] Calculated average Bx as 2.782826 mG.
+[calc] Calculated average Bz as 0.000004 mG.
+[norm] Field normalized to 30.000000 mG.
+[calc] Calculating d{Bx, By, Bz}/dx...
+[calc] Calculating d{Bx, By, Bz}/dy...
+[calc] Calculating d{Bx, By, Bz}/dz...
+[calc] Done.
+
+--- [sim] axial1100mmTallWithEndcap_SG
+dBx/dx = -0.290319 uG/cm
+dBy/dx = -0.000084 uG/cm
+dBz/dx = 0.030874 uG/cm
+dBx/dy = 0.000006 uG/cm
+dBy/dy = 0.316290 uG/cm
+dBz/dy = 0.000000 uG/cm
+dBx/dz = -0.028972 uG/cm
+dBy/dz = -0.000018 uG/cm
+dBz/dz = -0.037199 uG/cm
+

@@ -1,0 +1,38 @@
+(Calculated with SG runs, gradients.py as of git commit ___)
+
+--- axial normal, endcap normal ([sim] metglas5mmThick_SG)
+
+dBx/dx = -0.287187 uG/cm
+dBy/dx = 0.000002 uG/cm
+dBz/dx = -0.000001 uG/cm
+dBx/dy = 0.000000 uG/cm
+dBy/dy = 0.319017 uG/cm
+dBz/dy = -0.000001 uG/cm
+dBx/dz = 0.000001 uG/cm
+dBy/dz = 0.000001 uG/cm
+dBz/dz = -0.039747 uG/cm
+
+--- axial SC, endcap normal ([sim] axial1100mmTall_SG)
+
+dBx/dx = -0.284875 uG/cm
+dBy/dx = -0.000011 uG/cm
+dBz/dx = 0.003058 uG/cm
+dBx/dy = 0.000005 uG/cm
+dBy/dy = 0.317473 uG/cm
+dBz/dy = 0.000001 uG/cm
+dBx/dz = -0.018732 uG/cm
+dBy/dz = -0.000004 uG/cm
+dBz/dz = -0.041190 uG/cm
+
+--- axial SC, endcap SC ([sim] axial1100mmTallWithEndcap_SG)
+
+dBx/dx = -0.290319 uG/cm
+dBy/dx = -0.000084 uG/cm
+dBz/dx = 0.030874 uG/cm
+dBx/dy = 0.000006 uG/cm
+dBy/dy = 0.316290 uG/cm
+dBz/dy = 0.000000 uG/cm
+dBx/dz = -0.028972 uG/cm
+dBy/dz = -0.000018 uG/cm
+dBz/dz = -0.037199 uG/cm
+
