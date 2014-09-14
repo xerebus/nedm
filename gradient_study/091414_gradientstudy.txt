@@ -1,4 +1,4 @@
-(Calculated with SG runs, gradients.py as of git commit ___)
+(Calculated with SG runs, gradients.py as of git commit 64570577d276eb2a8dfe21be84718261f8facf22)
 
 --- axial normal, endcap normal ([sim] metglas5mmThick_SG)
 
