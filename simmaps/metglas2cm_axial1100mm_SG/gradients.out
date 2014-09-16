@@ -1,0 +1,26 @@
+[path] === Examining /home/abiswas/nedm/simmaps/metglas2cm_axial1100mm_SG
+[path] Found Fieldmap.txt.
+[path] Reading as rotationshield output...
+[file] Parsing rotationshield output file...
+[file] Reading done.
+[calc] Finding data points around desired location...
+[calc] Sampling from 1900 points.
+[calc] Calculated average Bx as 2.898308 mG.
+[calc] Calculated average Bz as 0.000001 mG.
+[norm] Field normalized to 30.000000 mG.
+[calc] Calculating d{Bx, By, Bz}/dx...
+[calc] Calculating d{Bx, By, Bz}/dy...
+[calc] Calculating d{Bx, By, Bz}/dz...
+[calc] Done.
+
+--- [sim] metglas2cm_axial1100mm_SG
+dBx/dx = -0.293094 uG/cm
+dBy/dx = -0.000002 uG/cm
+dBz/dx = 0.007392 uG/cm
+dBx/dy = -0.000003 uG/cm
+dBy/dy = 0.305472 uG/cm
+dBz/dy = -0.000001 uG/cm
+dBx/dz = -0.183920 uG/cm
+dBy/dz = 0.000007 uG/cm
+dBz/dz = -0.017635 uG/cm
+
