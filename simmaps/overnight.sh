@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUNLIST=$(ls | grep metglas1mm_ | grep _SG)
+RUNLIST=$(ls | grep metglas5mm_ | grep _SG)
 
 for FOLDER in $RUNLIST; do
     cd $FOLDER

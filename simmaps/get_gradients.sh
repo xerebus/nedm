@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GRAD_EXEC="../../gradients"
-RUNLIST=$(ls | grep _SG)
+RUNLIST=$(ls | grep _SG | grep -v metglas5mm_)
 
 for FOLDER in $RUNLIST; do
     cd $FOLDER
