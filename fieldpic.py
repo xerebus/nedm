@@ -75,7 +75,7 @@ def get_color(magnitude):
         magnitude = NORM_BX
 
     # convert magnitude (0 - 660) to index (0 - 1.0)
-    index = magnitude * (1.0 / 660.0)
+    index = magnitude * (1.0 / (1.1 * NORM_BX))
 
     # return (r, g, b) color with redness corresponding to magnitude
     return (index, 0, 1.0 - index)
@@ -90,21 +90,26 @@ def draw_line_piece(B, y_m):
 
     # get B vector at that position and calculated needed things
     (Bx, By, Bz) = B(x_m, y_m, z_m)
+    # check for nan
+    for var in [Bx, By, Bz]:
+        if math.isnan(var):
+            print "[draw] Interpolation error at (%s, %s, %s): B = (%s, %s, %s)." % (x_m, y_m, z_m, Bx, By, Bz)
     angle = math.atan2(Bz, Bx) * (360 / (2 * math.pi))
     magnitude = math.sqrt(Bx**2 + Bz**2)
+    color = get_color(magnitude)
+
 
     # set color and thickness
     tt.pensize(2)
-    color = get_color(magnitude)
     tt.pencolor(color)
     
-    print "-------"
-    print (x_px, z_px)
-    print (x_m, z_m)
-    print (Bx, Bz)
-    print angle
-    print magnitude
-    print color
+    print "[draw] -------"
+    print "[draw] Pixel position: (%s px, %s px)" % (x_px, z_px)
+    print "[draw] Real position: (%s m, %s m)" % (x_m, z_m)
+    print "[draw] (Bx, Bz): (%s, %s)" % (Bx, Bz)
+    print "[draw] Angle: %s degrees" % angle
+    print "[draw] Magnitude: %s mG" % magnitude
+    print "[draw] RGB color: (%s, %s, %s)" % color
 
     # draw
     tt.setheading(angle)
