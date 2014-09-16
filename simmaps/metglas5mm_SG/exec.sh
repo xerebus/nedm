@@ -16,7 +16,7 @@ $ROTSHIELD \
     x \
     cell \
         range 0.0125 -0.025 -0.10 0.0505 0.025 0.10 \
-        grid 50 50 200 \
+        grid 25 25 100 \
         svgrd 1 \
     x \
     solve \
