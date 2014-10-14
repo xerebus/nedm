@@ -77,6 +77,10 @@ class Field:
         self.Bx = np.array([])
         self.By = np.array([])
         self.Bz = np.array([])
+
+        self.Bx_error = np.array([])
+        self.By_error = np.array([])
+        self.Bz_error = np.array([])
         
         self.is_simmap = True
 
@@ -152,8 +156,8 @@ class Field:
                 # all variables not starting with this_ are thrown away
                 (month, day, year, hour, minute, sec, timestamp, this_x,
                 this_y, this_z, current, current_err, oneax, oneax_err,
-                this_Bx, Bx_err, this_By, By_err, this_Bz,
-                Bz_err) = line.split()
+                this_Bx, this_Bx_err, this_By, this_By_err, this_Bz,
+                this_Bz_err) = line.split()
             except ValueError:
                 raise ValueError("Cannot unpack line:\n%s" % line)
             
@@ -164,6 +168,10 @@ class Field:
             self.Bx = np.append(self.Bx, np.float64(this_Bx))
             self.By = np.append(self.By, np.float64(this_By))
             self.Bz = np.append(self.Bz, np.float64(this_Bz))
+
+            self.Bx_error = np.append(self.Bx_error, np.float64(this_Bx_err))
+            self.By_error = np.append(self.By_error, np.float64(this_By_err))
+            self.Bz_error = np.append(self.Bz_error, np.float64(this_Bz_err))
         
         f.close()
 
@@ -174,6 +182,15 @@ class Field:
         self.z.array /= np.float64(1000)
 
         print "[file] Reading done."
+
+    def get_max_errors(self):
+        '''Returns (max_Bx_error, max_By_error, max_Bz_error).'''
+
+        max_Bx_error = np.amax(np.abs(self.Bx_error))
+        max_By_error = np.amax(np.abs(self.By_error))
+        max_Bz_error = np.amax(np.abs(self.Bz_error))
+        
+        return (max_Bx_error, max_By_error, max_Bz_error)
 
     def calc_avg_B(self):
         '''Calculate the average B around the center from existing data.'''
@@ -583,7 +600,6 @@ if __name__ == "__main__":
         fields.append(Field(ipath))
 
     # analysis steps
-
     subtract_bgs(fields, opts)
     apply_offset(fields, opts)
     apply_axis_offsets(fields, opts)
