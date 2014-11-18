@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUNLIST=$(ls | grep _NG)
+RUNLIST=$(ls | grep _TS)
 
 for FOLDER in $RUNLIST; do
     cd $FOLDER
