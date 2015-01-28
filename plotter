@@ -1,1 +1,641 @@
-plotter.py
+#!/usr/bin/env python2
+
+# plotter.py (Aritra Biswas)
+# --------------------------
+# Generates {Bx, By, Bz} vs {x, y, z} plots from rotationshield output
+
+import numpy as np
+import matplotlib.pyplot as plt
+import sys
+import os.path
+import optparse
+import math
+
+from matplotlib.font_manager import FontProperties
+
+### PURE HELPER FUNCTIONS
+
+def find_indices(array_condition):
+    '''Given a 1D numpy array, finds indices where the value in the array
+    meets the condition. Condition should be written in terms of array, not
+    array[i].'''
+
+    return list(np.nonzero(array_condition)[0])
+
+### CLASSES
+
+class OffsetAxis:
+    '''Store a spatial axis for a vector map where the vector components are
+    not commonly centered. The offset vector V = (Vx, Vy, Vz) corresponds to
+    the centering offsets of each component of a vector field B = (Bx, By, Bz).
+    The axis centered with respect to Bx is (array + Vx), and so on.'''
+
+    def __init__(self, array = np.array([]), V = (0.0, 0.0, 0.0)):
+        '''Initialize the axis from a numpy array and offset vector V.
+        If V = (0, 0, 0), then the axis will behave like a standard axis.'''
+        
+        self.array = array
+        self.V = V
+        
+    def ffor(self, vector_component):
+        '''Return the axis as an array with the correct offset.
+        vector_component should be 'Bx', 'By', or 'Bz'.'''
+        
+        comp_index = {'Bx' : 0, 'By' : 1, 'Bz' : 2}
+
+        try:
+            return self.array + np.float64(self.V[comp_index[vector_component]])
+        except IndexError:
+            raise ValueError("Specified vector component must be 'Bx', 'By'," +
+            "or 'Bz'.")
+
+    def append(self, val):
+        '''Append val to the axis array.'''
+
+        self.array = np.append(self.array, np.float64(val))
+
+    def apply_offset(self, V):
+        '''Change self.V.'''
+
+        assert len(V) == 3, "Offset vector must be 3-dimensional."
+        self.V = V
+
+
+class Field:
+    '''Store a vector field that can be generated from rotationshield or VI
+    output.'''
+
+    def __init__(self, ipath):
+        '''Decide whether the given path is a folder containing rotationshield
+        output or a file containing FieldMapping VI output, and parse the file
+        accordingly.'''
+        
+        self.x = OffsetAxis()
+        self.y = OffsetAxis()
+        self.z = OffsetAxis()
+
+        self.Bx = np.array([])
+        self.By = np.array([])
+        self.Bz = np.array([])
+
+        self.Bx_error = np.array([])
+        self.By_error = np.array([])
+        self.Bz_error = np.array([])
+        
+        self.is_simmap = True
+
+        self.avg_Bx = None
+        self.avg_Bz = None
+
+        self.path = ipath
+        self.label = os.path.basename(os.path.normpath(ipath))
+        
+        print "[path] === Examining %s" % ipath
+
+        try:
+            f = open(ipath + "/Fieldmap.txt", "r")
+            print "[path] Found Fieldmap.txt."
+        except IOError:
+            print "[path] Did not find Fieldmap.txt. Trying as text file."
+            self.is_simmap = False
+            try:
+                f = open(ipath, "r")
+            except IOError:
+                raise ValueError(("%s does not contain rotationshield" +
+                " output, nor is it a text file. Cannot handle.") % ipath)
+
+        if self.is_simmap:
+            print "[path] Reading as rotationshield output..."
+            self.read_sim_file(f)
+            self.label = "[sim] " + self.label
+        else:
+            # must be a VI file, because if not, plotter will exit with
+            # ValueError above
+            print "[path] Reading as VI output..."
+            self.read_meas_file(f)
+            self.label = "[data] " + self.label
+
+
+    def read_sim_file(self, f):
+        '''Parse a rotationshield file object.'''
+
+        print "[file] Parsing rotationshield output file..."
+
+        for line in f:
+            
+            try:
+                (this_x, this_y, this_z, this_Bx, this_By,
+                this_Bz) = line.split()
+            except ValueError:
+                raise ValueError("Cannot unpack line:\n%s" % line)
+
+            self.x.append(this_x)
+            self.y.append(this_y)
+            self.z.append(this_z)
+
+            self.Bx = np.append(self.Bx, np.float64(this_Bx))
+            self.By = np.append(self.By, np.float64(this_By))
+            self.Bz = np.append(self.Bz, np.float64(this_Bz))
+
+        f.close()
+
+        print "[file] Reading done."
+
+
+    def read_meas_file(self, f):
+        '''Parse a VI measurement file object.'''
+
+        print "[file] Parsing VI output file..."
+        
+        # FieldMapping VI output files have a header that needs to be skipped
+        header = f.readline()
+
+        for line in f:
+
+            try:
+                # all variables not starting with this_ are thrown away
+                (month, day, year, hour, minute, sec, timestamp, this_x,
+                this_y, this_z, current, current_err, oneax, oneax_err,
+                this_Bx, this_Bx_err, this_By, this_By_err, this_Bz,
+                this_Bz_err) = line.split()
+            except ValueError:
+                raise ValueError("Cannot unpack line:\n%s" % line)
+            
+            self.x.append(this_x)
+            self.y.append(this_y)
+            self.z.append(this_z)
+            
+            self.Bx = np.append(self.Bx, np.float64(this_Bx))
+            self.By = np.append(self.By, np.float64(this_By))
+            self.Bz = np.append(self.Bz, np.float64(this_Bz))
+
+            self.Bx_error = np.append(self.Bx_error, np.float64(this_Bx_err))
+            self.By_error = np.append(self.By_error, np.float64(this_By_err))
+            self.Bz_error = np.append(self.Bz_error, np.float64(this_Bz_err))
+        
+        f.close()
+
+        # FieldMapping VI outputs distances in mm, we want meters
+        print "[file] Converting distances..."
+        self.x.array /= np.float64(1000)
+        self.y.array /= np.float64(1000)
+        self.z.array /= np.float64(1000)
+
+        print "[file] Reading done."
+
+    def get_max_errors(self):
+        '''Returns (max_Bx_error, max_By_error, max_Bz_error).'''
+
+        max_Bx_error = np.amax(np.abs(self.Bx_error))
+        max_By_error = np.amax(np.abs(self.By_error))
+        max_Bz_error = np.amax(np.abs(self.Bz_error))
+        
+        return (max_Bx_error, max_By_error, max_Bz_error)
+
+    def calc_avg_B(self):
+        '''Calculate the average B around the center from existing data.'''
+
+        center_box_size = 0.02
+
+        print "[calc] Finding data points around desired location..."
+
+        x_small = find_indices(np.abs(self.x.array) <= center_box_size)
+        y_small = find_indices(np.abs(self.y.array) <= center_box_size)
+        z_small = find_indices(np.abs(self.z.array) <= center_box_size)
+
+        close_to_center = np.intersect1d(np.intersect1d(x_small,
+        y_small), z_small)
+        
+        if len(close_to_center) == 0:
+            print "[calc] No suitable points to calculate average B."
+            self.avg_Bx = raw_input("[calc] Enter center Bx [mG]: ") or 600.0
+            self.avg_Bz = raw_input("[calc] Enter center Bz [mG]: ") or 0.0
+        else:
+            print "[calc] Sampling from %i points." % len(close_to_center)
+            Bx_sample = np.array([])
+            Bz_sample = np.array([])
+            for index in close_to_center:
+                Bx_sample = np.append(Bx_sample, self.Bx[index])
+                Bz_sample = np.append(Bz_sample, self.Bz[index])
+            self.avg_Bx = np.average(Bx_sample)
+            self.avg_Bz = np.average(Bz_sample)
+            print "[calc] Calculated average Bx as %f mG." % self.avg_Bx
+            print "[calc] Calculated average Bz as %f mG." % self.avg_Bz
+
+    def normalize(self, newnorm):
+        '''Given 'newnorm', the desired average field in the middle, scale a
+        simulated field.'''
+
+        assert self.is_simmap, ("Why are you trying to normalize a measured " +
+        "field?")
+
+        self.calc_avg_B()
+        scale = newnorm / self.avg_Bx
+
+        self.Bx *= scale
+        self.By *= scale
+        self.Bz *= scale
+
+    def subtract_bg(self, bgfield):
+        '''Given another Field object representing a background field,
+        subtract that field from this one.'''
+
+        assert not self.is_simmap, ("Why are you subtracting background " +
+        "data from a simulated field?")
+
+        print "[fgbg] Subtracting %s from %s..." % (bgfield.label, self.label)
+        
+        try:
+            self.Bx -= bgfield.Bx
+            self.By -= bgfield.By
+            self.Bz -= bgfield.Bz
+        except ValueError:
+            raise ValueError("Make sure your background field is taken " +
+            "with the same gridding as all of your foreground fields.")
+
+    def slice(self, x, y, z):
+        '''Given specific x, y, z values, restrict the field to points close
+        to those values.'''
+
+        tol = 0.003 # tolerance in m
+
+        if not math.isnan(x):
+            elim_x = find_indices(np.abs(self.x.array - x) > tol)
+        else:
+            elim_x = []
+        if not math.isnan(y):
+            elim_y = find_indices(np.abs(self.y.array - y) > tol)
+        else:
+            elim_y = []
+        if not math.isnan(z):
+            elim_z = find_indices(np.abs(self.z.array - z) > tol)
+        else:
+            elim_z = []
+        
+        elim_indices = elim_x + elim_y + elim_z
+        print "[slcf] Eliminating %i points from %s..." % (len(elim_indices),
+        self.label)
+
+        self.x.array = np.delete(self.x.array, elim_indices)
+        self.y.array = np.delete(self.y.array, elim_indices)
+        self.z.array = np.delete(self.z.array, elim_indices)
+
+        self.Bx = np.delete(self.Bx, elim_indices)
+        self.By = np.delete(self.By, elim_indices)
+        self.Bz = np.delete(self.Bz, elim_indices)
+
+    def flip(self):
+        '''Invert Bx, By, and Bz.'''
+
+        self.Bx *= -1
+        self.By *= -1
+        self.Bz *= -1
+
+### DATA-SPECIFIC HELPER FUNCTIONS
+
+def parse_args():
+    '''Handles input flags. Returns (opts, args) from optparse.'''
+
+    parser = optparse.OptionParser()
+    
+    # x, y, z axes
+    parser.add_option("-i", "--showx", action = "store_true", dest = "x_show",
+    help = "show x plots", default = False)
+    parser.add_option("-j", "--showy", action = "store_true", dest = "y_show",
+    help = "show y plots", default = False)
+    parser.add_option("-k", "--showz", action = "store_true", dest = "z_show",
+    help = "show z plots", default = False)
+
+    # Bx, By, Bz axes
+    parser.add_option("-X", "--showBx", action = "store_true",
+    dest = "Bx_show", help = "show Bx plots", default = False)
+    parser.add_option("-Y", "--showBy", action = "store_true",
+    dest = "By_show", help = "show By plots", default = False)
+    parser.add_option("-Z", "--showBz", action = "store_true",
+    dest = "Bz_show", help = "show Bz plots", default = False)
+
+    # slicing
+    parser.add_option("-x", "--slicex", action = "store", dest = "sx",
+    help = "restrict to points near x = SX", default = None)
+    parser.add_option("-y", "--slicey", action = "store", dest = "sy",
+    help = "restrict to points near y = SY", default = None)
+    parser.add_option("-z", "--slicez", action = "store", dest = "sz",
+    help = "restrict to points near z = SZ", default = None)
+
+    # create background array
+    # NOTE: there must be exactly as many background files as measured
+    # maps specified
+    parser.add_option("-b", action = "append",
+    dest = "bgpaths",
+    help = ("Specify a path to a VI-output text file containing background" +
+    " data. If you use this options, provide either one background file, or" +
+    " one per foreground file."),
+    default = [])
+
+    # offsets
+    parser.add_option("--dx", action = "store", dest = "dx",
+    help = "use if measured map is offset by x = DX", default = 0)
+    parser.add_option("--dy", action = "store", dest = "dy",
+    help = "use if measured map is offset by y = DY", default = 0)
+    parser.add_option("--dz", action = "store", dest = "dz",
+    help = "use if measured map is offset by z = DZ", default = 0)
+    
+    # misc for convenience
+    parser.add_option("-n", action = "store", dest = "newnorm",
+    help = "custom normalization level in mG", default = None)
+    #parser.add_option("-l", "--loc", action = "store", dest = "legloc",
+    #help = "Override legend location (see matplotlib docs).", default = 2)
+    parser.add_option("-f", "--flip", action = "store_true", dest = "flip",
+    help = "Flip all plots. Useful to demonstrate anti-symmetry.",
+    default = False)
+    
+    parser.usage = ("%s [options] path1 [path2] ...\n\n" %
+    os.path.basename(sys.argv[0]) +
+    "Each path should be either a text file containing Labview VI output\n" +
+    "or a folder containing a Fieldmap.txt created with rotationshield;\n" +
+    "the program will determine which type is being read.")
+        
+    return parser.parse_args()
+
+
+def subtract_bgs(fields, opts):
+    '''Given a list of paths to background files, subtract the backgrounds
+    from the list of measured field objects.'''
+
+    if len(opts.bgpaths) == 1:
+        print "[fgbg] Found single background file. Subtracting..."
+        bgfield = Field(opts.bgpaths[0])
+        for field in fields:
+            if not field.is_simmap:
+                field.subtract_bg(bgfield)
+    else:
+        print "[fgbg] Found multiple background files. Subtracting..."
+        i = 0
+        for field in fields:
+            if not field.is_simmap:
+                try:
+                    bgfield = Field(opts.bgpaths[i])
+                except IndexError:
+                    raise ValueError("If you specify multiple " +
+                    "background fields, you must specify one per measured " +
+                    "field.")
+                field.subtract_bg(bgfield)
+                i += 1
+    print "[fgbg] Background removed."
+
+
+def apply_offset(fields, opts):
+    '''Given an offset vector, apply it to all measured fields.'''
+    
+    opts.sx += float(opts.dx)
+    opts.sy += float(opts.dy)
+    opts.sz += float(opts.dz)
+    
+    offset_vector = (opts.dx, opts.dy, opts.dz)
+    
+    for field in fields:
+        if not field.is_simmap:
+            field.x.array += float(opts.dx)
+            field.y.array += float(opts.dy)
+            field.z.array += float(opts.dz)
+
+    print ("[offs] Applied probe centering offset vector (%s, %s, %s)." 
+    % offset_vector)
+
+def normalize(fields, opts):
+    '''Normalize all simulated fields to agree with measured fields.'''
+
+    # count simulated fields
+    simmaps = 0
+    for field in fields:
+        if field.is_simmap:
+            simmaps += 1
+
+    if simmaps > 0:
+        
+        # calculate or ask for desired norm
+        if opts.newnorm is not None:
+            newnorm = np.float64(opts.newnorm)
+            print "[norm] Using provided norm of %f mG." % newnorm
+        else:
+            print "[norm] Calculating normalization level..."
+            norms = np.array([])
+            for field in fields:
+                if not field.is_simmap:
+                    field.calc_avg_B()
+                    norms = np.append(norms, np.float64(field.avg_Bx))
+            if norms.size == 0:
+                newnorm = 30.0
+                print "[norm] No measured maps found. Using %f mG." % newnorm
+            else:
+                newnorm = np.average(norms)
+                print "[norm] Using normalization level of %f mG." % newnorm
+        
+        # normalize fields
+        print "[norm] Checking for simulated fields to normalize..."
+        for field in fields:
+            if field.is_simmap:
+                print "[norm] Normalizing %s..." % field.label
+                field.normalize(newnorm)
+        print "[norm] All simulated fields normalized to %f mG." % newnorm
+    
+    else:
+        print "[norm] No simulated fields given; skipping normalization."
+
+
+def apply_axis_offsets(fields, opts):
+    '''Apply probe configuration offsets to spatial axes.'''
+
+    for field in fields:
+        if not field.is_simmap:
+            field.z.apply_offset((0.015, -0.015, 0))
+    print "[aoff] Applied probe axis offsets."
+
+def correct_tilt(fields, opts):
+    '''Estimates the probe's tilt and corrects the data accordingly.'''
+
+    for field in fields:
+        if not field.is_simmap:
+            
+            # see presentation docs for details about the geometry
+            
+            print "[tilt] === Estimating probe angle for %s..." % field.label
+            field.calc_avg_B()
+            th = - (field.avg_Bz / field.avg_Bx)
+            th_deg = th * (360 / (2 * math.pi))
+            print "[tilt] Probe tilt angle: %f degrees." % th_deg
+
+            field.Bx = (field.Bx * math.cos(th)) - (field.Bz * math.sin(th))
+            field.Bz = (field.Bz * math.cos(th)) + (field.Bx * math.sin(th))
+
+            print "[tilt] Adjusted readings."
+
+
+def slice_fields(fields, opts):
+    '''Eliminate all points except those along the specified domain.'''
+
+    print "[slcf] Checking for slicing needs..."
+    for field in fields:
+        field.slice(opts.sx, opts.sy, opts.sz)
+    print "[slcf] Slicing done."
+
+
+def flip(fields, opts):
+    '''Flip fields if desired.'''
+
+    if opts.flip:
+        print "[flip] Flipping plots as requested."
+        for field in fields:
+            field.flip()
+
+### PLOTTING HELPER FUNCTIONS
+
+def make_plot(fig, opts, ylabel, xlabel, vert, horiz, i):
+    '''Queries the relevant options and creates subplots.'''
+
+    x_opt = eval("opts." + xlabel + "_show")
+    y_opt = eval("opts." + ylabel + "_show")
+
+    if x_opt and y_opt:
+        this_plot = fig.add_subplot(vert, horiz, i + 1)
+        this_plot.set_xlabel(xlabel + " [m]", fontweight = "bold")
+        this_plot.set_ylabel(ylabel + " [mG]", fontweight = "bold")
+        i += 1
+    else:
+        this_plot = None
+
+    return (this_plot, i)
+
+def insert_field_into_plot(field, ylabel, xlabel, opts, j):
+    '''Queries the relevant options and plots the desired field.'''
+    
+    x_opt = eval("opts." + xlabel + "_show")
+    y_opt = eval("opts." + ylabel + "_show")
+    
+    this_plot = eval(ylabel + "_v_" + xlabel)
+    
+    sim_colors = ["c", "m", "y", "k", "g"]
+    meas_colors = ["b", "r", "g", "y", "k"]
+
+    if x_opt and y_opt:
+        
+        x_axis = eval("field." + xlabel + ".ffor('" + ylabel + "')")
+        y_axis = eval("field." + ylabel)
+
+        
+        if field.is_simmap:
+            
+            color = sim_colors[j % len(sim_colors)]
+
+            this_plot.plot(x_axis, y_axis, "o", 
+            linestyle = "--", c = color, mec = color,
+            mfc = "None", mew = 1.2, label = field.label)
+
+        else:
+            
+            color = meas_colors[j % len(meas_colors)]
+            
+            this_plot.plot(x_axis, y_axis, "D", 
+            linestyle = "None", c = color, mec = color,
+            mfc = color, label = field.label)
+
+    else:
+        assert this_plot == None
+    
+    return this_plot
+
+### MAIN ROUTINE
+
+if __name__ == "__main__":
+
+    # handle input flags
+    (opts, args) = parse_args()
+
+    # parse slice values 
+    (opts.sx, opts.sy, opts.sz) = (np.float64(opts.sx), np.float64(opts.sy),
+    np.float64(opts.sz))
+
+    # if all plots are disabled, then show them all
+    if not opts.x_show and not opts.y_show and not opts.z_show:
+        opts.x_show = opts.y_show = opts.z_show = True
+    if not opts.Bx_show and not opts.By_show and not opts.Bz_show:
+        opts.Bx_show = opts.By_show = opts. Bz_show = True
+
+    # count how many horizontal & vertical axes there will be
+    horiz = 0
+    vert = 0
+    for opt in [opts.x_show, opts.y_show, opts.z_show]:
+        if opt:
+            horiz += 1
+    for opt in [opts.Bx_show, opts.By_show, opts.Bz_show]:
+        if opt:
+            vert += 1
+    if horiz == 0:
+        horiz = 3
+    if vert == 0:
+        vert = 3
+
+    # create the correct number of subplots
+    
+    fig = plt.figure()
+    i = 0 # subplot counter
+
+    (Bx_v_x, i) = make_plot(fig, opts, "Bx", "x", vert, horiz, i)
+    (Bx_v_y, i) = make_plot(fig, opts, "Bx", "y", vert, horiz, i)
+    (Bx_v_z, i) = make_plot(fig, opts, "Bx", "z", vert, horiz, i)
+
+    (By_v_x, i) = make_plot(fig, opts, "By", "x", vert, horiz, i)
+    (By_v_y, i) = make_plot(fig, opts, "By", "y", vert, horiz, i)
+    (By_v_z, i) = make_plot(fig, opts, "By", "z", vert, horiz, i)
+    
+    (Bz_v_x, i) = make_plot(fig, opts, "Bz", "x", vert, horiz, i)
+    (Bz_v_y, i) = make_plot(fig, opts, "Bz", "y", vert, horiz, i)
+    (Bz_v_z, i) = make_plot(fig, opts, "Bz", "z", vert, horiz, i)
+
+    print "[plot] === %i plots will be made." % i
+
+    # populate a list of Field objects
+    fields = []
+    for ipath in args:
+        fields.append(Field(ipath))
+
+    # analysis steps
+    subtract_bgs(fields, opts)
+    apply_offset(fields, opts)
+    apply_axis_offsets(fields, opts)
+    correct_tilt(fields, opts)
+    normalize(fields, opts)
+    slice_fields(fields, opts)
+    flip(fields, opts)
+    
+    # plot curve for each field
+
+    j = 0 # curve counter
+    
+    for field in fields:
+        
+        print "[plot] Plotting curve (%i) %s..." % ((j + 1), field.label)
+        
+        insert_field_into_plot(field, "Bx", "x", opts, j)
+        insert_field_into_plot(field, "Bx", "y", opts, j)
+        insert_field_into_plot(field, "Bx", "z", opts, j)
+
+        insert_field_into_plot(field, "By", "x", opts, j)
+        insert_field_into_plot(field, "By", "y", opts, j)
+        insert_field_into_plot(field, "By", "z", opts, j)
+        
+        insert_field_into_plot(field, "Bz", "x", opts, j)
+        insert_field_into_plot(field, "Bz", "y", opts, j)
+        insert_field_into_plot(field, "Bz", "z", opts, j)
+        
+        j += 1
+
+    fontp = FontProperties()
+    fontp.set_size("small")
+    
+    title = "Field slice in [m]: x = %s, y = %s, z = %s" % (opts.sx, opts.sy, opts.sz)
+    plt.suptitle(title, fontsize = "large", fontweight = "bold")
+    plt.legend(loc = "best", prop = fontp)
+
+    print "[plot] === Plotting done."
+    plt.show()
