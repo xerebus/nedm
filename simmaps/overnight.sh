@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUNLIST=$(ls | grep both_thicker_TS)
+RUNLIST=$(ls | grep _TS)
 
 for FOLDER in $RUNLIST; do
     cd $FOLDER
