@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.10)  27 JAN 2015 16:53
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.10)  28 JAN 2015 17:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1424,9 +1424,29 @@ ine 402.
 (pdftex.def)             Requested size: 307.28987pt x 153.1321pt.
  [32
 
- <./figures/SCSC_comp-eps-converted-to.pdf>] [33
+ <./figures/SCSC_comp-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <figures/SC_no_comparison.eps>
+(epstopdf)                    date: 2015-01-27 18:27:34
+(epstopdf)                    size: 69755 bytes
+(epstopdf)             Output file: <figures/SC_no_comparison-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2015-01-27 18:29:20
+(epstopdf)                    size: 68171 bytes
+(epstopdf)             Command: <repstopdf --outfile=figures/SC_no_comparison-e
+ps-converted-to.pdf figures/SC_no_comparison.eps>
+(epstopdf)             \includegraphics on input line 411.
+Package epstopdf Info: Output file is already uptodate.
 
-] [34
+<figures/SC_no_comparison-eps-converted-to.pdf, id=538, 718.685pt x 398.48875pt
+>
+File: figures/SC_no_comparison-eps-converted-to.pdf Graphic file (type pdf)
+ <use figures/SC_no_comparison-eps-converted-to.pdf>
+Package pdftex.def Info: figures/SC_no_comparison-eps-converted-to.pdf used on 
+input line 411.
+(pdftex.def)             Requested size: 307.28987pt x 153.1321pt.
+ [33
+
+ <./figures/SC_no_comparison-eps-converted-to.pdf>] [34
 
 ] [35
 
@@ -1444,7 +1464,10 @@ ine 402.
 
 ] [42
 
-] [43
+]
+[43
+
+] [44
 
 ]
 \tf@nav=\write6
@@ -1456,12 +1479,11 @@ ine 402.
 \tf@snm=\write8
 \openout8 = `nsf_pres.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 439.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 439.
-
-(./nsf_pres.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 439.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 439.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 448.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 448.
+ (./nsf_pres.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 448.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 448.
 Package rerunfilecheck Info: File `nsf_pres.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1469,13 +1491,13 @@ Package rerunfilecheck Info: File `nsf_pres.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 439.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 448.
  ) 
 Here is how much of TeX's memory you used:
- 16166 strings out of 493304
- 297982 string characters out of 6139871
+ 16171 strings out of 493304
+ 298204 string characters out of 6139871
  370224 words of memory out of 5000000
- 19144 multiletter control sequences out of 15000+600000
+ 19146 multiletter control sequences out of 15000+600000
  17926 words of font info for 67 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  49i,11n,53p,446b,684s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1494,10 +1516,10 @@ mtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pf
 b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb>
 
-Output written on nsf_pres.pdf (43 pages, 5976526 bytes).
+Output written on nsf_pres.pdf (44 pages, 6041200 bytes).
 PDF statistics:
- 666 PDF objects out of 1000 (max. 8388607)
- 294 compressed objects within 3 object streams
- 87 named destinations out of 1000 (max. 500000)
- 108 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 744 PDF objects out of 1000 (max. 8388607)
+ 304 compressed objects within 4 object streams
+ 89 named destinations out of 1000 (max. 500000)
+ 113 words of extra memory for PDF output out of 10000 (max. 10000000)
 

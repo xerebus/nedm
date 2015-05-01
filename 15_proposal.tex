@@ -1,0 +1,160 @@
+\documentclass[twocolumn,aps,prb,citeautoscript]{revtex4-1}
+\usepackage{graphicx,amsmath,amssymb,subcaption,tabularx,array}
+
+\begin{document}
+
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+\title{Proposal: Magnetic field profile of a third-scale model for the nEDM experiment}
+\author{A. Biswas}
+\affiliation{Kellogg Radiation
+Laboratory, California Institute of Technology}
+
+%\begin{abstract}
+%Discovery of a non-zero electric dipole moment in the neutron (nEDM) would indicate a CP violation,
+%with implications for
+%extending the Standard Model and confirming predictions about matter-antimatter asymmetry.
+%Experiments using shifts in neutron
+%precession frequency to measure the nEDM require a uniform magnetic field to prevent false signals.
+%\end{abstract}
+
+\maketitle
+
+\section{Motivation}
+
+Charge-parity (CP) violation plays a critical role in explaining matter-antimatter asymmetry in the universe
+and guiding theories beyond the Standard Model.
+The experimental search for instances of CP violation is ongoing \cite{cpv,ill}.
+A nonzero electric dipole moment (EDM) in the neutron would constitute such a violation and can be measured
+through the shift in Larmor precession frequency of
+ultra-cold neutrons (UCN) in electric and magnetic fields \cite{pendlebury}.
+An upper limit of $2.9 \times 10^{-26}\;e\cdot\text{cm}$ was established in 2006\cite{ill}.
+
+Experiments using these methods 
+are prone to a geometric phase (GP) effect, caused by gradients of the magnetic
+field, that can lead to a false signal: a nonzero measurement even if the true EDM is zero
+\cite{ill,pendlebury}. Eliminating the GP effect requires precise engineering
+to create a space-uniform magnetic field. Field uniformity also elongates the neutron spin polarization
+lifetime \cite{coil}.
+
+Here, we describe a third-scale model of a shielded magnet
+designed to create a field suitable for a more precise nEDM measurement.
+New structural features of the third-scale are based on studies of a previous
+half-scale model and simulations of superconducting shielding geometries. 
+
+Precise measurements of the magnetic field profile in this new model are needed to determine the potential
+effectiveness of its components in the full-scale nEDM experiment, which will take place at Oak Ridge
+National Laboratory (ORNL). Field gradients near the shielding and near
+the center of the magnet are particularly good indicators of how well the
+superconducting shielding can enforce field uniformity and mitigate the GP effect.
+
+\section{Previous work}
+
+%The third-scale model was inspired by 2013-14
+%experiments on the field profile and shielding of a half-scale model.
+
+Over the summer of 2014, I studied
+the effectiveness of a specific component of the previous nEDM magnet model:
+a superconducting lead endcap designed to
+mitigate edge effects in the magnetic field. Measured field maps with the
+closely matched simulations and indicated that the endcap shifts field peaks
+away from magnet center, decreasing field gradients in the desired regions.
+My studies concluded that the presence of a single endcap in the previous model
+effectiely mitigated edge effects.
+
+This result justifies the new design in the third-scale model: a shorter cylinder where the ends are much
+closer to the measurement cells. Two endcaps are included in the third-scale to control edge effects. The
+resulting design is much more compact.
+
+%Shorter and smaller magnet models were considered troublesome because the edge effects would occur close to
+%the measurement cells (which were placed at the center), so field uniformity in the cells would be disturbed.
+%This was particularly undesirable because shorter magnet models have practical advantages for the full-scale
+%experiment at ORNL, such as the ability to keep all cryostat components upright during the experiment.
+%
+%Confirming that we could mitigate edge effects with superconducting
+%endcaps made shorter models viable, and thus the third-scale model
+%- a shorter, fatter cylinder than the half-scale model - was proposed.
+
+\section{Constructing the 1/3-scale model}
+
+The construction process for third-scale model involves simulations of slight variations in the design,
+finalizing the design, building new components (both the magnetic coil and shielding),
+and assembly in the synchrotron lab in Lauritsen. I started work on the simulations in December
+and will be involved in the construction process during the school year.
+
+Structurally, the third-scale model is composed of various cylindrical components nested inside one another
+in a Russian doll type structure.
+The $B_0$ coil, a cylindrical structure with wires coiled along its surface, produces a magnetic field pointing
+primarily in a direction orthogonal to the cylinder's central axis. The wires are arranged in a particular
+$\cos\theta$ coil geometry to produce this field \cite{coil}. An initial version of the $B_0$ coil for the third-scale
+model will be adapted from the one used in the previous model. Studies on the effect of the coil's distortion
+parameter, a measure of the wire geometry, on field uniformity will guide the design of an updated version.
+
+Surrounding the $B_0$ coil are several open-ended cylindrical shields.
+A ferromagnetic Metglas shield promotes field uniformity
+by reinforcing field lines perpendicular to its surface. Outside the Metglas, there is an axial lead shield which
+goes superconducting when the magnet is placed in a cryostat and cooled below 7 K. This shield protects the
+field inside the magnet from environmental fluctuations by redirecting external field lines along its surface.
+
+Two lead endcaps close the top and bottom ends of the axial lead shield. The top endcap contains a small
+central hole to allow
+a magnetic probe to enter the cavity inside the $B_0$ coil, while the bottom endcap is circular. As noted,
+previous studies suggest that these endcaps will mitigate edge effects and enforce field uniformity near
+magnet center; the measurements I plan to take this summer will determine their effectiveness. The model is encased
+in an aluminum shell for uniform cooling inside the cryostat.
+
+\section{Methods \& challenges}
+
+The apparatus used for magnetic field measurements on the third-scale model, such as the magnetic probe,
+mounts, etc. will be determined as the third-scale design is finalized over February - April.
+
+Over the summer, magnetic field measurements will be taken with a probe that will enter the $B_0$ cavity
+through the central opening in the top lead endcap. The size of this opening is small to make the endcap
+more effective, but this presents a challenge in moving the probe.
+Though the mounting mechanism for the probe is yet to be finalized, we will most likely use an
+elbow-style mount that allows the probe to move more freely inside the $B_0$ cavity despite the small opening.
+
+This new mount, and the overall new structure of the third-scale model,
+will introduce various new systematic errors to identify and correct before comparing our measured field maps
+with simulations. This will require significant adaptation of
+the data analysis code written for the previous model: conversion from the mount's geometry to
+Cartesian coordinates, interfacing with the new probe, and more.
+The variable angle of the mount will also
+introduce new uncertainties which will need to be accurately determined by experiment.
+
+\bigskip
+\bigskip
+\bigskip
+
+\section{Timeline}
+
+The following is a list of checkpoints with approximate expected times to completion. Some of these tasks
+are disjoint. For example: assembly of the third-scale model will begin during the year; the expected time shown
+in the period of work that will fall during SURF.
+Fata acquisition will happen in multiple stages depending on our cryostat cooldown
+schedule, and work on other tasks will be done between these stages.
+
+\begin{table}[h!]
+    \begin{tabular}{l|r}
+        Task & Time \\\hline\hline
+        Assemble third-scale model & 2 weeks \\
+        Develop LabView interfaces for new components & 1 week \\
+        Adapt 2014 data analysis code for new interfaces & 2 weeks \\
+        Data acquisition, room temp. and superconducting & 2 weeks \\
+        Systematic error analysis and correction & 3 weeks
+    \end{tabular}
+\end{table}
+
+\begin{thebibliography}{}
+\bibitem{cpv} Cronin, J. ``Nobel Lecture: CP Symmetry Violation – The Search
+for Its Origin,'' Nobel Media AB (2013).
+\bibitem{ill} Baker, C. A., D. D. Doyle, P. Geltenbort, K. Green, M. G. D. Van der Grinten, P. G. Harris, P. Iaydjiev et al. ``Improved experimental limit on the electric dipole moment of the neutron.'' \textit{Physical Review Letters} 97, no. 13 (2006): 131801.
+\bibitem{pendlebury} Pendlebury et. al. ``Geometric-phase-induced false electric dipole moment signals for particles in traps.'' \textit{Phys. Rev. A.} 70, 032102 (2004).
+\bibitem{krl} ``Search for the nEDM at Caltech.'' Kellogg Radiation Laboratory
+$\langle$krl.caltech.edu$\rangle$ (2014).
+\bibitem{endcapstyles} Malkowski, S., R. Y. Adhikari, J. Boissevain, C. Daurer, B. W. Filippone, B. Hona, B. Plaster, D. Woods, and H. Yan. ``Overlap Technique for End-Cap Seals on Cylindrical Magnetic Shields.'' \textit{IEEE Transactions on Magnetics} 49, no. 1 (2013): 651-653.
+\bibitem{coil} Perez Galvan, A., B. Plaster, J. Boissevain, R. Carr, B. W. Filippone, M. P. Mendenhall, R. Schmid, R. Alarcon, and S. Balascuta. ``High uniformity magnetic coil for search of neutron electric dipole moment.'' \textit{Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment} 660, no. 1 (2011): 147-153.
+\bibitem{rotshield} Mendenhall, M. P. \texttt{RotationShield} source. $\langle$https://github.com/mpmendenhall/rotationshield$\rangle$ (2014).
+\end{thebibliography}
+
+\end{document}

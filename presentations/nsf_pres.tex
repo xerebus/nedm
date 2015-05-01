@@ -107,7 +107,7 @@
 
     \begin{itemize}
         \item half-scale model has an open-ended, cylindrical lead shield (axial shield) \pause
-        \item \textbf{goal:} reduce edge effects near the open ends \pause
+        \item \textbf{goal:} reduce edge effects near the open ends and verify simulations \pause
             \begin{itemize}
                 \item improves field uniformity in measurement cells \pause
                 \item field uniformity required to reduce GP effect - source of error in UCN measurement \pause
@@ -251,7 +251,7 @@
                 \item axial SC, endcap normal
                 \item axial SC, endcap SC \pause
             \end{enumerate}
-        \item identified systemic errors and applied relevant corrections (\texttt{plotter})
+        \item identified systematic errors and applied relevant corrections (\texttt{plotter})
         \item compared with expected field profiles (\texttt{plotter})
     \end{itemize}
 
@@ -298,7 +298,7 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{correction: probe $x$ centering}
+\frametitle{correction: simulation of $x$ sensitivity}
 
     \begin{center}
     \pyplot{../savedplots/manyx_Bz_z.eps}
@@ -397,6 +397,15 @@
 
     \begin{center}
         \pyplot{figures/SCSC_comp.eps}
+    \end{center}
+    
+\end{frame}
+
+\begin{frame}
+\frametitle{comparison: SC/SC with normal/normal}
+
+    \begin{center}
+        \pyplot{figures/SC_no_comparison.eps}
     \end{center}
     
 \end{frame}
