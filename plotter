@@ -604,6 +604,7 @@ if __name__ == "__main__":
     apply_offset(fields, opts)
     apply_axis_offsets(fields, opts)
     correct_tilt(fields, opts)
+    #print "[WARN] Skipping normalization!"
     normalize(fields, opts)
     slice_fields(fields, opts)
     flip(fields, opts)
