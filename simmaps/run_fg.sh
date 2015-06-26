@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUNLIST=$(ls | grep neither_TS)
+RUNLIST=$(ls | grep centered_RTS)
 
 for FOLDER in $RUNLIST; do
     cd $FOLDER
