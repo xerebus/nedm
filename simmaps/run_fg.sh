@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUNLIST=$(ls | grep centered_RTS)
+RUNLIST=$(ls | grep raised_RTS)
 
 for FOLDER in $RUNLIST; do
     cd $FOLDER
