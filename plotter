@@ -36,7 +36,7 @@ class OffsetAxis:
         
         self.array = array
         self.V = V
-        
+
     def ffor(self, vector_component):
         '''Return the axis as an array with the correct offset.
         vector_component should be 'Bx', 'By', or 'Bz'.'''
@@ -451,6 +451,7 @@ def apply_axis_offsets(fields, opts):
             field.z.apply_offset((0.015, -0.015, 0))
     print "[aoff] Applied probe axis offsets."
 
+
 def correct_tilt(fields, opts):
     '''Estimates the probe's tilt and corrects the data accordingly.'''
 
@@ -488,6 +489,20 @@ def flip(fields, opts):
         for field in fields:
             field.flip()
 
+
+def orient_measured_fields(fields, opts):
+    '''Manipulate coordinates for measured field maps to match the simulation orientation.'''
+
+    for field in fields:
+        if not field.is_simmap:
+            # convert probe coordinates to mapper coordinates
+            field.Bx *= -1
+            field.Bz *= -1
+            # rotate everything so that field points along x and z points up
+            (field.Bx, field.By) = (field.By, -field.Bx)
+            (field.x.array, field.y.array) = (field.y.array, -field.x.array)
+            print "[rotc] Rotated coordinates for %s." % field.label
+
 ### PLOTTING HELPER FUNCTIONS
 
 def make_plot(fig, opts, ylabel, xlabel, vert, horiz, i):
@@ -522,13 +537,16 @@ def insert_field_into_plot(field, ylabel, xlabel, opts, j):
         x_axis = eval("field." + xlabel + ".ffor('" + ylabel + "')")
         y_axis = eval("field." + ylabel)
 
+        order = np.argsort(x_axis)
+        x_axis = x_axis[order]
+        y_axis = y_axis[order]
         
         if field.is_simmap:
             
             color = sim_colors[j % len(sim_colors)]
 
-            this_plot.plot(x_axis, y_axis, "o", 
-            linestyle = "--", c = color, mec = color,
+            this_plot.plot(x_axis, y_axis, "", 
+            linestyle = "-", linewidth = 2, c = color, mec = color,
             mfc = "None", mew = 1.2, label = field.label)
 
         else:
@@ -601,10 +619,10 @@ if __name__ == "__main__":
 
     # analysis steps
     subtract_bgs(fields, opts)
+    orient_measured_fields(fields, opts)
     apply_offset(fields, opts)
     apply_axis_offsets(fields, opts)
     correct_tilt(fields, opts)
-    #print "[WARN] Skipping normalization!"
     normalize(fields, opts)
     slice_fields(fields, opts)
     flip(fields, opts)
