@@ -1,0 +1,382 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	6
+<table>
+Table1	30	7	7/1/15 11:59 PM
+geometry	0	865	847	502	minimized	
+header	frequency [Hz][X]	plate, 0.8 V[Y]	plate, 0.3 V[Y]	plate, 0.5 V[Y]	strands, 0.8 V[Y]	strands, 0.3 V[Y]	strands, 0.5 V[Y]
+ColWidth	100	119	128	124	100	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0	0	0	0
+HiddenColumn	0	0	0	0	0	0	0
+Comments								
+WindowLabel		2
+<data>
+0	724	0.4923076923	0.4917808219	0.4918032787	1.002583979	1.006896552	1
+1	624			0.531496063			1
+2	524			0.5868725869			1
+3	424			0.6653696498			1
+4	324	0.75	0.7516339869	0.75	1	1	1
+5	224			0.8537549407			1
+6	124			0.9482071713			1.004016064
+7	824			0.4605263158			1
+8	924			0.4362745098			1
+9	1024	0.426056338	0.4198113208	0.417877095	1	1	1
+</data>
+</table>
+<table>
+Table2	30	7	7/2/15 12:21 AM
+geometry	576	217	844	550	
+header	frequency [Hz][X]	plate, 0.8 V[Y]	plate, 0.3 V[Y]	plate, 0.5 V[Y]	strands, 0.8 V[Y]	strands, 0.3 V[Y]	strands, 0.5 V[Y]
+ColWidth	100	100	100	100	100	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0	0	0	0
+HiddenColumn	0	0	0	0	0	0	0
+Comments								
+WindowLabel		2
+<data>
+0	724	31.1	30.6	31	0.1	-0.1	0
+1	624			31.9			-0.1
+2	524			33.1			-0.5
+3	424			31.5			0.3
+4	324	27.9	28.1	27.5	0	0.5	0.1
+5	224			22.4			0.3
+6	124			13.9			0.3
+7	824			29.8			0.5
+8	924			27.8			-0.6
+9	1024	25.9	27	26.1	-0.1	0	-0.1
+</data>
+</table>
+<multiLayer>
+Graph1	1	1	7/2/15 12:16 AM
+geometry	65	78	848	605	
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	8	6	823	536
+<PageGeometry>0.00952381	0.010772	0.979762	0.962298</PageGeometry>
+PlotTitle	Gain (<i>γ</i>) vs. Frequency (<i>ω</i>)	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	frequency [Hz] (<i>ω</i>/2<i>π</i>)	gain (<i>γ</i>)		 	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Linux Libertine	16	75	0	0	0
+ScaleFont0	Linux Libertine	14	75	0	0	0
+ScaleFont1	Liberation Sans	14	75	0	0	0
+ScaleFont2	Linux Libertine	14	75	0	0	0
+ScaleFont3	Liberation Sans	14	75	0	0	0
+AxisFont0	Linux Libertine	16	50	0	0	0
+AxisFont1	Linux Libertine	16	50	0	0	0
+AxisFont2	Linux Libertine	16	50	0	0	0
+AxisFont3	Linux Libertine	16	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#333333	#333333	#333333	#333333
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	Table1_frequency [Hz]	Table1_strands, 0.5 V	1	0	#000000	0	1	7	1	#000000	#000000	0	#000000	14	1	2	0	0	29	1
+curve	Table1_frequency [Hz]	Table1_strands, 0.3 V	1	0	#ff0000	0	1	7	2	#ff0000	#ff0000	0	#000000	14	1	2	0	0	29	1
+curve	Table1_frequency [Hz]	Table1_strands, 0.8 V	1	0	#00ff00	0	1	7	3	#008000	#008000	0	#000000	14	1	2	0	0	29	1
+curve	Table1_frequency [Hz]	Table1_plate, 0.5 V	1	0	#0000ff	0	1	7	1	#0000ff	#0000ff	0	#000000	14	1	2	0	0	29	1
+curve	Table1_frequency [Hz]	Table1_plate, 0.3 V	1	0	#00ffff	0	1	7	2	#ff8000	#ff8000	0	#000000	14	1	2	0	0	29	1
+curve	Table1_frequency [Hz]	Table1_plate, 0.8 V	1	0	#ff00ff	0	1	7	3	#808000	#808000	0	#000000	14	1	2	0	0	29	1
+scale	0	0.4	1.1	0	8	5	0	0
+scale	1	0.4	1.1	0	8	5	0	0
+scale	2	0	1200	0	7	5	0	0
+scale	3	0	1200	0	7	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<line>	561.959654178674	0.929227053140097	561.959654178674	0.969806763285024	1	#000000	SolidLine	1	0	4	45	1	1</line>
+<line>	307.780979827089	0.602898550724638	368.299711815562	0.668840579710145	1	#000000	SolidLine	1	0	4	45	1	1</line>
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>789.61038961039</x>
+<y>0.8502427184466</y>
+<right>187.661406025825</right>
+<bottom>1.03275862068966</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+\l(2)%(2)
+\l(3)%(3)
+\l(4)%(4)
+\l(5)%(5)
+\l(6)%(6)
+</Text>
+<Font>Linux Libertine	14	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+<Legend>
+<Frame>0</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>371.87948350072</x>
+<y>0.93448275862069</y>
+<right>187.661406025825</right>
+<bottom>1.03275862068966</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+thermal shield (strands)
+</Text>
+<Font>Linux Libertine	16	75	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>0</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+<Legend>
+<Frame>0</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>172.16642754663</x>
+<y>0.59827586206897</y>
+<right>187.661406025825</right>
+<bottom>1.03275862068966</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+copper plate
+</Text>
+<Font>Linux Libertine	16	75	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>0</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<multiLayer>
+Graph2	1	1	7/2/15 12:25 AM
+geometry	965	81	848	606	
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	8	5	825	539
+<PageGeometry>0.00952381	0.00896057	0.982143	0.96595</PageGeometry>
+PlotTitle	Phase Shift (Δ<i>ψ</i>) vs. Frequency (<i>ω</i>)	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	frequency [Hz] (<i>ω</i>/2<i>π</i>)	phase shift [∘] (Δ<i>ψ</i>)		 	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Linux Libertine	16	75	0	0	0
+ScaleFont0	Linux Libertine	14	75	0	0	0
+ScaleFont1	Liberation Sans	14	75	0	0	0
+ScaleFont2	Linux Libertine	14	75	0	0	0
+ScaleFont3	Liberation Sans	14	75	0	0	0
+AxisFont0	Linux Libertine	16	50	0	0	0
+AxisFont1	Linux Libertine	16	50	0	0	0
+AxisFont2	Linux Libertine	16	50	0	0	0
+AxisFont3	Linux Libertine	16	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#333333	#333333	#333333	#333333
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	Table2_frequency [Hz]	Table2_strands, 0.5 V	1	0	#000000	0	1	7	1	#000000	#000000	0	#000000	14	1	2	0	0	29	1
+curve	Table2_frequency [Hz]	Table2_strands, 0.3 V	1	0	#ff0000	0	1	7	2	#ff0000	#ff0000	0	#000000	14	1	2	0	0	29	1
+curve	Table2_frequency [Hz]	Table2_strands, 0.8 V	1	0	#00ff00	0	1	7	3	#008000	#008000	0	#000000	14	1	2	0	0	29	1
+curve	Table2_frequency [Hz]	Table2_plate, 0.5 V	1	0	#0000ff	0	1	7	1	#0000ff	#0000ff	0	#000000	14	1	2	0	0	29	1
+curve	Table2_frequency [Hz]	Table2_plate, 0.3 V	1	0	#00ffff	0	1	7	2	#ff8000	#ff8000	0	#000000	14	1	2	0	0	29	1
+curve	Table2_frequency [Hz]	Table2_plate, 0.8 V	1	0	#ff00ff	0	1	7	3	#808000	#808000	0	#000000	14	1	2	0	0	29	1
+scale	0	-5	35	0	9	5	0	0
+scale	1	-5	35	0	9	5	0	0
+scale	2	0	1200	0	7	5	0	0
+scale	3	0	1200	0	7	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<line>	455.524079320113	5.35971223021583	455.524079320113	2.38609112709832	1	#000000	SolidLine	1	0	4	45	1	1</line>
+<line>	532.765957446809	26.6546762589928	532.765957446809	30.6834532374101	1	#000000	SolidLine	1	0	4	45	1	1</line>
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>752.74261603376</x>
+<y>20.011933174224</y>
+<right>185.531914893617</right>
+<bottom>31.1858190709046</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+\l(2)%(2)
+\l(3)%(3)
+\l(4)%(4)
+\l(5)%(5)
+\l(6)%(6)
+</Text>
+<Font>Linux Libertine	14	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+<Legend>
+<Frame>0</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>265.53191489362</x>
+<y>8.7897310513447</y>
+<right>185.531914893617</right>
+<bottom>31.1858190709046</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+thermal shield (strands)
+</Text>
+<Font>Linux Libertine	16	75	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>0</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+<Legend>
+<Frame>0</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>420.42553191489</x>
+<y>26.58924205379</y>
+<right>185.531914893617</right>
+<bottom>31.1858190709046</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+copper plate
+</Text>
+<Font>Linux Libertine	16	75	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>0</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<table>
+Table3	30	4	7/9/15 11:03 AM
+geometry	1249	194	460	399	
+header	red-gain[Y]	blue-gain[X]	red-phase[Y]	blue-phase[Y]
+ColWidth	100	100	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0
+HiddenColumn	0	0	0	0
+Comments					
+WindowLabel		2
+<data>
+0	1.002583979	0.4923076923	0.3	31.5
+1	1.006896552	0.4917808219	-0.5	33.1
+2	1	0.4918032787	-0.1	31.9
+3	1	0.4605263158	0	31
+4	1	0.4362745098	-0.1	30.6
+5	1	0.426056338	0.1	31.1
+6	1	0.4198113208		
+7	1	0.417877095		
+</data>
+</table>
+<TableStatistics>
+Table5	Table3	col	7/9/15 11:10 AM
+Targets	0	1	2	3
+ColStatType	2	3	5	6	7	8	9	10	11	12	13	14	15
+geometry	495	588	945	145	active
+header	Col[X]	Rows[Y]	Mean[Y]	StandardDev[Y]	StandardError[yEr]	Variance[Y]	Sum[Y]	iMax[Y]	Max[Y]	iMin[Y]	Min[Y]	N[Y]	Median[Y]
+ColWidth	100	100	133	133	160	100	100	100	100	100	100	100	100	
+<com>
+</com>
+ColType	0;0/13	1;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0	0	0	0	0	0	0	0	0	0
+HiddenColumn	0	0	0	0	0	0	0	0	0	0	0	0	0
+Comments	Column Name	Rows Included	Mean	Standard Deviation	Standard Error	Variance	Sum	Index of Maximum Value	Maximum Value	Index of Minimum Value	Minimum Value	Number of Points	Median	
+WindowLabel	Column Statistics of Table3	2
+</TableStatistics>
+<open>1</open>
